@@ -220,7 +220,7 @@ S32 DefFileBufferReadValue2(char *ident, S32 *result)
 }
 
 // ══════════════════════════════════════════════════════════════════════════
-S32 DefFileBufferReadValueDefault(char *ident, S32 def)
+S32 DefFileBufferReadValueDefault(const char *ident, S32 def)
 {
 	DefFileBufferReadValue2(ident, &def);
 

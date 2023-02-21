@@ -1,10 +1,9 @@
 //--------------------------------------------------------------------------//
-#include <SYSTEM/adeline.h>
-#include <SYSTEM/files.h>
+#include <SYSTEM/ADELINE.H>
+#include <SYSTEM/FILES.H>
 
 #include <stdlib.h>
 #include <stdio.h>
-#include <io.h>
 #include <string.h>
 
 //--------------------------------------------------------------------------//

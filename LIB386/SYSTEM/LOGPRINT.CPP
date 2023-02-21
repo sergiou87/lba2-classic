@@ -1,11 +1,15 @@
 //----------------------------------------------------------------------------
-#include <SYSTEM/adeline.h>
+#include <SYSTEM/ADELINE.H>
 #include <SYSTEM/LOGPRINT.H>
 
 #include <stdlib.h>
 #include <stdarg.h>
 #include <stdio.h>
 #include <string.h>
+#include <libgen.h>
+
+// TODO: Fix this
+#define _MAX_PATH 4096
 
 //----------------------------------------------------------------------------
 U32 QuietLog = FALSE;
@@ -15,21 +19,22 @@ static char LogStr[256];
 //----------------------------------------------------------------------------
 void CreateLog(char *fname)
 {
-	char drive[_MAX_DRIVE];
-	char dir[_MAX_DIR];
+	char name[_MAX_PATH];
 	FILE *logfile;
 
-	_splitpath(fname, drive, dir, NULL, NULL);
-	_makepath(LogName, drive, dir, "ADELINE", "LOG");
+	strncpy(name, fname, _MAX_PATH); // copy fname to name
+	dirname(name);									 // get directory component of name
+	strcat(name, "/ADELINE.LOG");		 // append file name and extension to name
+	strcpy(LogName, name);					 // copy name to LogName
 
-	logfile = fopen(LogName, "wb");
-	if (!logfile)
+	logfile = fopen(LogName, "wb"); // open LogName for writing
+	if (!logfile)										// if failed
 	{
-		LogName[0] = 0;
+		LogName[0] = 0; // clear LogName
 	}
-	else
+	else // if succeeded
 	{
-		fclose(logfile);
+		fclose(logfile); // close logfile
 	}
 }
 
