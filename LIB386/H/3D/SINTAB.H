@@ -1,28 +1,28 @@
 //****************************************************************************
-#ifndef	LIB_3D_SINTAB
-#define	LIB_3D_SINTAB
+#ifndef LIB_3D_SINTAB
+#define LIB_3D_SINTAB
+
+#include <SYSTEM/ADELINE.H>
 
 //****************************************************************************
-#ifdef	__cplusplus
-extern	"C"	{
+#ifdef __cplusplus
+extern "C"
+{
 #endif
 
+  //****************************************************************************
+  extern S16 SinTab[];
+  extern S16 CosTab[];
+
+#pragma aux SinTab "*"
+#pragma aux CosTab "*"
+
 //****************************************************************************
-extern	S16	SinTab[]	;
-extern	S16	CosTab[]	;
-
-#pragma aux	SinTab	"*"
-#pragma aux	CosTab	"*"
-
-
-//****************************************************************************
-#ifdef	__cplusplus
+#ifdef __cplusplus
 }
 #endif
 
 //****************************************************************************
-#endif//LIB_3D_SINTAB
+#endif // LIB_3D_SINTAB
 
 //****************************************************************************
-
-

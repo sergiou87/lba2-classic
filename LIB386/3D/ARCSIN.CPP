@@ -1,3 +1,4 @@
+/*
 ;*══════════════════════════════════════════════════════════════════════════*
 
 		.386p
@@ -78,3 +79,75 @@ ArcSin		endp
 ;*══════════════════════════════════════════════════════════════════════════*
 ;		The
 		END
+*/
+
+#include <3D/ARCSIN.H>
+#include <3D/SINTAB.H>
+
+S32 ArcSin(S32 sin)
+{
+	S32 ebx, ecx, edx;
+
+	if (sin == 0)
+		return 0;
+
+	ebx = 2048 * 2;
+	ecx = 1024;
+	edx = 3072;
+
+	if (sin >= SinTab[ebx])
+	{
+	ga1:
+		ebx >>= 1;
+		ecx = ebx;
+		ebx += edx;
+	ga2:
+		if (ebx & 1)
+			goto angle;
+		if (sin < SinTab[ebx])
+			goto ga0;
+	ga0:
+		ebx >>= 1;
+		edx = ebx;
+		ebx += ecx;
+		goto ga2;
+	angle:
+		ecx = SinTab[edx * 2 - 2];
+		ebx = SinTab[edx * 2];
+		ecx -= sin;
+		sin -= ebx;
+		if (sin <= ecx)
+			goto ok;
+		edx--;
+	ok:
+		sin = 2048 - edx;
+	}
+	else
+	{
+		ebx >>= 1;
+		ecx = ebx;
+		ebx += edx;
+	ga3:
+		if (ebx & 1)
+			goto angle2;
+		if (sin > SinTab[ebx])
+			goto ga1;
+	ga4:
+		ebx >>= 1;
+		edx = ebx;
+		ebx += ecx;
+		goto ga3;
+	angle2:
+		ecx = SinTab[edx * 2 - 2];
+		ebx = SinTab[edx * 2];
+		ecx -= sin;
+		sin -= ebx;
+		if (sin >= ecx)
+			goto ok2;
+		edx--;
+	ok2:
+		sin = 2048 - edx;
+	}
+
+	return sin & 4095;
+}

@@ -1,25 +1,26 @@
 //****************************************************************************
-#ifndef	LIB_3D_ARCSIN
-#define	LIB_3D_ARCSIN
+#ifndef LIB_3D_ARCSIN
+#define LIB_3D_ARCSIN
+
+#include <SYSTEM/ADELINE.H>
 
 //****************************************************************************
-#ifdef	__cplusplus
-extern	"C"	{
+#ifdef __cplusplus
+extern "C"
+{
 #endif
 
-//****************************************************************************
-extern	S32	ArcSin(S32 sin)		;
+	//****************************************************************************
+	extern S32 ArcSin(S32 sin);
 
-#pragma	aux	ArcSin	"*"		\
-	parm caller		[eax]		\
-	modify		[ebx ecx edx]
+#pragma aux ArcSin "*" parm caller[eax] modify[ebx ecx edx]
 
 //****************************************************************************
-#ifdef	__cplusplus
+#ifdef __cplusplus
 }
 #endif
 
 //****************************************************************************
-#endif//LIB_3D_ARCSIN
+#endif // LIB_3D_ARCSIN
 
 //****************************************************************************
