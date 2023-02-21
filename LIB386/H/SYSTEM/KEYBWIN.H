@@ -49,78 +49,78 @@ extern "C"
 #define FlagKey(x)      ((CheckKey(x)>>(((x)&3)*8))/128)
 */
 // ──────────────────────────────────────────────────────────────────────────
-#define K_UP VK_UP
-#define K_DOWN VK_DOWN
-#define K_LEFT VK_LEFT
-#define K_RIGHT VK_RIGHT
-#define K_HOME VK_HOME
-#define K_PAGE_UP VK_PRIOR
-#define K_PAGE_DOWN VK_NEXT
-#define K_END VK_END
+#define K_UP 1234        // VK_UP
+#define K_DOWN 1234      // VK_DOWN
+#define K_LEFT 1234      // VK_LEFT
+#define K_RIGHT 1234     // VK_RIGHT
+#define K_HOME 1234      // VK_HOME
+#define K_PAGE_UP 1234   // VK_PRIOR
+#define K_PAGE_DOWN 1234 // VK_NEXT
+#define K_END 1234       // VK_END
 
-#define K_SPACE VK_SPACE
-#define K_ENTER VK_RETURN
-#define K_SUPPR VK_DELETE
-#define K_INSER VK_INSERT
-#define K_CAPSLOCK VK_CAPITAL
-#define K_ALT VK_MENU
-#define K_CTRL VK_CONTROL
-#define K_CTRL_LEFT VK_LCONTROL
-#define K_CTRL_RIGHT VK_RCONTROL
-#define K_ALT_LEFT VK_LMENU
-#define K_ALT_RIGHT VK_RMENU
-#define K_SHIFT VK_SHIFT
-#define K_SHIFT_LEFT VK_LSHIFT
-#define K_SHIFT_RIGHT VK_RSHIFT
+#define K_SPACE 1234       // VK_SPACE
+#define K_ENTER 1234       // VK_RETURN
+#define K_SUPPR 1234       // VK_DELETE
+#define K_INSER 1234       // VK_INSERT
+#define K_CAPSLOCK 1234    // VK_CAPITAL
+#define K_ALT 1234         // VK_MENU
+#define K_CTRL 1234        // VK_CONTROL
+#define K_CTRL_LEFT 1234   // VK_LCONTROL
+#define K_CTRL_RIGHT 1234  // VK_RCONTROL
+#define K_ALT_LEFT 1234    // VK_LMENU
+#define K_ALT_RIGHT 1234   // VK_RMENU
+#define K_SHIFT 1234       // VK_SHIFT
+#define K_SHIFT_LEFT 1234  // VK_LSHIFT
+#define K_SHIFT_RIGHT 1234 // VK_RSHIFT
 
-#define K_ESC VK_ESCAPE
+#define K_ESC 1234 // VK_ESCAPE
 
-#define K_F1 VK_F1
-#define K_F2 VK_F2
-#define K_F3 VK_F3
-#define K_F4 VK_F4
-#define K_F5 VK_F5
-#define K_F6 VK_F6
-#define K_F7 VK_F7
-#define K_F8 VK_F8
-#define K_F9 VK_F9
-#define K_F10 VK_F10
-#define K_F11 VK_F11
-#define K_F12 VK_F12
+#define K_F1 1234  // VK_F1
+#define K_F2 1234  // VK_F2
+#define K_F3 1234  // VK_F3
+#define K_F4 1234  // VK_F4
+#define K_F5 1234  // VK_F5
+#define K_F6 1234  // VK_F6
+#define K_F7 1234  // VK_F7
+#define K_F8 1234  // VK_F8
+#define K_F9 1234  // VK_F9
+#define K_F10 1234 // VK_F10
+#define K_F11 1234 // VK_F11
+#define K_F12 1234 // VK_F12
 
-#define K_PLUS VK_ADD
-#define K_MOINS VK_SUBTRACT
-#define K_BACKSPACE VK_BACK
-#define K_TAB VK_TAB
-#define K_NUMLOCK VK_NUMLOCK
+#define K_PLUS 1234      // VK_ADD
+#define K_MOINS 1234     // VK_SUBTRACT
+#define K_BACKSPACE 1234 // VK_BACK
+#define K_TAB 1234       // VK_TAB
+#define K_NUMLOCK 1234   // VK_NUMLOCK
 
-#define K_PRINTSCR VK_SNAPSHOT
-#define K_SCROLLLOCK VK_SCROLL
-#define K_PAUSE VK_PAUSE
+#define K_PRINTSCR 1234   // VK_SNAPSHOT
+#define K_SCROLLLOCK 1234 // VK_SCROLL
+#define K_PAUSE 1234      // VK_PAUSE
 
-#define K_NUMPAD_1 VK_NUMPAD1
-#define K_NUMPAD_2 VK_NUMPAD2
-#define K_NUMPAD_3 VK_NUMPAD3
-#define K_NUMPAD_4 VK_NUMPAD4
-#define K_NUMPAD_5 VK_NUMPAD5
-#define K_NUMPAD_6 VK_NUMPAD6
-#define K_NUMPAD_7 VK_NUMPAD7
-#define K_NUMPAD_8 VK_NUMPAD8
-#define K_NUMPAD_9 VK_NUMPAD9
-#define K_NUMPAD_0 VK_NUMPAD0
+#define K_NUMPAD_1 1234 // VK_NUMPAD1
+#define K_NUMPAD_2 1234 // VK_NUMPAD2
+#define K_NUMPAD_3 1234 // VK_NUMPAD3
+#define K_NUMPAD_4 1234 // VK_NUMPAD4
+#define K_NUMPAD_5 1234 // VK_NUMPAD5
+#define K_NUMPAD_6 1234 // VK_NUMPAD6
+#define K_NUMPAD_7 1234 // VK_NUMPAD7
+#define K_NUMPAD_8 1234 // VK_NUMPAD8
+#define K_NUMPAD_9 1234 // VK_NUMPAD9
+#define K_NUMPAD_0 1234 // VK_NUMPAD0
 
-#define K_NUMPAD_ENTER VK_SEPARATOR
+#define K_NUMPAD_ENTER 1234 // VK_SEPARATOR
 
-#define K_NUMPAD_POINT VK_DECIMAL
+#define K_NUMPAD_POINT 1234 // VK_DECIMAL
 
-#define K_NUMPAD_DIV VK_DIVIDE
-#define K_NUMPAD_MUL VK_MULTIPLY
-#define K_NUMPAD_PLUS VK_ADD
-#define K_NUMPAD_MOINS VK_SUBTRACT
+#define K_NUMPAD_DIV 1234   // VK_DIVIDE
+#define K_NUMPAD_MUL 1234   // VK_MULTIPLY
+#define K_NUMPAD_PLUS 1234  // VK_ADD
+#define K_NUMPAD_MOINS 1234 // VK_SUBTRACT
 
-#define K_WINDOWS_LEFT VK_LWIN
-#define K_WINDOWS_RIGHT VK_RWIN
-#define K_APPLICATION VK_APPS
+#define K_WINDOWS_LEFT 1234  // VK_LWIN
+#define K_WINDOWS_RIGHT 1234 // VK_RWIN
+#define K_APPLICATION 1234   // VK_APPS
 
 #define K_GRAY_UP K_UP
 #define K_GRAY_DOWN K_DOWN
@@ -174,41 +174,41 @@ extern "C"
 #define K_0 '0'
 
 // ──────────────────────────────────────────────────────────────────────────
-#define A_UP VK_UP
-#define A_DOWN VK_DOWN
-#define A_LEFT VK_LEFT
-#define A_RIGHT VK_RIGHT
+#define A_UP 1234    // VK_UP
+#define A_DOWN 1234  // VK_DOWN
+#define A_LEFT 1234  // VK_LEFT
+#define A_RIGHT 1234 // VK_RIGHT
 
-#define A_HOME VK_HOME
-#define A_END VK_END
-#define A_PGUP VK_PRIOR
-#define A_PGDN VK_NEXT
+#define A_HOME 1234 // VK_HOME
+#define A_END 1234  // VK_END
+#define A_PGUP 1234 // VK_PRIOR
+#define A_PGDN 1234 // VK_NEXT
 
-#define A_SPACE VK_SPACE
-#define A_RETURN VK_RETURN
+#define A_SPACE 1234  // VK_SPACE
+#define A_RETURN 1234 // VK_RETURN
 
-#define A_SUPPR VK_DELETE
+#define A_SUPPR 1234 // VK_DELETE
 
-#define A_ESC VK_ESCAPE
+#define A_ESC 1234 // VK_ESCAPE
 
-#define A_F1 VK_F1
-#define A_F2 VK_F2
-#define A_F3 VK_F3
-#define A_F4 VK_F4
-#define A_F5 VK_F5
-#define A_F6 VK_F6
-#define A_F7 VK_F7
-#define A_F8 VK_F8
-#define A_F9 VK_F9
-#define A_F10 VK_F10
-#define A_F11 VK_F11
-#define A_F12 VK_F12
+#define A_F1 1234  // VK_F1
+#define A_F2 1234  // VK_F2
+#define A_F3 1234  // VK_F3
+#define A_F4 1234  // VK_F4
+#define A_F5 1234  // VK_F5
+#define A_F6 1234  // VK_F6
+#define A_F7 1234  // VK_F7
+#define A_F8 1234  // VK_F8
+#define A_F9 1234  // VK_F9
+#define A_F10 1234 // VK_F10
+#define A_F11 1234 // VK_F11
+#define A_F12 1234 // VK_F12
 
-#define A_N_PLUS VK_ADD
-#define A_N_MOINS VK_SUBSTRACT
-#define A_BACKSPACE VK_BACK
-#define A_TAB VK_TAB
-#define A_NUMLOCK VK_NUMLOCK
+#define A_N_PLUS 1234    // VK_ADD
+#define A_N_MOINS 1234   // VK_SUBSTRACT
+#define A_BACKSPACE 1234 // VK_BACK
+#define A_TAB 1234       // VK_TAB
+#define A_NUMLOCK 1234   // VK_NUMLOCK
 
 #define A_A 'A'
 #define A_B 'B'

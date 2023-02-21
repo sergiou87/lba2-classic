@@ -22,7 +22,7 @@ static S32 BufferSize;
 static char FileName[_MAX_PATH];
 
 // ══════════════════════════════════════════════════════════════════════════
-static inline S32 ReadBufferString(char *identificateur)
+static inline S32 ReadBufferString(const char *identificateur)
 {
 	char *ptrdef;
 	char *ptr;
@@ -145,7 +145,7 @@ S32 DefFileBufferInit(char *file, void *buffer, S32 maxsize)
 }
 
 // ══════════════════════════════════════════════════════════════════════════
-char *DefFileBufferReadString(char *ident)
+char *DefFileBufferReadString(const char *ident)
 {
 	char *result;
 
@@ -225,13 +225,13 @@ S32 DefFileBufferReadValueDefault(char *ident, S32 def)
 }
 
 // ══════════════════════════════════════════════════════════════════════════
-S32 DefFileBufferReadValue(char *ident)
+S32 DefFileBufferReadValue(const char *ident)
 {
 	return DefFileBufferReadValueDefault(ident, -1);
 }
 
 // ══════════════════════════════════════════════════════════════════════════
-S32 DefFileBufferWriteString(char *ident, char *string)
+S32 DefFileBufferWriteString(const char *ident, char *string)
 {
 	char crlf[2] = {13, 10};
 	S32 handle;

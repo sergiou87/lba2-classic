@@ -9,7 +9,7 @@
 // ──────────────────────────────────────────────────────────────────────────
 //  alloue la memoire necessaire
 //  et charge une fiche(index) d'une ressource .HQR
-void *LoadMalloc_HQR(char *name, S32 index)
+void *LoadMalloc_HQR(const char *name, S32 index)
 {
 	void *ptr;
 

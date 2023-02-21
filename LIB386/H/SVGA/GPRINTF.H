@@ -1,28 +1,28 @@
 //****************************************************************************
-#ifndef	LIB_SVGA_GPRINTF
-#define	LIB_SVGA_GPRINTF
+#ifndef LIB_SVGA_GPRINTF
+#define LIB_SVGA_GPRINTF
 
 //****************************************************************************
-#ifdef	__cplusplus
-extern	"C"	{
+#ifdef __cplusplus
+extern "C"
+{
 #endif
 
-//****************************************************************************
-extern	S32	TextXMin	;
-extern	S32	TextXMax	;
-extern	S32	TextYMin	;
-extern	S32	TextYMax	;
+  //****************************************************************************
+  extern S32 TextXMin;
+  extern S32 TextXMax;
+  extern S32 TextYMin;
+  extern S32 TextYMax;
+
+  //****************************************************************************
+  void GraphPrintf(U32 flagflip, U32 x, U32 y, const char *format, ...);
 
 //****************************************************************************
-void	GraphPrintf( U32 flagflip, U32 x, U32 y, char *format, ... )	;
-
-//****************************************************************************
-#ifdef	__cplusplus
+#ifdef __cplusplus
 }
 #endif
 
 //****************************************************************************
-#endif//LIB_SVGA_GPRINTF
+#endif // LIB_SVGA_GPRINTF
 
 //****************************************************************************
-

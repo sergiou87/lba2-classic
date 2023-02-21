@@ -102,7 +102,7 @@ void main(int argc, char *argv[])
 #define ibuffersize (640 * 480 + RECOVER_AREA)
 #define lname "lba2.cfg"
 #define inits INIT_DEFFILE | INIT_LOG | INIT_TIMER | INIT_SVGA | INIT_KEYB
-#include <initadel.c>
+#include <INITADEL.C>
 
 	BoxInit(MAX_BOXES);
 

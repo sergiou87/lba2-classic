@@ -417,7 +417,7 @@ void InputString(T_MENU *ptrmenu, S32 handle, S32 maxcar)
 /*══════════════════════════════════════════════════════════════════════════*/
 /* fontions evoluées */
 
-void Message(char *message, S32 flag)
+void Message(const char *message, S32 flag)
 {
 	T_MENU menu;
 	S32 len;

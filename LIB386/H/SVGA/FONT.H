@@ -42,7 +42,7 @@ extern "C"
 #pragma aux CarFont "*" parm caller[ebx][ecx][eax] modify[edx esi edi]
 
 	//--------------------------------------------------------------------------
-	extern S32 Font(S32 x, S32 y, char *str);
+	extern S32 Font(S32 x, S32 y, const char *str);
 
 #pragma aux Font "*" parm caller[ebx][ecx][esi] modify[edx edi]
 

@@ -2,6 +2,8 @@
 #include <SYSTEM.H>
 
 #include <dirent.h>
+#include <strings.h>
+#include <stdlib.h>
 
 /*#ifndef DEMO
 #define THOMAS  1
@@ -118,7 +120,7 @@ void CheckSavePcx()
                         strcat( NamePcxSave, itoa( NumPcxSave,"          ",10 ) ) ;
                         AddExt( NamePcxSave, ".PCX" ) ;
         */
-        sprintf(NamePcxSave, "%sLBA%05d.PCX", PATH_PCX_SAVE, NumPcxSave);
+        sprintf(NamePcxSave, "%sLBA%05ld.PCX", PATH_PCX_SAVE, NumPcxSave);
 
         CoulText(LBAWHITE, 0);
         GraphPrintf(TRUE, 50, 0, "Saving Screen into %s", NamePcxSave);
@@ -165,7 +167,7 @@ void CheckSaveLogPcx(U8 *pal)
                         strcat( NamePcxSave, itoa( NumPcxSave,"          ",10 ) ) ;
                         AddExt( NamePcxSave, ".PCX" ) ;
         */
-        sprintf(NamePcxSave, "%sLBA%05d.PCX", PATH_PCX_SAVE, NumPcxSave);
+        sprintf(NamePcxSave, "%sLBA%05ld.PCX", PATH_PCX_SAVE, NumPcxSave);
 
         SavePCX(NamePcxSave, Log, ModeDesiredX, ModeDesiredY, pal);
 
@@ -1863,7 +1865,7 @@ void ReadConfigFile(void)
 
     ptr = DefFileBufferReadStringDefault("FlagDisplayText", "ON");
 
-    if (ptr AND !strcmpi(ptr, "OFF"))
+    if (ptr AND !strcasecmp(ptr, "OFF"))
         FlagDisplayText = 0;
     else
         FlagDisplayText = 1; // default
@@ -1945,7 +1947,7 @@ void InitProgram()
 }
 
 /*══════════════════════════════════════════════════════════════════════════*/
-void TheEndCheckFile(char *filename)
+void TheEndCheckFile(const char *filename)
 {
     if (FileSize(filename))
         End_Num = NOT_ENOUGH_MEM;
@@ -2099,7 +2101,7 @@ void TheEndInfo()
 /*══════════════════════════════════════════════════════════════════════════*/
 
 #if defined(DEBUG_TOOLS) || defined(TEST_TOOLS)
-void Message(char *mess, S32 flag)
+void Message(const char *mess, S32 flag)
 {
     S32 x;
 
@@ -2122,7 +2124,7 @@ void Message(char *mess, S32 flag)
     RestoreClip();
 }
 #else
-void Message(char *mess, S32 flag)
+void Message(const char *mess, S32 flag)
 {
     // pour virer warnings !!!! Baaahhhh ! Que j'aime pas ça, c'est pas
     // beau !!! mais ça marche et ça ne génère pas de code !!!
@@ -2219,7 +2221,7 @@ int main(S32 argc, char *argv[])
 #define ibuffersize (640 * 480 + RECOVER_AREA)
 #define lname "lba2.cfg"
 #define inits INIT_DEFFILE | INIT_LOG | INIT_TIMER | INIT_SVGA | INIT_KEYB | INIT_SAMPLE | INIT_SMACKER
-#include <initadel.c>
+#include <INITADEL.C>
 
 #ifdef _WIN32
     atexit(TheEndInfo);
