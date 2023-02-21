@@ -9,6 +9,8 @@
 
 #include "C_EXTERN.H"
 
+#include <algorithm>
+
 extern S32 Nxw, Nyw, Nzw;
 extern S32 SaveNxw, SaveNzw;
 extern S32 OldX, OldY, OldZ;
@@ -194,7 +196,7 @@ void InitGrilleExt(char *defpathname)
 }
 #else
 
-char *IleLst[] = {
+const char *IleLst[] = {
 		"citadel",
 		"sendell",
 		"desert",
@@ -290,11 +292,11 @@ void InitGrilleExt(U32 numcube)
 			LastIsland = Island;
 		}
 
-		ManageSystem(); // for streaming
+		// TODO: ManageSystem(); // for streaming
 
 		LoadCube(CurrentCubeX, CurrentCubeY);
 
-		ManageSystem(); // for streaming
+		// TODO: ManageSystem(); // for streaming
 
 		FixeObjetsDecorsInvisibles();
 	}
@@ -326,7 +328,7 @@ void AffGrilleExt()
 
 	ClsTerrainZBuf();
 
-	ManageSystem(); // for streaming
+	// TODO: ManageSystem(); // for streaming
 
 #ifdef LBA_EDITOR
 	if (FlagInfos & INFO_HORIZON)
@@ -337,15 +339,15 @@ void AffGrilleExt()
 		DrawHorizon2ZBuf();
 	}
 
-	ManageSystem(); // for streaming
+	// TODO: ManageSystem(); // for streaming
 
 	AffichageTerrainZBuf();
 
-	ManageSystem(); // for streaming
+	// TODO: ManageSystem(); // for streaming
 
 	DrawSkySeaZBuf();
 
-	ManageSystem(); // for streaming
+	// TODO: ManageSystem(); // for streaming
 
 	FiltreAnimatedPolys();
 
@@ -815,7 +817,7 @@ void ReajustPosExt(U8 col)
 															 Nxw + APtObj->XMax, Nzw + APtObj->ZMax,
 															 coly, Nyw);
 
-				Nyw = __max(Nyw, ny);
+				Nyw = std::max(Nyw, ny);
 
 				if (ShadowTestObject != AnimNumObj)
 				{
@@ -1778,7 +1780,7 @@ void DoAnimExt(U8 numobj)
 #ifdef LBA_EDITOR
 													OR stricmp(APtObj->StringAnim, GEN_ANIM_MARCHE)))
 #else
-														OR APtObj->GenAnim != GEN_ANIM_MARCHE))
+													OR APtObj->GenAnim != GEN_ANIM_MARCHE))
 #endif
 	{
 		S32 index;
@@ -1869,7 +1871,7 @@ findoanimext:
 #ifdef LBA_EDITOR
 														AND stricmp(APtObj->StringAnim, GEN_ANIM_MARCHE))
 #else
-														 AND APtObj->GenAnim == GEN_ANIM_MARCHE)
+														AND APtObj->GenAnim == GEN_ANIM_MARCHE)
 #endif
 		{
 			validepos = FALSE;

@@ -1,5 +1,7 @@
 #include "C_EXTERN.H"
 
+#include <algorithm>
+
 extern S32 FlagAnimWhoSpeak; // MESSAGE.CPP
 
 // #########################################################################
@@ -1315,12 +1317,12 @@ void ChangeCube()
 	ptrobj->OffsetTrack = -17;
 	ptrobj->LabelTrack = -1;
 
-	ManageSystem(); // for streaming
+	// TODO: ManageSystem(); // for streaming
 
 	// lance usine
 	LoadScene(NewCube);
 
-	ManageSystem(); // for streaming
+	// TODO: ManageSystem(); // for streaming
 
 	if (LastCubeMode != CubeMode
 													OR PLAY_THE_END)
@@ -1330,13 +1332,13 @@ void ChangeCube()
 
 	InitDial(START_FILE_ISLAND + Island); // Pas Mini
 
-	ManageSystem(); // for streaming
+	// TODO: ManageSystem(); // for streaming
 
 	// load gri
 
 	PtrInitGrille(NewCube); /*	HQR	*/
 
-	ManageSystem(); // for streaming
+	// TODO: ManageSystem(); // for streaming
 
 	if (!FlagLoadGame)
 	{
@@ -1421,7 +1423,7 @@ void ChangeCube()
 		}
 	}
 
-	ManageSystem(); // for streaming
+	// TODO: ManageSystem(); // for streaming
 
 	NbLittleKeys = 0;
 	MagicBall = -1;
@@ -1514,7 +1516,7 @@ void ChangeCube()
 		}
 	}
 
-	ManageSystem(); // for streaming
+	// TODO: ManageSystem(); // for streaming
 
 	// Ok, changement de cube terminé
 	FlagReinit = 0;
@@ -1945,8 +1947,8 @@ S32 CheckObjCol(U8 numobj)
 					oldx = Nxw;
 					oldz = Nzw;
 
-					dx = __min(abs(xt1 - x0), abs(x1 - xt0));
-					dz = __min(abs(zt1 - z0), abs(z1 - zt0));
+					dx = std::min(abs(xt1 - x0), abs(x1 - xt0));
+					dz = std::min(abs(zt1 - z0), abs(z1 - zt0));
 
 					if (dx < dz)
 					{
@@ -2398,13 +2400,13 @@ void PosObjetAroundAnother(U8 numsrc, U8 numtopos)
 
 	objtopos->Obj.Y = objsrc->Obj.Y;
 
-	dist = __max(objsrc->XMin, objsrc->XMax);
-	dist = __max(dist, objsrc->ZMin);
-	dist = __max(dist, objsrc->ZMax);
+	dist = std::max(objsrc->XMin, objsrc->XMax);
+	dist = std::max(dist, (long)objsrc->ZMin);
+	dist = std::max(dist, (long)objsrc->ZMax);
 
-	dist2 = __max(objtopos->XMin, objtopos->XMax);
-	dist2 = __max(dist2, objtopos->ZMin);
-	dist2 = __max(dist2, objtopos->ZMax);
+	dist2 = std::max(objtopos->XMin, objtopos->XMax);
+	dist2 = std::max(dist2, (long)objtopos->ZMin);
+	dist2 = std::max(dist2, (long)objtopos->ZMax);
 
 	dist += dist / 2 + dist2 + dist2 / 2;
 
@@ -5393,7 +5395,7 @@ void AfficheShadow(T_SORT *pt, S32 beta)
 
 			DrawRecover(pt->Xw, yw, pt->Zw,
 									pt->YMax - yw,
-									__max((xmax - xmin) / 2, (zmax - zmin) / 2));
+									std::max((xmax - xmin) / 2, (zmax - zmin) / 2));
 		}
 	}
 }
@@ -5510,7 +5512,7 @@ S32 AffOneObject(T_SORT *pt)
 				else
 				{
 					if (DrawRecover(ptrobj->Obj.X, yw, ptrobj->Obj.Z, ptrobj->YMax,
-													__max((ptrobj->XMax - ptrobj->XMin) / 2, (ptrobj->ZMax - ptrobj->ZMin) / 2)))
+													std::max((ptrobj->XMax - ptrobj->XMin) / 2, (ptrobj->ZMax - ptrobj->ZMin) / 2)))
 					{
 						// Objet complètement masqué
 						if (numobj == NumObjFollow
@@ -5650,7 +5652,7 @@ S32 AffOneObject(T_SORT *pt)
 										 ptrobj->Obj.LastAnimStepY,
 										 ptrobj->Obj.LastAnimStepZ,
 										 ptrobj->YMax,
-										 __max((ptrobj->XMax - ptrobj->XMin) / 2, (ptrobj->ZMax - ptrobj->ZMin) / 2));
+										 std::max((ptrobj->XMax - ptrobj->XMin) / 2, (ptrobj->ZMax - ptrobj->ZMin) / 2));
 			}
 			else
 			{
@@ -5669,7 +5671,7 @@ S32 AffOneObject(T_SORT *pt)
 											 ptrobj->Obj.Y,
 											 ptrobj->Obj.Z + ptrobj->ZMax,
 											 ptrobj->YMax,
-											 __max((ptrobj->XMax - ptrobj->XMin) / 2, (ptrobj->ZMax - ptrobj->ZMin) / 2));
+											 std::max((ptrobj->XMax - ptrobj->XMin) / 2, (ptrobj->ZMax - ptrobj->ZMin) / 2));
 				}
 			}
 
@@ -5763,7 +5765,7 @@ S32 AffOneObject(T_SORT *pt)
 										 ptrobj->Obj.LastAnimStepY,
 										 ptrobj->Obj.LastAnimStepZ,
 										 ptrobj->YMax,
-										 __max((ptrobj->XMax - ptrobj->XMin) / 2, (ptrobj->ZMax - ptrobj->ZMin) / 2));
+										 std::max((ptrobj->XMax - ptrobj->XMin) / 2, (ptrobj->ZMax - ptrobj->ZMin) / 2));
 			}
 			else
 			{
@@ -5771,7 +5773,7 @@ S32 AffOneObject(T_SORT *pt)
 										 ptrobj->Obj.Y,
 										 ptrobj->Obj.Z + ptrobj->ZMax,
 										 ptrobj->YMax,
-										 __max((ptrobj->XMax - ptrobj->XMin) / 2, (ptrobj->ZMax - ptrobj->ZMin) / 2));
+										 std::max((ptrobj->XMax - ptrobj->XMin) / 2, (ptrobj->ZMax - ptrobj->ZMin) / 2));
 			}
 
 			if ((ptrobj->Flags & OBJ_BACKGROUND)
@@ -5810,6 +5812,7 @@ S32 AffOneObject(T_SORT *pt)
 		PtrProjectPoint(ptrextra->PosX, ptrextra->PosY, ptrextra->PosZ);
 
 		num = ptrextra->Sprite;
+		// TODO: this is always false??
 		if (num & 32768) /// effet spécial
 		{
 			AffSpecial(numobj);
@@ -5858,7 +5861,7 @@ S32 AffOneObject(T_SORT *pt)
 									 yw,
 									 ptrextra->PosZ,
 									 ymax,
-									 __max((xmax - xmin) / 2, (zmax - zmin) / 2));
+									 std::max((xmax - xmin) / 2, (zmax - zmin) / 2));
 		}
 		break;
 
@@ -5891,7 +5894,7 @@ S32 AffOneObject(T_SORT *pt)
 				}
 
 				DrawRecover(xw, yw, zw, ptrf->YMax,
-										__max((ptrf->XMax - ptrf->XMin) / 2, (ptrf->ZMax - ptrf->ZMin) / 2));
+										std::max((ptrf->XMax - ptrf->XMin) / 2, (ptrf->ZMax - ptrf->ZMin) / 2));
 			}
 		}
 	}
@@ -5923,7 +5926,7 @@ S32 AffOneObject(T_SORT *pt)
 				}
 
 				DrawRecover(ptrd->PosX + ptrd->XMax, yw, ptrd->PosZ + ptrd->ZMax, ptrd->YMax,
-										__max((ptrd->XMax - ptrd->XMin) / 2, (ptrd->ZMax - ptrd->ZMin) / 2));
+										std::max((ptrd->XMax - ptrd->XMin) / 2, (ptrd->ZMax - ptrd->ZMin) / 2));
 			}
 		}
 		break;
@@ -6304,7 +6307,8 @@ startaffscene:
 		if (!PtrProjectPoint(x, y, z))
 			continue;
 
-		if (ptrextra->Sprite == 0x8004) // Dalle labyrinthe
+		// TODO: this is always false??
+		if (false) // ptrextra->Sprite == 0x8004) // Dalle labyrinthe
 		{
 			TreeInsert((S16)(n | TYPE_LABY),
 								 x, y, z,
@@ -6523,7 +6527,7 @@ startaffscene:
 		{
 		case INCRUST_NUM:
 
-			strcpy(string, Itoa(ptrdisp->Num));
+			strcpy(string, Itoa((long)ptrdisp->Num));
 			dx = SizeFont(string);
 			dy = 48;
 
