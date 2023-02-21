@@ -1,28 +1,29 @@
 //****************************************************************************
-#ifndef	LIB_3D_GETANG2D
-#define	LIB_3D_GETANG2D
+#ifndef LIB_3D_GETANG2D
+#define LIB_3D_GETANG2D
+
+#include <SYSTEM/ADELINE.H>
 
 //****************************************************************************
-#ifdef	__cplusplus
-extern	"C"	{
+#ifdef __cplusplus
+extern "C"
+{
 #endif
 
-//****************************************************************************
-extern	S32 	GetAngleVector2D( S32 x, S32 z )	;
+	//****************************************************************************
+	extern S32 GetAngleVector2D(S32 x, S32 z);
 
-#pragma aux GetAngleVector2D	"*"			\
-	parm caller		[eax] [ebx]	 		\
-	modify 		[ecx edx esi]
+#pragma aux GetAngleVector2D "*" parm caller[eax][ebx] modify[ecx edx esi]
 
 //****************************************************************************
-#define	GetAngle2D(x0, z0, x1, z1)	GetAngleVector2D((x1)-(x0), (z1)-(z0))
+#define GetAngle2D(x0, z0, x1, z1) GetAngleVector2D((x1) - (x0), (z1) - (z0))
 
 //****************************************************************************
-#ifdef	__cplusplus
+#ifdef __cplusplus
 }
 #endif
 
 //****************************************************************************
-#endif//LIB_3D_GETANG2D
+#endif // LIB_3D_GETANG2D
 
 //****************************************************************************

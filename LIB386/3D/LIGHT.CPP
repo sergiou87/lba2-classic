@@ -1,3 +1,5 @@
+/*
+Write this code in C:
 ;****************************************************************************
 
 		.386p
@@ -85,9 +87,9 @@ SetPosLight	proc
 		mov	[PosYLight], ebx
 		mov	[PosZLight], ecx
 
-                mov     eax, [TargetXLight]
-                mov     ebx, [TargetYLight]
-                mov     ecx, [TargetZLight]
+								mov     eax, [TargetXLight]
+								mov     ebx, [TargetYLight]
+								mov     ecx, [TargetZLight]
 
 		jmp	ComputeLightVector
 
@@ -119,10 +121,10 @@ RecomputeLight	endp
 
 SetTargetLight	proc
 
-                mov     [TargetXLight], eax
-                mov     [TargetYLight], ebx
+								mov     [TargetXLight], eax
+								mov     [TargetYLight], ebx
 
-                mov     [TargetZLight], ecx
+								mov     [TargetZLight], ecx
 ComputeLightVector::
 		sub	eax, [PosXLight]
 
@@ -189,3 +191,141 @@ SetTargetLight	endp
 ;****************************************************************************
 ;		The
 		End
+*/
+
+#include <3D/LIGHT.H>
+#include <3D_CONSTANTS.H>
+
+S32 AlphaLight = 0;
+S32 BetaLight = 0;
+
+S32 CameraXLight = LIB_NORMAL_UNIT;
+S32 CameraYLight = 0;
+S32 CameraZLight = 0;
+
+S32 NormalXLight = LIB_NORMAL_UNIT;
+S32 NormalYLight = 0;
+S32 NormalZLight = 0;
+
+double FactorLight = 1.52587890625E-5; //	1.0 / 65536.0
+
+S32 PosXLight = 0;
+S32 PosYLight = 0;
+S32 PosZLight = 0;
+
+S32 TargetXLight = 0;
+S32 TargetYLight = 0;
+S32 TargetZLight = 0;
+
+S32 LightNormalUnit = LIB_NORMAL_UNIT;
+
+//		-----------------------------------------------------------------------
+
+void SetPosLight(S32 x, S32 y, S32 z)
+{
+	PosXLight = x;
+	PosYLight = y;
+	PosZLight = z;
+
+	// ComputeLightVector();
+}
+
+//		-----------------------------------------------------------------------
+
+void RecomputeLight()
+{
+	// ComputeCameraLight();
+}
+
+//		-----------------------------------------------------------------------
+
+void SetTargetLight(S32 targetx, S32 targety, S32 targetz)
+{
+	TargetXLight = targetx;
+	TargetYLight = targety;
+	TargetZLight = targetz;
+
+	// ComputeLightVector();
+}
+
+//		-----------------------------------------------------------------------
+
+void ComputeLightVector()
+{
+	S32 x, y, z;
+
+	x = TargetXLight - PosXLight;
+	y = TargetYLight - PosYLight;
+	z = TargetZLight - PosZLight;
+
+	/*GetAngleVector3D(x, y, z);
+
+	NormalXLight = X0;
+	NormalYLight = Y0;
+	NormalZLight = Z0;*/
+
+	// ComputeCameraLight();
+}
+
+//		-----------------------------------------------------------------------
+
+void ComputeCameraLight()
+{
+	S32 x, y, z;
+
+	x = NormalXLight;
+	y = NormalYLight;
+	z = NormalZLight;
+
+	/* RotatePoint(x, y, z, MatrixLib2);
+
+	CameraXLight = X0;
+	CameraYLight = Y0;
+	CameraZLight = Z0;*/
+}
+
+//		-----------------------------------------------------------------------
+
+void SetLightVector(S32 alpha, S32 beta)
+{
+	AlphaLight = alpha & 4095;
+	BetaLight = beta & 4095;
+	/*
+	InitMatrixStd(AlphaLight, BetaLight, 0, MatrixLib2);
+
+	InverseRotatePoint(LightNormalUnit, 0, 0, MatrixLib2);
+
+	NormalXLight = X0;
+	NormalYLight = Y0;
+	NormalZLight = Z0;
+	*/
+
+	ComputeCameraLight();
+}
+
+void ComputeLightVector(S32 x, S32 y, S32 z)
+{
+	/*
+	ComputeLightVector::
+		sub	eax, [PosXLight]
+
+		sub	ebx, [PosYLight]
+		sub	ecx, [PosZLight]
+
+		call	GetAngleVector3D
+
+		mov	eax, [X0]
+		mov	ebx, [Y0]
+*/
+	NormalXLight = x - PosXLight;
+	NormalYLight = y - PosYLight;
+	NormalZLight = z - PosZLight;
+
+	/*GetAngleVector3D(NormalXLight, NormalYLight, NormalZLight);
+
+	NormalXLight = X0;
+	NormalYLight = Y0;
+	NormalZLight = Z0;
+*/
+	ComputeCameraLight();
+}

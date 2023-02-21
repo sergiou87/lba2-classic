@@ -1,5 +1,7 @@
+/*
+Write this code in C:
 ;*══════════════════════════════════════════════════════════════════════════*
-		.386P
+		.386p
 
 		.model SMALL, SYSCALL
 
@@ -7,146 +9,88 @@
 		.DATA
 
 ;*══════════════════════════════════════════════════════════════════════════*
-		extrn	SYSCALL		TanTab	: DWORD
+		extrn	SYSCALL	X0			:DWORD
+		extrn	SYSCALL	Y0			:DWORD
 
 ;*══════════════════════════════════════════════════════════════════════════*
 		.CODE
 
 ;*══════════════════════════════════════════════════════════════════════════*
-		PUBLIC  SYSCALL 	GetAngleVector2D
+		extrn	SYSCALL	GetAngleVector2D	:PROC
+		extrn	SYSCALL	QSqr			:PROC
 
 ;*══════════════════════════════════════════════════════════════════════════*
-;S32 	GetAngleVector2D( S32 x, S32 z)			;
+		public	SYSCALL	GetAngleVector3D
 
-;#pragma aux GetAngleVector2D	"*"			\
-;	parm		[eax] [ebx]	 		\
-;	modify 		[ecx edx esi]
+;*══════════════════════════════════════════════════════════════════════════*
+;void	GetAngleVector3D(S32 x, S32 y, S32 z)	;
 
-GetAngleVector2D proc
+;#pragma aux GetAngleVector3D	"*"		\
+;	parm		[eax] [ebx] [ecx]	\
+;	modify		[edx esi edi]
 
-		xor	esi, esi		; ESI = Bit field
+GetAngleVector3D proc
 
-		test	eax, eax
-		jz	exit0
+		push	ebx		; Y
+		push	eax		; X
 
-		jns	ok1
+		mov	ebx, ecx	; Z
+		mov	edi, ecx
 
-		neg	eax
-		or	esi, 1			; ESI : bit 0 = 1 if x coord is negative
-ok1:
-		test	ebx, ebx
-		jz	exit1
+		call	GetAngleVector2D
 
-		jns	ok2
+		xor	eax, -1
+		pop	ecx		; X
 
-		neg	ebx
-		or	esi, 2			; ESI : bit 1 = 1 if z coord is negative
-ok2:
-		cmp	eax, ebx
-		jbe	noswap
+		lea	ebx, [eax+2048+1]
+		mov	eax, edi	; Z
 
-		mov	edx, eax
-		mov	eax, ebx
+		imul	eax		; Z^2
 
-		mov	ebx, edx
-		or	esi, 4			; ESI : bit 2 = 1 if |z|>|x|
-noswap:
-		mov	ecx, ebx
-		mov	edx, eax
+		mov	esi, eax
+		mov	edi, edx
 
-		shl	eax, 30
+		and	ebx, 4095
+		mov	eax, ecx	; X
 
-		shr	ecx, 1
+		imul	eax		; X^2
 
-		shr	edx, 2
-		add	eax, ecx
+		add	eax, esi
+		mov	[Y0], ebx
 
-		adc	edx, 0
+		adc	edx, edi
+		call	QSqr
 
-		div	ebx			; eax = 1.1.30 = tan(ß)
+		mov	ebx, eax
+		pop	eax
 
-		mov	ebx, ((0+512)/2)*4	; = 0*2+512*2
-		xor	edx, edx
-
-		mov     ecx, 512*2
-		cmp	eax, TanTab[ebx]
-		jge	ga3
-ga0:
-		shr	ebx, 1
-
-		mov	ecx, ebx
-		add	ebx, edx
-ga2:
-		test	ebx, 2
-		jnz	angle
-
-		cmp	eax, TanTab[ebx]
-		jl	ga0
-ga3:
-		shr	ebx, 1
-
-		mov	edx, ebx
-		add	ebx, ecx
-
-		jmp	ga2
-angle:
-		mov	ebx, TanTab[edx*2]
-		mov	ecx, TanTab[edx*2+4]
-
-		shr	edx, 1
-		sub	ecx, eax
-
-		sub	eax, ebx
-
-		cmp	eax, ecx
-		jbe	ok
-
-		inc	edx
-ok:
-		mov	eax, edx
-		test	esi, 4
-
-		jz	no2
-
-		mov	eax, 1024
-		sub	eax, edx
-no2:
-		mov	edx, eax
-		test	esi, 2
-
-		jz	no1
-
-		mov	eax, 2048
-		sub	eax, edx
-no1:
-		test	esi, 1
-		jz	no0
+		call	GetAngleVector2D
 
 		neg	eax
-no0:
+
 		and	eax, 4095
-		ret
-exit0:
-		xor	eax, eax
-		test	ebx, ebx
 
-		jns	no4
+		mov	[X0], eax
 
-		mov	eax, 2048
-no4:
-		ret
-exit1:
-		mov	eax, 1024
-		test	esi, 1
-
-		jz	no3
-
-		mov	eax, 4096-1024
-no3:
 		ret
 
-GetAngleVector2D endp
+GetAngleVector3D endp
 
 ;*══════════════════════════════════════════════════════════════════════════*
-		;The
-		 End
+;		The
+		END
+*/
+
+#include <3D/GETANG3D.H>
+#include <3D/GETANG2D.H>
+#include <3D/SQRROOT.H>
+
+S32 GetAngleVector3D(S32 x, S32 y, S32 z)
+{
+	S32 AngleX, AngleY;
+
+	AngleX = GetAngleVector2D(x, z);
+	// AngleY = GetAngleVector2D(y, QSqr(x * x + z * z));
+
+	return ((AngleX << 12) | (AngleY & 4095));
+}

@@ -1,0 +1,238 @@
+#include <3D/GETANG2D.H>
+#include <3D/TANTAB.H>
+
+S32 GetAngleVector2D(S32 x, S32 z)
+{
+	/*
+	Implementation in assembly:
+	;*══════════════════════════════════════════════════════════════════════════*
+			.386P
+
+			.model SMALL, SYSCALL
+
+	;*══════════════════════════════════════════════════════════════════════════*
+			.DATA
+
+	;*══════════════════════════════════════════════════════════════════════════*
+			extrn	SYSCALL		TanTab	: DWORD
+
+	;*══════════════════════════════════════════════════════════════════════════*
+			.CODE
+
+	;*══════════════════════════════════════════════════════════════════════════*
+			PUBLIC  SYSCALL 	GetAngleVector2D
+
+	;*══════════════════════════════════════════════════════════════════════════*
+	;S32 	GetAngleVector2D( S32 x, S32 z)			;
+
+	;#pragma aux GetAngleVector2D	"*"			\
+	;	parm		[eax] [ebx]	 		\
+	;	modify 		[ecx edx esi]
+
+	GetAngleVector2D proc
+
+			xor	esi, esi		; ESI = Bit field
+
+			test	eax, eax
+			jz	exit0
+
+			jns	ok1
+
+			neg	eax
+			or	esi, 1			; ESI : bit 0 = 1 if x coord is negative
+	ok1:
+			test	ebx, ebx
+			jz	exit1
+
+			jns	ok2
+
+			neg	ebx
+			or	esi, 2			; ESI : bit 1 = 1 if z coord is negative
+	ok2:
+			cmp	eax, ebx
+			jbe	noswap
+
+			mov	edx, eax
+			mov	eax, ebx
+
+			mov	ebx, edx
+			or	esi, 4			; ESI : bit 2 = 1 if |z|>|x|
+	noswap:
+			mov	ecx, ebx x
+			mov	edx, eax z
+
+			shl	eax, 30 z << 30
+
+			shr	ecx, 1 x >> 1
+
+			shr	edx, 2 z >> 2
+			add	eax, ecx
+
+			adc	edx, 0
+
+			div	ebx			; eax = 1.1.30 = tan(ß)
+
+			mov	ebx, ((0+512)/2)*4	; = 0*2+512*2
+			xor	edx, edx
+
+			mov     ecx, 512*2
+			cmp	eax, TanTab[ebx]
+			jge	ga3
+	ga0:
+			shr	ebx, 1
+
+			mov	ecx, ebx
+			add	ebx, edx
+	ga2:
+			test	ebx, 2
+			jnz	angle
+
+			cmp	eax, TanTab[ebx]
+			jl	ga0
+	ga3:
+			shr	ebx, 1
+
+			mov	edx, ebx
+			add	ebx, ecx
+
+			jmp	ga2
+	angle:
+			mov	ebx, TanTab[edx*2]
+			mov	ecx, TanTab[edx*2+4]
+
+			shr	edx, 1
+			sub	ecx, eax
+
+			sub	eax, ebx
+
+			cmp	eax, ecx
+			jbe	ok
+
+			inc	edx
+	ok:
+			mov	eax, edx
+			test	esi, 4
+
+			jz	no2
+
+			mov	eax, 1024
+			sub	eax, edx
+	no2:
+			mov	edx, eax
+			test	esi, 2
+
+			jz	no1
+
+			mov	eax, 2048
+			sub	eax, edx
+	no1:
+			test	esi, 1
+			jz	no0
+
+			neg	eax
+	no0:
+			and	eax, 4095
+			ret
+	exit0:
+			xor	eax, eax
+			test	ebx, ebx
+
+			jns	no4
+
+			mov	eax, 2048
+	no4:
+			ret
+	exit1:
+			mov	eax, 1024
+			test	esi, 1
+
+			jz	no3
+
+			mov	eax, 4096-1024
+	no3:
+			ret
+
+	GetAngleVector2D endp
+
+	;*══════════════════════════════════════════════════════════════════════════*
+			;The
+			 End
+	*/
+
+	// Implementation in C:
+	S32 BitField = 0;
+	S32 Tan;
+	S32 Angle;
+
+	if (x < 0)
+	{
+		x = -x;
+		BitField |= 1;
+	}
+
+	if (z < 0)
+	{
+		z = -z;
+		BitField |= 2;
+	}
+
+	if (x > z)
+	{
+		S32 Temp = x;
+		x = z;
+		z = Temp;
+		BitField |= 4;
+	}
+
+	Tan = (x << 30) + (z >> 1);
+
+	Tan /= z;
+
+	S32 i = ((0 + 512) / 2) * 4; // = 0*2+512*2
+	S32 j = 512 * 2;
+
+	if (Tan < TanTab[i])
+	{
+		i >>= 1;
+		j = i;
+		i += BitField;
+	}
+	else
+	{
+		i >>= 1;
+		j += i;
+	}
+
+	while (i & 2)
+	{
+		if (Tan < TanTab[i])
+		{
+			i >>= 1;
+			j = i;
+			i += BitField;
+		}
+		else
+		{
+			i >>= 1;
+			j += i;
+		}
+	}
+
+	Angle = i;
+	if (BitField & 4)
+	{
+		Angle = 1024 - Angle;
+	}
+
+	if (BitField & 2)
+	{
+		Angle = 2048 - Angle;
+	}
+
+	if (BitField & 1)
+	{
+		Angle = -Angle;
+	}
+
+	return Angle & 4095;
+}

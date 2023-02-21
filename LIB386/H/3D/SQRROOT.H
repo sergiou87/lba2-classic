@@ -1,33 +1,31 @@
 //****************************************************************************
-#ifndef	LIB_3D_SQRROOT
-#define	LIB_3D_SQRROOT
+#ifndef LIB_3D_SQRROOT
+#define LIB_3D_SQRROOT
+
+#include <SYSTEM/ADELINE.H>
 
 //****************************************************************************
-#ifdef	__cplusplus
-extern	"C"	{
+#ifdef __cplusplus
+extern "C"
+{
 #endif
 
-//****************************************************************************
-U32	Sqr(U32 x)			;
+	//****************************************************************************
+	U32 Sqr(U32 x);
 
-#pragma aux Sqr		"*"			\
-	parm caller		[eax]			\
-	modify		[ebx ecx edx esi]
+#pragma aux Sqr "*" parm caller[eax] modify[ebx ecx edx esi]
 
-//****************************************************************************
-U32	QSqr(U32 xLow, U32 xHigh)	;
+	//****************************************************************************
+	U32 QSqr(U32 xLow, U32 xHigh);
 
-#pragma aux QSqr	"*"			\
-	parm caller		[eax] [edx]		\
-	modify		[ebx ecx edx esi edi]
+#pragma aux QSqr "*" parm caller[eax][edx] modify[ebx ecx edx esi edi]
 
 //****************************************************************************
-#ifdef	__cplusplus
+#ifdef __cplusplus
 }
 #endif
 
 //****************************************************************************
-#endif//LIB_3D_SQRROOT
+#endif // LIB_3D_SQRROOT
 
 //****************************************************************************
-
