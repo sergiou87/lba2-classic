@@ -1,52 +1,54 @@
 //-------------------------------------------------------------------------//
-#include <SYSTEM/adeline.h>
-#include <SYSTEM/filename.h>
+#include <SYSTEM/ADELINE.H>
+#include <SYSTEM/FILENAME.H>
 
 #include <stdlib.h>
+#include <string.h>
+#include <libgen.h>
+
+#define PATH_MAX 4096
 
 //-------------------------------------------------------------------------//
-char	*AddExt( char *path, char *ext )
+char *AddExt(char *path, const char *ext)
 {
+	char name[PATH_MAX];
 
-	char	drive[_MAX_DRIVE];
-	char	dir[_MAX_DIR]    ;
-	char	fname[_MAX_FNAME];
-	char	oldext[_MAX_EXT] ;
+	strncpy(name, path, PATH_MAX); // copy path to name
+	basename(name);								 // get file name component of name
+	strcat(name, ext);						 // append ext to name
+	strcpy(path, name);						 // copy name back to path
 
-	_splitpath( path, drive, dir, fname, oldext ) ;
-	_makepath( path, drive, dir, fname, ext ) ;
-
-	return( path )	;
+	return (path);
 }
 
 //-------------------------------------------------------------------------//
-char	*AddExtIfNot( char *path, char *ext )
+char *AddExtIfNot(char *path, const char *ext)
 {
+	char name[PATH_MAX];
+	char *dot;
 
-	char	drive[_MAX_DRIVE];
-	char	dir[_MAX_DIR]	 ;
-	char	fname[_MAX_FNAME];
-	char	oldext[_MAX_EXT] ;
+	strncpy(name, path, PATH_MAX); // copy path to name
+	basename(name);								 // get file name component of name
+	dot = strrchr(name, '.');			 // find last dot in name
 
-	_splitpath( path, drive, dir, fname, oldext ) ;
+	if (!dot) // if no dot found
+	{
+		strcat(name, ext);	// append ext to name
+		strcpy(path, name); // copy name back to path
+	}
 
-	if(!oldext[0])	_makepath( path, drive, dir, fname, ext ) ;
-
-	return( path )	;
+	return (path);
 }
 
 //-------------------------------------------------------------------------//
-char	*GetFileName( char *pathname )
+char *GetFileName(const char *pathname)
 {
+	static char name[PATH_MAX];
 
-	char		drive[_MAX_DRIVE];
-	char		dir[_MAX_DIR] 	 ;
-	static char	fname[_MAX_FNAME];
-	char		ext[_MAX_EXT]    ;
+	strncpy(name, pathname, PATH_MAX); // copy pathname to name
+	basename(name);										 // get file name component of name
 
-	_splitpath( pathname, drive, dir, fname, ext ) ;
-
-	return( fname )	;
+	return (name);
 }
 
 //--------------------------------------------------------------------------//
