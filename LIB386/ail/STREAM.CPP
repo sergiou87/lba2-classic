@@ -8,7 +8,7 @@
 #include <AIL/mss.h>
 #endif
 
-#include <AIL/common.h>
+#include <AIL/COMMON.H>
 #include <AIL/sample.h>
 #include <AIL/stream.h>
 

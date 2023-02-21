@@ -2,7 +2,7 @@
 #include <SYSTEM/LOGPRINT.H>
 #include <SYSTEM/exit.h>
 
-#include <AIL/common.h>
+#include <AIL/COMMON.H>
 #include <AIL/midi.h>
 
 #include <stdio.h>

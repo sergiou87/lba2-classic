@@ -23,9 +23,9 @@ static char *CriticalErrMsg[] = {
 S32 CriticalErrorCount = 0;
 char msg[255];
 
-int __far CriticalErrorHandler(unsigned int deverr,
-															 unsigned int errcode,
-															 unsigned int __far *devhdr)
+int CriticalErrorHandler(unsigned int deverr,
+												 unsigned int errcode,
+												 unsigned int *devhdr)
 {
 	// message() ??? only system calls from 0x01 to 0x0C and 0x59 are allowed
 	// cprintf/cputs are ok

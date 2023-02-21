@@ -1,7 +1,7 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include <DEFINES.H>
+#include "PTRFUNC.H"
 #include <ANIM/LIBINIT.H>
 
 #define GivePtrObjFix(index) HQR_Get(HQR_ObjFix, index)

@@ -49,7 +49,7 @@ extern "C"
 #endif
 
 	//-------------------------------------------------------------------------
-	extern void __interrupt NewIntPM08(void);
+	extern void NewIntPM08(void);
 
 #pragma aux NewIntPM08 "*"
 

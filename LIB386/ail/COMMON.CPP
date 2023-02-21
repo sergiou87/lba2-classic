@@ -1,7 +1,7 @@
 #include <SYSTEM/adeline.h>
 
 #include <AIL/midi.h>
-#include <AIL/common.h>
+#include <AIL/COMMON.H>
 
 #include <stdlib.h>
 
