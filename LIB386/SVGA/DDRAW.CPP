@@ -8,7 +8,7 @@
 #include <SVGA/logphys.h>
 #include <SVGA/INITMODE.H>
 #include <SVGA/DIRTYBOX.H>
-#include <SVGA/ddraw.h>
+#include <SVGA/DDRAW.H>
 
 // ──────────────────────────────────────────────────────────────────────────
 LPDIRECTDRAWSURFACE lpDDS = NULL;

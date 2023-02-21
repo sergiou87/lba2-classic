@@ -6,7 +6,7 @@
 #include <windows.h>
 #include <windowsx.h>
 #include <mmsystem.h>
-#include <ddraw.h>
+#include <DDRAW.H>
 
 //──────────────────────────────────────────────────────────────────────────
 

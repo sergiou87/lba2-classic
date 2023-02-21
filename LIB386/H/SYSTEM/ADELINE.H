@@ -9,7 +9,7 @@
 #include	<winbase.h>
 #include 	<mmsystem.h>
 #ifndef	_NO_DDRAW
-#include 	<ddraw.h>
+#include 	<DDRAW.H>
 #endif//_NO_DDRAW
 #endif//_WIN32
 

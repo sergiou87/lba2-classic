@@ -1,18 +1,13 @@
-#include <SYSTEM/adeline.h>
+#include <SYSTEM/ADELINE.H>
 #include <SYSTEM/LOGPRINT.H>
 
-#ifdef _WIN32
-#include <AIL/mssw.h>
-#else
-#include <AIL/mss.h>
-#endif
+#include <AIL/MSSW.H>
 
-#include <AIL/common.h>
+#include <AIL/COMMON.H>
 
-#include <system.h>
+#include <SYSTEM.H>
 
-#include <smacker\smack.h>
-#include <smacker\smacker.h>
+#include <SMACKER/SMACKER.H>
 
 // ████████████████████████████████████████████████████████████████████████████
 

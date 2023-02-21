@@ -1,9 +1,9 @@
 // ──────────────────────────────────────────────────────────────────────────
-#include <SYSTEM/adeline.h>
-#include <SVGA/affstr.h>
-#include <SVGA/clip.h>
+#include <SYSTEM/ADELINE.H>
+#include <SVGA/AFFSTR.H>
+#include <SVGA/CLIP.H>
 #include <SVGA/DIRTYBOX.H>
-#include <SVGA/gprintf.h>
+#include <SVGA/GPRINTF.H>
 
 #include <stdio.h>
 #include <stdarg.h>
