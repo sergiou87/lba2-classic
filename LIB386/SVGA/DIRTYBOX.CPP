@@ -17,16 +17,8 @@
 #include <limits.h>
 
 //****************************************************************************
-#ifdef _WIN32
 #include <SYSTEM/winsys.h>
 #include <SVGA/ddraw.h>
-
-#else //_WIN32
-#include <SYSTEM/dossys.h>
-#include <SVGA/COPYBOV.H>
-#include <SVGA/cleabov.h>
-
-#endif //_WIN32
 
 //****************************************************************************
 #ifdef __cplusplus

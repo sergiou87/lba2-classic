@@ -60,15 +60,12 @@
 // ──────────────────────────────────────────────────────────────────────────
 #include <SVGA/SCREENXY.H>
 #include <SVGA/COPYBOX.H>
-#include <SVGA/COPYBOV.H>
 #include <SVGA/BLITBOX.H>
 #include <SVGA/BLITBOV.H>
 #include <SVGA/CLRBOX.H>
-#include <SVGA/CLEABOV.H>
 #include <SVGA/DIRTYBOX.H>
 #include <SVGA/LOGPHYS.H>
 #include <SVGA/INITMODE.H>
-#include <SVGA/VESA.H>
 #include <SVGA/DDRAW.H>
 #include <SVGA/AFFSTR.H>
 #include <SVGA/MASK.H>
