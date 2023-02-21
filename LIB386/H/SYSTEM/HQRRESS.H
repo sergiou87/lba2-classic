@@ -2,6 +2,9 @@
 #ifndef LIB_SYSTEM_HQRRESS
 #define LIB_SYSTEM_HQRRESS
 
+// TODO: fix this
+#define _MAX_PATH 4096
+
 // ──────────────────────────────────────────────────────────────────────────
 #include <stdlib.h>
 
@@ -62,7 +65,7 @@ extern void HQR_Lock_Ressource(T_HQR_HEADER *header);
 
   // ──────────────────────────────────────────────────────────────────────────
   extern S32 HQR_Change_Ressource(T_HQR_HEADER *header,
-                                  char *newhqrname);
+                                  const char *newhqrname);
 
   // ──────────────────────────────────────────────────────────────────────────
   extern void HQR_Free_Ressource(T_HQR_HEADER *header);

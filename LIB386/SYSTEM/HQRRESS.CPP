@@ -1,18 +1,14 @@
 /*──────────────────────────────────────────────────────────────────────────*/
-#include <SYSTEM/adeline.h>
-#include <SYSTEM/initimer.h>
-#include <SYSTEM/a_malloc.h>
-#include <SYSTEM/lz.h>
-#include <SYSTEM/files.h>
-#include <SYSTEM/hqfile.h>
-#include <SYSTEM/hqrress.h>
-
-#ifndef _WIN32
-#include <AIL/mss.h>
-#endif
+#include <SYSTEM/ADELINE.H>
+#include <SYSTEM/INITIMER.H>
+#include <SYSTEM/A_MALLOC.H>
+#include <SYSTEM/LZ.H>
+#include <SYSTEM/FILES.H>
+#include <SYSTEM/HQFILE.H>
+#include <SYSTEM/HQRRESS.H>
 
 #include <string.h>
-
+/*
 // ──────────────────────────────────────────────────────────────────────────
 typedef struct
 {
@@ -28,6 +24,7 @@ HQR_GET_CALLBACK *HQRGetDelFunc = NULL;
 
 // ──────────────────────────────────────────────────────────────────────────
 S32 HQR_Flag; // flag "load done" par HQR_Get
+*/
 
 // ──────────────────────────────────────────────────────────────────────────
 //  initialise la gestion bufferisée d'une ressource
@@ -39,6 +36,7 @@ T_HQR_HEADER *HQR_Init_Ressource(const char *hqrname,
 																 S32 maxsize,
 																 S32 maxrsrc)
 {
+	/*
 	T_HQR_HEADER *header;
 	void *buffer;
 
@@ -69,35 +67,26 @@ T_HQR_HEADER *HQR_Init_Ressource(const char *hqrname,
 	}
 
 	return header; // header
+	*/
+
+	return NULL;
 }
-
-// ──────────────────────────────────────────────────────────────────────────
-//  lock le buffer
-#ifndef _WIN32
-void HQR_Lock_Ressource(T_HQR_HEADER *header)
-{
-	header = header;
-
-	AIL_vmm_lock((void *)header, sizeof(T_HQR_HEADER) +
-																	 sizeof(T_HQR_BLOC) * header->MaxIndex);
-
-	AIL_vmm_lock(header->Buffer, header->MaxSize + RECOVER_AREA);
-}
-
-#endif //_WIN32
 
 // ──────────────────────────────────────────────────────────────────────────
 //  vide le buffer d'une ressource
 void HQR_Reset_Ressource(T_HQR_HEADER *header)
 {
+	/*
 	header->FreeSize = header->MaxSize;
 	header->NbIndex = 0;
+	*/
 }
 
 // ──────────────────────────────────────────────────────────────────────────
 //  change le nom du fichiers HQR qui contient les fiches (vide le buffer)
-S32 HQR_Change_Ressource(T_HQR_HEADER *header, char *newhqrname)
+S32 HQR_Change_Ressource(T_HQR_HEADER *header, const char *newhqrname)
 {
+	/*
 	if (newhqrname && newhqrname[0])
 	{
 		strcpy(header->Name, newhqrname);
@@ -115,12 +104,15 @@ S32 HQR_Change_Ressource(T_HQR_HEADER *header, char *newhqrname)
 	HQR_Reset_Ressource(header);
 
 	return TRUE;
+*/
+	return TRUE;
 }
 
 // ──────────────────────────────────────────────────────────────────────────
 //  libère la mémoire allouée à la gestion bufferisée d'une ressource HQR
 void HQR_Free_Ressource(T_HQR_HEADER *header)
 {
+	/*
 	if (!header)
 	{
 		return;
@@ -133,11 +125,13 @@ void HQR_Free_Ressource(T_HQR_HEADER *header)
 
 	Free(header->Buffer);
 	Free(header);
+	*/
+	return;
 }
 
 // ──────────────────────────────────────────────────────────────────────────
 //  retourne le pointeur mémoire de la fiche (index) demandée
-T_HQR_BLOC *HQR_GiveBloc(S32 index, S32 nbindex, T_HQR_BLOC *bloc);
+/*T_HQR_BLOC *HQR_GiveBloc(S32 index, S32 nbindex, T_HQR_BLOC *bloc);
 
 #pragma aux HQR_GiveBloc =                    \
 		"               shl     ecx, 4          " \
@@ -195,11 +189,12 @@ static inline void HQR_Del_Bloc(T_HQR_HEADER *header, S32 index)
 	header->NbIndex--;
 	header->FreeSize += delsize;
 }
-
+*/
 // ──────────────────────────────────────────────────────────────────────────
 //  retourne le pointeur mémoire de la fiche (index) demandée
 void *HQR_Get(T_HQR_HEADER *header, S32 index)
 {
+	/*
 	S32 n, oldest;
 	U32 testtime;
 	void *ptr;
@@ -283,5 +278,7 @@ void *HQR_Get(T_HQR_HEADER *header, S32 index)
 		HQR_Flag = TRUE; // NEWLY LOADED
 
 		return ptr;
-	}
+		*/
+
+	return NULL;
 }
