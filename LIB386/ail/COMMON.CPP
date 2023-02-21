@@ -5,11 +5,7 @@
 
 #include <stdlib.h>
 
-#ifdef _WIN32
 #include <AIL/mssw.h>
-#else
-#include <AIL/mss.h>
-#endif
 
 // ████████████████████████████████████████████████████████████████████████████
 HMDIDRIVER MdiDriver = NULL; // Handle to midi driver
@@ -24,7 +20,6 @@ char MidiDriverName[_MAX_PATH] = "";
 char SampleDriverName[_MAX_PATH] = "";
 
 // ████████████████████████████████████████████████████████████████████████████
-#ifdef _WIN32
 
 VOID_FUNC *PauseMidiPtr = NULL;
 VOID_FUNC *ResumeMidiPtr = NULL;
@@ -32,10 +27,7 @@ VOID_FUNC *ResumeMidiPtr = NULL;
 VOID_FUNC *PauseSamplesPtr = NULL;
 VOID_FUNC *ResumeSamplesPtr = NULL;
 
-#endif
-
 // ████████████████████████████████████████████████████████████████████████████
-#ifdef _WIN32
 
 void PauseBothMiles()
 {
@@ -43,17 +35,12 @@ void PauseBothMiles()
 	(*PauseMidiPtr)();
 }
 
-#endif
-
 // ████████████████████████████████████████████████████████████████████████████
-#ifdef _WIN32
 
 void ResumeBothMiles()
 {
 	(*ResumeMidiPtr)();
 	(*ResumeSamplesPtr)();
 }
-
-#endif
 
 // ████████████████████████████████████████████████████████████████████████████

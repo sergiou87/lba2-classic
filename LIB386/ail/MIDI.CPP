@@ -9,12 +9,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef _WIN32
 #include <SYSTEM/winsys.h>
 #include <AIL/mssw.h>
-#else
-#include <AIL/mss.h>
-#endif
 
 // ████████████████████████████████████████████████████████████████████████████
 

@@ -7,11 +7,7 @@
 
 #include <stdlib.h>
 
-#ifdef _WIN32
 #include <AIL/mssw.h>
-#else
-#include <AIL/mss.h>
-#endif
 
 // ████████████████████████████████████████████████████████████████████████████
 
@@ -53,7 +49,6 @@ char OpenCD(char *volume_name)
 
 				if (!volume_name || !volume_name[0])
 					break;
-#ifdef _WIN32
 				{
 					char rootpath[4];
 					char volume[_MAX_PATH];
@@ -83,22 +78,6 @@ char OpenCD(char *volume_name)
 						break;
 					}
 				}
-#else
-				{
-					struct find_t fileinfo;
-					char filter[7];
-
-					sprintf(filter, "%c:\\*.*", drive);
-
-					if (!_dos_findfirst(filter, _A_VOLID, &fileinfo))
-					{
-						if (!strcmp(volume_name, fileinfo.name))
-						{
-							break;
-						}
-					}
-				}
-#endif
 			}
 		}
 	error:
