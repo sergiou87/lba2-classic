@@ -1,78 +1,80 @@
-//──────────────────────────────────────────────────────────────────────────
-#include <SYSTEM/adeline.h>
-#include <SYSTEM/files.h>
-#include <SYSTEM/loadsave.h>
+// ──────────────────────────────────────────────────────────────────────────
+#include <SYSTEM/ADELINE.H>
+#include <SYSTEM/FILES.H>
+#include <SYSTEM/LOADSAVE.H>
 
+#include <algorithm>
 #include <stdlib.h>
 #include <limits.h>
 
-//──────────────────────────────────────────────────────────────────────────
-U32	Load( char *name, void *buffer )
+// ──────────────────────────────────────────────────────────────────────────
+U32 Load(const char *name, void *buffer)
 {
-	S32	handle	;
-	U32	size	;
+	S32 handle;
+	U32 size;
 
-	size = FileSize(name)		;
-	if (!size)	return 0	;
+	size = FileSize(name);
+	if (!size)
+		return 0;
 
-	handle = OpenRead(name)		;
+	handle = OpenRead(name);
 	if (handle)
 	{
-		size = Read(handle, buffer, size) 	;
-		Close(handle)				;
-		return size				;
+		size = Read(handle, buffer, size);
+		Close(handle);
+		return size;
 	}
 	return 0;
 }
-//──────────────────────────────────────────────────────────────────────────
-S32	LoadSize( char *name, void *buffer, S32 size )
+// ──────────────────────────────────────────────────────────────────────────
+S32 LoadSize(char *name, void *buffer, S32 size)
 {
-	S32	handle				;
-	S32	maxsize, sizeread, sizetoread	;
+	S32 handle;
+	S32 maxsize, sizeread, sizetoread;
 
-	maxsize = FileSize( name )	;
-	if ( !maxsize )	return(0)	;
+	maxsize = FileSize(name);
+	if (!maxsize)
+		return (0);
 
-	handle = OpenRead( name )	;
-	if ( handle )
+	handle = OpenRead(name);
+	if (handle)
 	{
-		sizetoread = __min(maxsize, size)		;
-		sizeread = Read( handle, buffer, sizetoread )	;
-		Close( handle )					;
-		if(sizeread < sizetoread)
+		sizetoread = std::min(maxsize, size);
+		sizeread = Read(handle, buffer, sizetoread);
+		Close(handle);
+		if (sizeread < sizetoread)
 		{
-			if(sizeread < maxsize)
+			if (sizeread < maxsize)
 			{
 				// error reading
-				sizeread = LONG_MIN		;
+				sizeread = LONG_MIN;
 			}
 		}
 		else
 		{
-			if(maxsize > size)
+			if (maxsize > size)
 			{
 				// file too large by...
-				sizeread -= maxsize		;
+				sizeread -= maxsize;
 			}
 		}
-		return( sizeread )				;
+		return (sizeread);
 	}
-	return( 0 )	;
+	return (0);
 }
-//──────────────────────────────────────────────────────────────────────────
-U32	Save( char *name, void *buffer, U32 size )
+// ──────────────────────────────────────────────────────────────────────────
+U32 Save(char *name, void *buffer, U32 size)
 {
-	S32	handle		;
-	U32	written = 0	;
+	S32 handle;
+	U32 written = 0;
 
-	handle = OpenWrite( name )	;
-	if( handle )
+	handle = OpenWrite(name);
+	if (handle)
 	{
-		written = Write( handle, buffer, size )	;
-		Close( handle )				;
+		written = Write(handle, buffer, size);
+		Close(handle);
 	}
-	return( written == size )	;
+	return (written == size);
 }
 
-//──────────────────────────────────────────────────────────────────────────
-
+// ──────────────────────────────────────────────────────────────────────────

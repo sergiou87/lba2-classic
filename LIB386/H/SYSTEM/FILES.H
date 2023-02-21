@@ -26,7 +26,7 @@ extern "C"
 #define SEEK_CURRENT SEEK_CUR
 
 	//--------------------------------------------------------------------------//
-	extern S32 OpenMode(char *name, int mode);
+	extern S32 OpenMode(const char *name, int mode);
 
 	//--------------------------------------------------------------------------//
 	// #define Delete	!remove

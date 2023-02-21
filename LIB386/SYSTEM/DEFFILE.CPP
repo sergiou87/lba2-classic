@@ -175,7 +175,7 @@ char *DefFileBufferReadStringDefault(char *ident, char *def)
 }
 
 // ══════════════════════════════════════════════════════════════════════════
-S32 DefFileBufferReadValue2(char *ident, S32 *result)
+S32 DefFileBufferReadValue2(const char *ident, S32 *result)
 {
 	char *ptrdef;
 	S32 i;

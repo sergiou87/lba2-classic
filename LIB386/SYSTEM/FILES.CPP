@@ -7,7 +7,7 @@
 #include <string.h>
 
 //--------------------------------------------------------------------------//
-S32 OpenMode(char *name, int mode)
+S32 OpenMode(const char *name, int mode)
 {
 	S32 handle;
 
@@ -17,7 +17,7 @@ S32 OpenMode(char *name, int mode)
 }
 
 //--------------------------------------------------------------------------//
-U32 FileSize(char *name)
+U32 FileSize(const char *name)
 {
 	int handle;
 	S32 fsize;
