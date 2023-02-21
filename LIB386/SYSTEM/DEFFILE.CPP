@@ -1,13 +1,16 @@
 // ══════════════════════════════════════════════════════════════════════════
-#include <SYSTEM/adeline.h>
+#include <SYSTEM/ADELINE.H>
 #include <SYSTEM/LOGPRINT.H>
-#include <SYSTEM/files.h>
-#include <SYSTEM/loadsave.h>
-#include <SYSTEM/itoa.h>
-#include <SYSTEM/deffile.h>
+#include <SYSTEM/FILES.H>
+#include <SYSTEM/LOADSAVE.H>
+#include <SYSTEM/ITOA.H>
+#include <SYSTEM/DEFFILE.H>
 
 #include <stdlib.h>
 #include <string.h>
+
+// TODO: Fix this
+#define _MAX_PATH 4096
 
 // ══════════════════════════════════════════════════════════════════════════
 static char DefString[256];
@@ -45,7 +48,7 @@ static inline S32 ReadBufferString(const char *identificateur)
 		while (*ptrdef == 32)
 			ptrdef++; // skip blanks
 
-		if (!strnicmp(ptrdef, identificateur, len)) // look for ident
+		if (!strncasecmp(ptrdef, identificateur, len)) // look for ident
 		{
 			ptrdef += len;
 
