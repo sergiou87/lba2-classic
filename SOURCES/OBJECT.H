@@ -1,8 +1,9 @@
 #ifndef OBJECT_H
 #define OBJECT_H
 
-#include "PTRFUNC.H"
 #include <ANIM/LIBINIT.H>
+#include "TYPES.H"
+#include "SORT.H"
 
 #define GivePtrObjFix(index) HQR_Get(HQR_ObjFix, index)
 #define GivePtrSample(index) HQR_Get(HQR_Samples, index)

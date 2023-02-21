@@ -14,6 +14,6 @@ add_executable(LBA2-CLASSIC
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
 include(CPack)
-# Add SOURCES as include directory
+
 target_include_directories(LBA2-CLASSIC PRIVATE SOURCES "LIB386/H")
 target_link_libraries(LBA2-CLASSIC PRIVATE SDL2::SDL2)
