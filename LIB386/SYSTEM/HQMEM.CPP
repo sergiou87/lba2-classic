@@ -1,8 +1,8 @@
 //──────────────────────────────────────────────────────────────────────────
-#include	<system\adeline.h>
-#include	<system\lz.h>
-#include	<system\a_malloc.h>
-#include	<system\hqmem.h>
+#include	<SYSTEM/adeline.h>
+#include	<SYSTEM/lz.h>
+#include	<SYSTEM/a_malloc.h>
+#include	<SYSTEM/hqmem.h>
 
 #include	<string.h>
 

@@ -1,8 +1,8 @@
 //──────────────────────────────────────────────────────────────────────────
-#include	<system\adeline.h>
-#include	<system\lz.h>
-#include	<system\hqrress.h>
-#include	<system\hqrmem.h>
+#include	<SYSTEM/adeline.h>
+#include	<SYSTEM/lz.h>
+#include	<SYSTEM/hqrress.h>
+#include	<SYSTEM/hqrmem.h>
 
 #include 	<string.h>
 

@@ -1,50 +1,50 @@
 /*──────────────────────────────────────────────────────────────────────────*/
-#include	<system\adeline.h>
-#include	<system\a_malloc.h>
-#include	<system\loadmall.h>
-#include	<system\lz.h>
-#include	<system\hqfile.h>
-#include	<system\hqrload.h>
+#include <SYSTEM/adeline.h>
+#include <SYSTEM/a_malloc.h>
+#include <SYSTEM/loadmall.h>
+#include <SYSTEM/lz.h>
+#include <SYSTEM/hqfile.h>
+#include <SYSTEM/hqrload.h>
 
-//──────────────────────────────────────────────────────────────────────────
-// alloue la memoire necessaire
-// et charge une fiche(index) d'une ressource .HQR
-void	*LoadMalloc_HQR(char *name, S32 index)
+// ──────────────────────────────────────────────────────────────────────────
+//  alloue la memoire necessaire
+//  et charge une fiche(index) d'une ressource .HQR
+void *LoadMalloc_HQR(char *name, S32 index)
 {
-	void	*ptr	;
+	void *ptr;
 
 	LoadMallocFileSize = HQF_Init(name, index);
-	if(!LoadMallocFileSize)
+	if (!LoadMallocFileSize)
 	{
-		return NULL		;
+		return NULL;
 	}
 
-	ptr = Malloc(LoadMallocFileSize+RECOVER_AREA);
-	if( !ptr )
+	ptr = Malloc(LoadMallocFileSize + RECOVER_AREA);
+	if (!ptr)
 	{
-		HQF_Close()		;
-		LoadMallocFileSize = 0	;
-		return NULL		;
+		HQF_Close();
+		LoadMallocFileSize = 0;
+		return NULL;
 	}
 
 	LoadMallocFileSize = HQF_LoadClose(ptr);
-	if(!LoadMallocFileSize)
+	if (!LoadMallocFileSize)
 	{
-		Free(ptr)		;
-		return NULL		;
+		Free(ptr);
+		return NULL;
 	}
 
 	Mshrink(ptr, LoadMallocFileSize);
 
-	return ptr 			;
+	return ptr;
 }
 
-//──────────────────────────────────────────────────────────────────────────
-// charge une fiche(index) à l'adresse voulue (ptrdest) depuis une ressource
-U32	Load_HQR(char *name, void *ptr, S32 index)
+// ──────────────────────────────────────────────────────────────────────────
+//  charge une fiche(index) à l'adresse voulue (ptrdest) depuis une ressource
+U32 Load_HQR(char *name, void *ptr, S32 index)
 {
-	HQF_Init(name, index)		;
-	return HQF_LoadClose(ptr)	;
+	HQF_Init(name, index);
+	return HQF_LoadClose(ptr);
 }
 
-//──────────────────────────────────────────────────────────────────────────
+// ──────────────────────────────────────────────────────────────────────────

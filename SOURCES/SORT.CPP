@@ -1,6 +1,6 @@
-#include	"c_extern.h"
+#include "C_EXTERN.H"
 
-S32	NbTriObj = 0	;
+S32 NbTriObj = 0;
 
 /*══════════════════════════════════════════════════════════════════════════*
 
@@ -13,328 +13,332 @@ S32	NbTriObj = 0	;
  *══════════════════════════════════════════════════════════════════════════*/
 /*──────────────────────────────────────────────────────────────────────────*/
 
-//▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-#define	BitAfter(n)		(1<<(n&31))
-#define	IndexAfter(n)		(n/32)
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+#define BitAfter(n) (1 << (n & 31))
+#define IndexAfter(n) (n / 32)
 
-//▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-#define	MAX_INDEX		((MAX_TRI+31)/32)
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+#define MAX_INDEX ((MAX_TRI + 31) / 32)
 
-//▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-typedef struct {
-	U32	after[MAX_INDEX] ;
-	S32	x0  ;
-	S32	y0  ;
-	S32	x1  ;
-	S32	y1  ;
-	S32	present ;
-} Elem ;
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+typedef struct
+{
+	U32 after[MAX_INDEX];
+	S32 x0;
+	S32 y0;
+	S32 x1;
+	S32 y1;
+	S32 present;
+} Elem;
 
-typedef struct {
-	Elem		aElem[MAX_TRI] ;
-	S32		cElem ;
-} tDatabase ;
+typedef struct
+{
+	Elem aElem[MAX_TRI];
+	S32 cElem;
+} tDatabase;
 
-tDatabase Base ;
+tDatabase Base;
 
-//▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-U32	Checked[MAX_INDEX]	;
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+U32 Checked[MAX_INDEX];
 
-//▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 static inline S32 BaseDistance(S32 after, S32 before)
 {
-	T_SORT	*pt1, *pt2;
-	S32 dxa, dya, dza ;
-	S32 dxb, dyb, dzb ;
-	S32 va ;
+	T_SORT *pt1, *pt2;
+	S32 dxa, dya, dza;
+	S32 dxb, dyb, dzb;
+	S32 va;
 
-	pt1 = &ListTri[after]	;
-	pt2 = &ListTri[before]	;
+	pt1 = &ListTri[after];
+	pt2 = &ListTri[before];
 
-	dxb = pt1->XMin-pt2->XMax	;
-	dyb = pt1->YMin-pt2->YMax	;
-	dzb = pt1->ZMin-pt2->ZMax	;
-	dxa = pt2->XMin-pt1->XMax	;
-	dya = pt2->YMin-pt1->YMax	;
-	dza = pt2->ZMin-pt1->ZMax	;
+	dxb = pt1->XMin - pt2->XMax;
+	dyb = pt1->YMin - pt2->YMax;
+	dzb = pt1->ZMin - pt2->ZMax;
+	dxa = pt2->XMin - pt1->XMax;
+	dya = pt2->YMin - pt1->YMax;
+	dza = pt2->ZMin - pt1->ZMax;
 
-	va = __max(Max3(dxa, dya, dza), Max3(dxb, dyb, dzb)) ;
+	va = __max(Max3(dxa, dya, dza), Max3(dxb, dyb, dzb));
 
-	if(va<0)	va = 0	;
+	if (va < 0)
+		va = 0;
 
-	return va ;
+	return va;
 }
 
-//▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 static inline S32 BaseFindFirst(S32 after)
 {
-	S32	i	;
-	S32	best	;
-	S32	index	;
-	S32	bafter	;
-	S32	bi	;
-	U32	bit	;
+	S32 i;
+	S32 best;
+	S32 index;
+	S32 bafter;
+	S32 bi;
+	U32 bit;
 
 restartall:
 
-	memset(Checked, 0, MAX_INDEX*sizeof(U32))	;
+	memset(Checked, 0, MAX_INDEX * sizeof(U32));
 
-	best = -1	;
+	best = -1;
 
 restart:
 
-	bit   = BitAfter(after) ;
-	index = IndexAfter(after) ;
+	bit = BitAfter(after);
+	index = IndexAfter(after);
 
-	if(Checked[index]&bit)	// check Loop
+	if (Checked[index] & bit) // check Loop
 	{
-		Base.aElem[bi].after[IndexAfter(bafter)] &= ~BitAfter(bafter) ;
-		after = bi	;
-		goto restartall ;
+		Base.aElem[bi].after[IndexAfter(bafter)] &= ~BitAfter(bafter);
+		after = bi;
+		goto restartall;
 	}
 
-	Checked[index] |= bit ;
+	Checked[index] |= bit;
 
-	for(i=0; i<Base.cElem; i++)
+	for (i = 0; i < Base.cElem; i++)
 	{
-		if(Base.aElem[i].after[index]&bit)
+		if (Base.aElem[i].after[index] & bit)
 		{
-			S32 temp ;
+			S32 temp;
 
-			temp = BaseDistance(after, i) ;
+			temp = BaseDistance(after, i);
 
-			if(temp>best)
+			if (temp > best)
 			{
-				best	= temp	;
-				bafter	= after	;
-				bi	= i	;
+				best = temp;
+				bafter = after;
+				bi = i;
 			}
 
-			after = i ;
+			after = i;
 
-			goto restart ;
+			goto restart;
 		}
 	}
 
-	return after ;
+	return after;
 }
 
-//▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-static inline S32 BaseDisplayFirst( void )
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+static inline S32 BaseDisplayFirst(void)
 {
-	S32 i ;
+	S32 i;
 
-	for(i=0; i<Base.cElem; i++)
+	for (i = 0; i < Base.cElem; i++)
 	{
-		if(Base.aElem[i].present) break ;
+		if (Base.aElem[i].present)
+			break;
 	}
 
 	i = BaseFindFirst(i);
 
-	memset(&(Base.aElem[i]), 0, sizeof(Elem)) ;
+	memset(&(Base.aElem[i]), 0, sizeof(Elem));
 
-	return( AffOneObject( &ListTri[i] ) ) ;
+	return (AffOneObject(&ListTri[i]));
 }
 
-//▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-S32 BaseSort( void )
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+S32 BaseSort(void)
 {
-	S32 i ;
+	S32 i;
 
-	for(i=0; i<Base.cElem; i++)
+	for (i = 0; i < Base.cElem; i++)
 	{
-		if( BaseDisplayFirst() )	return TRUE ;
+		if (BaseDisplayFirst())
+			return TRUE;
 	}
 
-	return FALSE ;
+	return FALSE;
 }
 
-//▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-void BaseReset( void )
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+void BaseReset(void)
 {
-	Base.cElem = 0 ;
+	Base.cElem = 0;
 }
 
-//▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-#define	BaseAddRelation(a, b)	\
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+#define BaseAddRelation(a, b) \
 	Base.aElem[b].after[IndexAfter(a)] |= BitAfter(a)
 
-//▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-S32	TreeInsert( S16 numtype, S32 posx, S32 posy, S32 posz,
-		    S32 txmin, S32 tymin, S32 tzmin,
-		    S32 txmax, S32 tymax, S32 tzmax )
+// ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
+S32 TreeInsert(S16 numtype, S32 posx, S32 posy, S32 posz,
+							 S32 txmin, S32 tymin, S32 tzmin,
+							 S32 txmax, S32 tymax, S32 tzmax)
 {
-	S32	x0, y0, x1, y1	;
-	S32	i		;
-	T_SORT	*pt		;
-	Elem	*elem		;
-	S32	zrot = 0	;
+	S32 x0, y0, x1, y1;
+	S32 i;
+	T_SORT *pt;
+	Elem *elem;
+	S32 zrot = 0;
 
-	if(CubeMode==CUBE_INTERIEUR)
+	if (CubeMode == CUBE_INTERIEUR)
 	{
 		// Serge: a optimiser
-		LongProjectPoint(txmin, tymin, tzmax)	;
-		x0 = Xp ;
-		LongProjectPoint(txmax, tymin, tzmax)	;
-		y1 = Yp ;
-		LongProjectPoint(txmax, tymin, tzmin)	;
-		x1 = Xp ;
-		LongProjectPoint(txmin, tymax, tzmin)	;
-		y0 = Yp ;
+		LongProjectPoint(txmin, tymin, tzmax);
+		x0 = Xp;
+		LongProjectPoint(txmax, tymin, tzmax);
+		y1 = Yp;
+		LongProjectPoint(txmax, tymin, tzmin);
+		x1 = Xp;
+		LongProjectPoint(txmin, tymax, tzmin);
+		y0 = Yp;
 	}
 	else
 	{
-		S32	d ;
-		S32	mx, my, mz ;
+		S32 d;
+		S32 mx, my, mz;
 
-		mx = (txmin + txmax)>>1 ;
-		my = (tymin + tymax)>>1 ;
-		mz = (tzmin + tzmax)>>1 ;
+		mx = (txmin + txmax) >> 1;
+		my = (tymin + tymax) >> 1;
+		mz = (tzmin + tzmax) >> 1;
 
-		d = Distance3D(mx, my, mz, txmax, tymax, tzmax) ;
+		d = Distance3D(mx, my, mz, txmax, tymax, tzmax);
 
-		LongWorldRotatePoint(mx, my, mz) ;
+		LongWorldRotatePoint(mx, my, mz);
 
-		if(!LongProjectPoint(X0+d, Y0, Z0))
+		if (!LongProjectPoint(X0 + d, Y0, Z0))
 		{
-			return FALSE ;
+			return FALSE;
 		}
 
-		d = Xp ;
+		d = Xp;
 
-		if(!LongProjectPoint(X0, Y0, Z0))
+		if (!LongProjectPoint(X0, Y0, Z0))
 		{
-			return FALSE ;
+			return FALSE;
 		}
 
-		d -= Xp ;
+		d -= Xp;
 
-		x0 = Xp - d ;
-		y0 = Yp - d ;
-		x1 = Xp + d ;
-		y1 = Yp + d ;
+		x0 = Xp - d;
+		y0 = Yp - d;
+		x1 = Xp + d;
+		y1 = Yp + d;
 
-		LongWorldRotatePoint( posx, posy, posz ) ;
-		zrot = CameraZrClip-Z0 ;// l'ecran
+		LongWorldRotatePoint(posx, posy, posz);
+		zrot = CameraZrClip - Z0; // l'ecran
 	}
 
 	// PreClipping
-	if( (x1<0) OR (x0>=640)
-	OR  (y1<0) OR (y0>=480) )
+	if ((x1 < 0) OR(x0 >= 640)
+					OR(y1 < 0) OR(y0 >= 480))
 	{
-		if( !(numtype&SORT_NO_PRECLIP) )
+		if (!(numtype & SORT_NO_PRECLIP))
 		{
-			return FALSE ;
+			return FALSE;
 		}
 	}
 
-	pt = &ListTri[NbTriObj]	;//	Create New Entry/List
+	pt = &ListTri[NbTriObj]; //	Create New Entry/List
 
-	pt->Z = zrot		;// l'ecran
-	pt->NumObj = numtype&~(SORT_NO_PRECLIP)	;
-	pt->Xw = posx		;
-	pt->Yw = posy		;
-	pt->Zw = posz		;
-	pt->XMin = txmin	;
-	pt->YMin = tymin	;
-	pt->ZMin = tzmin	;
-	pt->XMax = txmax	;
-	pt->YMax = tymax	;
-	pt->ZMax = tzmax	;
+	pt->Z = zrot; // l'ecran
+	pt->NumObj = numtype & ~(SORT_NO_PRECLIP);
+	pt->Xw = posx;
+	pt->Yw = posy;
+	pt->Zw = posz;
+	pt->XMin = txmin;
+	pt->YMin = tymin;
+	pt->ZMin = tzmin;
+	pt->XMax = txmax;
+	pt->YMax = tymax;
+	pt->ZMax = tzmax;
 
-	NbTriObj++ 		;
+	NbTriObj++;
 
-	Base.aElem[Base.cElem].present= TRUE;
+	Base.aElem[Base.cElem].present = TRUE;
 
-	memset(Base.aElem[Base.cElem].after, 0, sizeof(U32)*MAX_INDEX) ;
-	Base.aElem[Base.cElem].x0 = x0 ;
-	Base.aElem[Base.cElem].y0 = y0 ;
-	Base.aElem[Base.cElem].x1 = x1 ;
-	Base.aElem[Base.cElem].y1 = y1 ;
+	memset(Base.aElem[Base.cElem].after, 0, sizeof(U32) * MAX_INDEX);
+	Base.aElem[Base.cElem].x0 = x0;
+	Base.aElem[Base.cElem].y0 = y0;
+	Base.aElem[Base.cElem].x1 = x1;
+	Base.aElem[Base.cElem].y1 = y1;
 
-	pt   = ListTri		;
-	elem = Base.aElem	;
+	pt = ListTri;
+	elem = Base.aElem;
 
-	for (i=0; i<Base.cElem; i++, pt++, elem++ )
+	for (i = 0; i < Base.cElem; i++, pt++, elem++)
 	{
-// test d'overlap
-//		if((x0<=elem->x1)&&(x1>=elem->x0)&&(y0<=elem->y1)&&(y1>=elem->y0))
+		// test d'overlap
+		//		if((x0<=elem->x1)&&(x1>=elem->x0)&&(y0<=elem->y1)&&(y1>=elem->y0))
 		{
-			S32	dxa, dya, dza	;
-			S32	dxb, dyb, dzb	;
-			S32	vb		;
+			S32 dxa, dya, dza;
+			S32 dxb, dyb, dzb;
+			S32 vb;
 
-			dxa = txmin-pt->XMax	;
-			dya = tymin-pt->YMax	;
-			dza = tzmin-pt->ZMax	;
-			dxb = pt->XMin-txmax	;
-			dyb = pt->YMin-tymax	;
-			dzb = pt->ZMin-tzmax	;
+			dxa = txmin - pt->XMax;
+			dya = tymin - pt->YMax;
+			dza = tzmin - pt->ZMax;
+			dxb = pt->XMin - txmax;
+			dyb = pt->YMin - tymax;
+			dzb = pt->ZMin - tzmax;
 
-			if(CubeMode==CUBE_INTERIEUR)
+			if (CubeMode == CUBE_INTERIEUR)
 			{
-				vb = Max3( dxb, dyb, dzb ) - Max3( dxa, dya, dza ) ;
+				vb = Max3(dxb, dyb, dzb) - Max3(dxa, dya, dza);
 			}
 			else
 			{
-				dxb -= dxa ;
-				dzb -= dza ;
-				dyb -= dya ;
+				dxb -= dxa;
+				dzb -= dza;
+				dyb -= dya;
 
 				// new method
-				dxb = ((-dxb * SinTab[CameraBeta]) >> 14) * CosTab[CameraAlpha] >> 14 ;
-				dzb = ((dzb * CosTab[CameraBeta]) >> 14) * CosTab[CameraAlpha] >> 14  ;
-				dyb = (dyb * SinTab[CameraAlpha]) >> 14 ;
-/*
-				// old method
-				if(CameraBeta<2048)
-				{
-					dxb = - dxb ;
-				}
+				dxb = ((-dxb * SinTab[CameraBeta]) >> 14) * CosTab[CameraAlpha] >> 14;
+				dzb = ((dzb * CosTab[CameraBeta]) >> 14) * CosTab[CameraAlpha] >> 14;
+				dyb = (dyb * SinTab[CameraAlpha]) >> 14;
+				/*
+								// old method
+								if(CameraBeta<2048)
+								{
+									dxb = - dxb ;
+								}
 
-				if(CameraAlpha>2048)
-				{
-					dyb = - dyb ;
-				}
+								if(CameraAlpha>2048)
+								{
+									dyb = - dyb ;
+								}
 
-				if((CameraBeta>1024)&&(CameraBeta<3072))
+								if((CameraBeta>1024)&&(CameraBeta<3072))
+								{
+									dzb = - dzb ;
+								}
+				*/
+				if (abs(dxb) > abs(dyb))
 				{
-					dzb = - dzb ;
-				}
-*/
-				if(abs(dxb)>abs(dyb))
-				{
-					vb = dxb ;
+					vb = dxb;
 				}
 				else
 				{
-					vb = dyb ;
+					vb = dyb;
 				}
 
-				if(abs(dzb)>abs(vb))
+				if (abs(dzb) > abs(vb))
 				{
-					vb = dzb ;
+					vb = dzb;
 				}
 
-//				vb = Max3( dxb, dyb, dzb ) - Max3( dxa, dya, dza ) ;
+				//				vb = Max3( dxb, dyb, dzb ) - Max3( dxa, dya, dza ) ;
 			}
 
-			if(vb)
+			if (vb)
 			{
-				if (vb>0)		// 	Before
+				if (vb > 0) // 	Before
 				{
-					BaseAddRelation(i, Base.cElem) ;
+					BaseAddRelation(i, Base.cElem);
 				}
 				else
 				{
-					BaseAddRelation(Base.cElem, i) ;
+					BaseAddRelation(Base.cElem, i);
 				}
 			}
 		}
 	}
 
-	Base.cElem++ ;
+	Base.cElem++;
 
-	return TRUE ;
+	return TRUE;
 }
-

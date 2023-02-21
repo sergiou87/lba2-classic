@@ -1,8 +1,8 @@
 //──────────────────────────────────────────────────────────────────────────
-#include	<system\adeline.h>
-#include	<system\hqmem.h>
-#include	<system\hqfile.h>
-#include	<system\hqrmload.h>
+#include	<SYSTEM/adeline.h>
+#include	<SYSTEM/hqmem.h>
+#include	<SYSTEM/hqfile.h>
+#include	<SYSTEM/hqrmload.h>
 
 //──────────────────────────────────────────────────────────────────────────
 S32	HQRM_Load(char *name, S32 index, void **handle)

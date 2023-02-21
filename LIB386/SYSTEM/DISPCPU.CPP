@@ -1,10 +1,10 @@
 //----------------------------------------------------------------------------
-#include <system\adeline.h>
-#include <system\logprint.h>
-#include <system\cmdline.h>
-#include <system\dispos.h>
-#include <system\cpu.h>
-#include <system\dispcpu.h>
+#include <SYSTEM/adeline.h>
+#include <SYSTEM/logprint.h>
+#include <SYSTEM/cmdline.h>
+#include <SYSTEM/dispos.h>
+#include <SYSTEM/cpu.h>
+#include <SYSTEM/dispcpu.h>
 
 #include <stdlib.h>
 #include <stdio.h>

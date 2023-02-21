@@ -1,77 +1,77 @@
 //-------------------------------------------------------------------------
-#include	<system\adeline.h>
-#include	<system\initimer.h>
+#include <SYSTEM/adeline.h>
+#include <SYSTEM/initimer.h>
 
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
-#ifdef	_WIN32
+#ifdef _WIN32
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
-#include	<system\winsys.h>
-#include	<system\timerwin.h>
+#include <SYSTEM/winsys.h>
+#include <SYSTEM/TIMERWIN.H>
 
 //-------------------------------------------------------------------------
-void	InitTimer()
+void InitTimer()
 {
-	OldTimerWindowProc = WindowProc	;
-	WindowProc = TimerWindowProc	;
+	OldTimerWindowProc = WindowProc;
+	WindowProc = TimerWindowProc;
 }
 
 //-------------------------------------------------------------------------
-void	ClearTimer()
+void ClearTimer()
 {
-	WindowProc = OldTimerWindowProc	;
+	WindowProc = OldTimerWindowProc;
 }
 
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
-#else// _WIN32
+#else // _WIN32
 
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
-#include	<system\exit.h>
-#include	<ail\mss.h>
+#include <SYSTEM/exit.h>
+#include <AIL/mss.h>
 
 //-------------------------------------------------------------------------
-#include	<i86.h>
-#include	<stdlib.h>
+#include <i86.h>
+#include <stdlib.h>
 
 //-------------------------------------------------------------------------
-#define	OLD_DIVISOR	0xFFFF
+#define OLD_DIVISOR 0xFFFF
 
-#define	DIVISOR		5966		//    1193180 / 200
-#define	FREQUENCE	200		//    1193180 / 5966
+#define DIVISOR 5966	//    1193180 / 200
+#define FREQUENCE 200 //    1193180 / 5966
 
 //-------------------------------------------------------------------------
-#ifdef	__cplusplus
-extern	"C"	{
+#ifdef __cplusplus
+extern "C"
+{
 #endif
 
+	//-------------------------------------------------------------------------
+	extern void __interrupt NewIntPM08(void);
+
+#pragma aux NewIntPM08 "*"
+
+	//-------------------------------------------------------------------------
+	// extern	U32	Old_PM08_Off	;
+	// extern	U16	Old_PM08_Sel	;
+
+	extern U32 TimerDataStart;
+	extern U32 TimerDataEnd;
+
+	extern U32 TimerStart;
+	extern U32 TimerEnd;
+
 //-------------------------------------------------------------------------
-extern	void __interrupt NewIntPM08(void)		;
-
-#pragma	aux NewIntPM08	"*"
-
-//-------------------------------------------------------------------------
-//extern	U32	Old_PM08_Off	;
-//extern	U16	Old_PM08_Sel	;
-
-extern  U32	TimerDataStart	;
-extern  U32	TimerDataEnd	;
-
-extern  U32	TimerStart	;
-extern  U32	TimerEnd	;
-
-//-------------------------------------------------------------------------
-#ifdef	__cplusplus
+#ifdef __cplusplus
 }
 #endif
 
 //-------------------------------------------------------------------------
 void LockVMMTimer()
 {
-	if(	!AIL_vmm_lock_range(&TimerStart, &TimerEnd)		OR
-		!AIL_vmm_lock_range(&TimerDataStart, &TimerDataEnd)		)
+	if (!AIL_vmm_lock_range(&TimerStart, &TimerEnd) OR !AIL_vmm_lock_range(&TimerDataStart, &TimerDataEnd))
 		exit(1);
 }
 
@@ -145,6 +145,6 @@ void	ClearTimer()
 */
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------
-#endif//_WIN32
+#endif //_WIN32
 //-------------------------------------------------------------------------
 //-------------------------------------------------------------------------

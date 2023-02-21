@@ -1,83 +1,81 @@
 //----------------------------------------------------------------------------
-#include <system\adeline.h>
-#include <system\logprint.h>
-#include <system\cmdline.h>
-#include <system\dispos.h>
+#include <SYSTEM/adeline.h>
+#include <SYSTEM/logprint.h>
+#include <SYSTEM/cmdline.h>
+#include <SYSTEM/dispos.h>
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
 //----------------------------------------------------------------------------
-U32	OSType = -1 ;
-U32	OSMajor= -1 ;
-U32	OSMinor= -1 ;
-char	OSString[128];
+U32 OSType = -1;
+U32 OSMajor = -1;
+U32 OSMinor = -1;
+char OSString[128];
 
 //----------------------------------------------------------------------------
-#ifdef	_WIN32
-void	DetectOS()
+#ifdef _WIN32
+void DetectOS()
 {
-	OSVERSIONINFO	osVersionInfo	;
+	OSVERSIONINFO osVersionInfo;
 
-	osVersionInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFO) ;
-	GetVersionEx(&osVersionInfo)	;
+	osVersionInfo.dwOSVersionInfoSize = sizeof(OSVERSIONINFO);
+	GetVersionEx(&osVersionInfo);
 
-	switch(osVersionInfo.dwPlatformId)
+	switch (osVersionInfo.dwPlatformId)
 	{
 	case VER_PLATFORM_WIN32_NT:
-		OSType = OS_NT ;
+		OSType = OS_NT;
 		break;
 
 	case VER_PLATFORM_WIN32_WINDOWS:
-		OSType = OS_WIN95 ;
+		OSType = OS_WIN95;
 		break;
 
 	case VER_PLATFORM_WIN32s:
-		OSType = OS_WIN31 ;
+		OSType = OS_WIN31;
 		break;
 
 	default:
-		OSType = -1 ;
+		OSType = -1;
 		break;
 	}
 
-	OSMajor = osVersionInfo.dwMajorVersion ;
-	OSMinor = osVersionInfo.dwMinorVersion ;
+	OSMajor = osVersionInfo.dwMajorVersion;
+	OSMinor = osVersionInfo.dwMinorVersion;
 
-	strcpy(OSString, osVersionInfo.szCSDVersion) ;
+	strcpy(OSString, osVersionInfo.szCSDVersion);
 }
 //----------------------------------------------------------------------------
 #else //_WIN32
 
-S32	DOSVer()	;
+S32 DOSVer();
 
-#pragma	aux DOSVer	=		\
-"	mov	ah, 30h		"	\
-"	int	21h		"	\
-"	and	eax,0FFFFh	"	\
-	modify	[ebx ecx]
+#pragma aux DOSVer = \
+		"	mov	ah, 30h		" \
+		"	int	21h		"     \
+		"	and	eax,0FFFFh	" modify[ebx ecx]
 
-
-void	DetectOS()
+void DetectOS()
 {
-	S32	ver ;
+	S32 ver;
 
-	ver = DOSVer()	;
+	ver = DOSVer();
 
-	OSType = OS_DOS	;
+	OSType = OS_DOS;
 
-	OSMajor= ver & 0xFF	;
-	OSMinor= (ver>>8) & 0xFF;
+	OSMajor = ver & 0xFF;
+	OSMinor = (ver >> 8) & 0xFF;
 }
 
-#endif//_WIN32
+#endif //_WIN32
 
 //----------------------------------------------------------------------------
-void	DisplayOS()
+void DisplayOS()
 {
 	LogPrintf("Operating System : ");
-	switch(OSType)
+	switch (OSType)
 	{
 	case OS_DOS:
 		LogPuts("DOS");
@@ -96,59 +94,59 @@ void	DisplayOS()
 		break;
 	}
 
-	if(OSType!=-1)
+	if (OSType != -1)
 	{
 		LogPrintf("         Version : %d.%d %s\n", OSMajor, OSMinor, OSString);
 	}
 }
 
 //----------------------------------------------------------------------------
-S32	ParamsOS()
+S32 ParamsOS()
 {
-	char	str[256];
-	char	*ptr	;
-	S32	result	;
-	S32	i	;
+	char str[256];
+	char *ptr;
+	S32 result;
+	S32 i;
 
-	str[256] = 0	;
-	result = FALSE	;
+	str[256] = 0;
+	result = FALSE;
 
-	i = 1	;
-	while(i<ArgC)
+	i = 1;
+	while (i < ArgC)
 	{
-		strncpy(str, ArgV[i], 255)	;
-		if(strnicmp("/OS", str, 3))
+		strncpy(str, ArgV[i], 255);
+		if (strnicmp("/OS", str, 3))
 		{
-			i++		;
-			continue	;
+			i++;
+			continue;
 		}
 
-		RemoveParam(i)	;
+		RemoveParam(i);
 
-		ptr = str+3	;
+		ptr = str + 3;
 
-		if(!strnicmp("Type=", ptr, 5))
+		if (!strnicmp("Type=", ptr, 5))
 		{
-			OSType = atoi(ptr+5)	;
-			result = TRUE	;
+			OSType = atoi(ptr + 5);
+			result = TRUE;
 		}
-		else if(!strnicmp("Major=", ptr, 6))
+		else if (!strnicmp("Major=", ptr, 6))
 		{
-			OSMajor= atoi(ptr+6)	;
-			result = TRUE	;
+			OSMajor = atoi(ptr + 6);
+			result = TRUE;
 		}
-		else if(!strnicmp("Minor=", ptr, 6))
+		else if (!strnicmp("Minor=", ptr, 6))
 		{
-			OSMinor= atoi(ptr+6)	;
-			result = TRUE	;
+			OSMinor = atoi(ptr + 6);
+			result = TRUE;
 		}
 		else
 		{
-			LogPrintf("Unsupported OS override: %s", str)	;
+			LogPrintf("Unsupported OS override: %s", str);
 		}
 	}
 
-	return	result	;
+	return result;
 }
 
 //----------------------------------------------------------------------------

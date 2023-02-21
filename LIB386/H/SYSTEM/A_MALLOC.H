@@ -1,52 +1,53 @@
-//──────────────────────────────────────────────────────────────────────────
-#ifndef	LIB_SYSTEM_A_MALLOC
+// ──────────────────────────────────────────────────────────────────────────
+#ifndef LIB_SYSTEM_A_MALLOC
 #define LIB_SYSTEM_A_MALLOC
 
-//──────────────────────────────────────────────────────────────────────────
-#include	<system\s_malloc.h>
-#include	<system\n_malloc.h>
+// ──────────────────────────────────────────────────────────────────────────
+#include <SYSTEM/S_MALLOC.H>
+#include <SYSTEM/N_MALLOC.H>
 
-//──────────────────────────────────────────────────────────────────────────
-#ifdef	__cplusplus
-extern	"C"	{
+// ──────────────────────────────────────────────────────────────────────────
+#ifdef __cplusplus
+extern "C"
+{
 #endif
 
-//──────────────────────────────────────────────────────────────────────────
-#define Malloc			NormMalloc
-#define DosMalloc		NormDosMalloc
-#define DosFree 		NormDosFree
+// ──────────────────────────────────────────────────────────────────────────
+#define Malloc NormMalloc
+#define DosMalloc NormDosMalloc
+#define DosFree NormDosFree
 
-//──────────────────────────────────────────────────────────────────────────
-#ifdef  DEBUG_MALLOC
+// ──────────────────────────────────────────────────────────────────────────
+#ifdef DEBUG_MALLOC
 
-#define Mshrink(a, b)           SafeMshrink(a, b, __FILE__, __LINE__)
-#define Free(a)                 SafeFree(a, __FILE__, __LINE__)
+#define Mshrink(a, b) SafeMshrink(a, b, __FILE__, __LINE__)
+#define Free(a) SafeFree(a, __FILE__, __LINE__)
 
-//──────────────────────────────────────────────────────────────────────────
-#else// DEBUG_MALLOC
+// ──────────────────────────────────────────────────────────────────────────
+#else // DEBUG_MALLOC
 
-#define Mshrink(a, b)           NormMshrink(a, b)
-#define Free(a)                 NormFree(a)
+#define Mshrink(a, b) NormMshrink(a, b)
+#define Free(a) NormFree(a)
 
-#endif//DEBUG_MALLOC
+#endif // DEBUG_MALLOC
 
-//──────────────────────────────────────────────────────────────────────────
-#ifdef	_WIN32
+// ──────────────────────────────────────────────────────────────────────────
+#ifdef _WIN32
 
-#define	SmartMalloc(size)	Malloc(size)
+#define SmartMalloc(size) Malloc(size)
 
-#else// _WIN32
+#else // _WIN32
 
-extern	void	*SmartMalloc(S32 size)		;
+extern void *SmartMalloc(S32 size);
 
-#endif//_WIN32
+#endif //_WIN32
 
-//──────────────────────────────────────────────────────────────────────────
-#ifdef	__cplusplus
+// ──────────────────────────────────────────────────────────────────────────
+#ifdef __cplusplus
 }
 #endif
 
-//──────────────────────────────────────────────────────────────────────────
-#endif//LIB_SYSTEM_N_MALLOC
+// ──────────────────────────────────────────────────────────────────────────
+#endif // LIB_SYSTEM_N_MALLOC
 
-//──────────────────────────────────────────────────────────────────────────
+// ──────────────────────────────────────────────────────────────────────────

@@ -1,4 +1,4 @@
-#include <system\adeline.h>
+#include <SYSTEM/adeline.h>
 
 //***************************************************************************
 U32     MakeMask(U32 val);

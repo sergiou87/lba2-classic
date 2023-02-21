@@ -152,7 +152,7 @@ _SYSTEM_INFO	ENDS
 
 SYSTEM_INFO		TYPEDEF		_SYSTEM_INFO
 
-KeyString			db	"HARDWARE\DESCRIPTION\System\FloatingPointProcessor", 0
+KeyString			db	"HARDWARE\DESCRIPTION\SYSTEM/FloatingPointProcessor", 0
 
 ENDIF
 

@@ -1,9 +1,9 @@
 /*──────────────────────────────────────────────────────────────────────────*/
-#include	<system\adeline.h>
-#include	<system\files.h>
-#include	<system\lz.h>
-#include	<system\hqr.h>
-#include	<system\hqfile.h>
+#include	<SYSTEM/adeline.h>
+#include	<SYSTEM/files.h>
+#include	<SYSTEM/lz.h>
+#include	<SYSTEM/hqr.h>
+#include	<SYSTEM/hqfile.h>
 
 /*──────────────────────────────────────────────────────────────────────────*/
 	S32			HQF_File	;

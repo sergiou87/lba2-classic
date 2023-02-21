@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------
-#include	<system\adeline.h>
-#include	<system\exit.h>
+#include	<SYSTEM/adeline.h>
+#include	<SYSTEM/exit.h>
 
 #include	<string.h>
 #include	<dos.h>

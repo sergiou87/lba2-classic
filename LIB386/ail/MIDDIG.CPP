@@ -1,62 +1,64 @@
-#include	<system\adeline.h>
+#include <SYSTEM/adeline.h>
 
-#ifdef	_WIN32
-#include	<ail\mssw.h>
+#ifdef _WIN32
+#include <AIL/mssw.h>
 #else
-#include	<ail\mss.h>
+#include <AIL/mss.h>
 #endif
 
-#include	<ail\common.h>
-#include	<ail\sample.h>
-#include	<ail\midi.h>
-#include	<ail\middig.h>
+#include <AIL/common.h>
+#include <AIL/sample.h>
+#include <AIL/midi.h>
+#include <AIL/middig.h>
 
-#include 	<stdlib.h>
+#include <stdlib.h>
 
-//████████████████████████████████████████████████████████████████████████████
+// ████████████████████████████████████████████████████████████████████████████
 
-extern	HDIGDRIVER	DigDriver			;// Handle to digital driver
-extern 	HMDIDRIVER	MdiDriver			;// Handle to midi driver
+extern HDIGDRIVER DigDriver; // Handle to digital driver
+extern HMDIDRIVER MdiDriver; // Handle to midi driver
 
-static	HWAVESYNTH	WaveSynthesizer	= NULL		;
-static	void		*WaveLib	= NULL		;
-static	S32		SizeLib		= 0		;
+static HWAVESYNTH WaveSynthesizer = NULL;
+static void *WaveLib = NULL;
+static S32 SizeLib = 0;
 
-//████████████████████████████████████████████████████████████████████████████
+// ████████████████████████████████████████████████████████████████████████████
 
-void	InitSampleSynthesizer( void *wavelib, S32 sizelib, S32 voices )
+void InitSampleSynthesizer(void *wavelib, S32 sizelib, S32 voices)
 {
-	if((!Midi_Driver_Enabled)||(!Sample_Driver_Enabled))	return	;
+	if ((!Midi_Driver_Enabled) || (!Sample_Driver_Enabled))
+		return;
 
-	if(WaveLib)
+	if (WaveLib)
 	{
-		AIL_destroy_wave_synthesizer((WAVE_SYNTH*)WaveSynthesizer)	;
-		AIL_vmm_unlock(WaveLib, SizeLib)				;
+		AIL_destroy_wave_synthesizer((WAVE_SYNTH *)WaveSynthesizer);
+		AIL_vmm_unlock(WaveLib, SizeLib);
 	}
 
 	// lock wave table
-	AIL_vmm_lock(wavelib, sizelib)	;
+	AIL_vmm_lock(wavelib, sizelib);
 
 	// link table to both drivers
-	WaveSynthesizer = AIL_create_wave_synthesizer(DigDriver, MdiDriver, wavelib, voices );
-	WaveLib		= wavelib	;
-	SizeLib		= sizelib	;
+	WaveSynthesizer = AIL_create_wave_synthesizer(DigDriver, MdiDriver, wavelib, voices);
+	WaveLib = wavelib;
+	SizeLib = sizelib;
 }
 
-//████████████████████████████████████████████████████████████████████████████
+// ████████████████████████████████████████████████████████████████████████████
 
-void	ClearSampleSynthesizer()
+void ClearSampleSynthesizer()
 {
-	if((!Midi_Driver_Enabled)||(!Sample_Driver_Enabled))	return	;
+	if ((!Midi_Driver_Enabled) || (!Sample_Driver_Enabled))
+		return;
 
-	if( !WaveLib )	return	;
+	if (!WaveLib)
+		return;
 
-	AIL_destroy_wave_synthesizer((WAVE_SYNTH*)WaveSynthesizer)	;
-	AIL_vmm_unlock(WaveLib, SizeLib)					;
+	AIL_destroy_wave_synthesizer((WAVE_SYNTH *)WaveSynthesizer);
+	AIL_vmm_unlock(WaveLib, SizeLib);
 
-	WaveLib	= NULL	;
-	SizeLib	= 0	;
+	WaveLib = NULL;
+	SizeLib = 0;
 }
 
-//████████████████████████████████████████████████████████████████████████████
-
+// ████████████████████████████████████████████████████████████████████████████

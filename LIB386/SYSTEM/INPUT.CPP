@@ -1,9 +1,9 @@
-#include <system\adeline.h>
-#include <system\initkeyb.h>
-#include <system\input.h>
+#include <SYSTEM/adeline.h>
+#include <SYSTEM/initkeyb.h>
+#include <SYSTEM/input.h>
 
 #ifndef	_WIN32
-#include <system\dossys.h>
+#include <SYSTEM/dossys.h>
 #endif
 
 //***************************************************************************

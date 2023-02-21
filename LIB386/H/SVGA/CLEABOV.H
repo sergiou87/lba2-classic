@@ -6,8 +6,8 @@
 #define	LIB_SVGA_CLEABOV
 
 //****************************************************************************
-#include	<svga\dirtybox.h>
-#include	<svga\box.h>
+#include	<SVGA/dirtybox.h>
+#include	<SVGA/box.h>
 
 //****************************************************************************
 #ifdef	__cplusplus

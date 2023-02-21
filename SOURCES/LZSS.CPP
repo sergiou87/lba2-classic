@@ -7,10 +7,10 @@
  */
 
 /* 			 ASSEZ FORTEMENT MODIFIE
-			       LE 21/06/93
+						 LE 21/06/93
 */
 
-#include	"c_extern.h"
+#include "C_EXTERN.H"
 
 /*
  * Various constants used to define the compression parameters.  The
@@ -28,7 +28,7 @@
  */
 
 char *CompressionName = "LZSS Encoder";
-char *Usage           = "in-file out-file\n\n";
+char *Usage = "in-file out-file\n\n";
 
 int Current_position;
 int Match_position;
@@ -38,40 +38,41 @@ int Match_position;
  * The window[] array is exactly that, the window of previously seen
  * text, as well as the current look ahead text.  The tree[] structure
  * contains the binary tree of all of the strings in the window sorted
-* in order.
-*/
+ * in order.
+ */
 
-unsigned char window[ WINDOW_SIZE * 5 ];
+unsigned char window[WINDOW_SIZE * 5];
 
-struct deftree tree[ WINDOW_SIZE + 2 ] ;
+struct deftree tree[WINDOW_SIZE + 2];
 
 /*
  * Function prototypes for both ANSI C compilers and their K&R brethren.
  */
 
-void InitTree( int r );
+void InitTree(int r);
 // void ContractNode( int old_node, int new_node );
 // void ReplaceNode( int old_node, int new_node );
 // int FindNextNode( int node );
 // void DeleteString( int p );
 // int AddString();
-unsigned long Compress(char *input,char *output, unsigned long length );
+unsigned long Compress(char *input, char *output, unsigned long length);
 
 /*
  * However, to make the tree really usable, a single phrase has to be
  * added to the tree so it has a root node.  That is done right here.
-*/
-void InitTree( int r )
+ */
+void InitTree(int r)
 {
-    int i;
+	int i;
 
-    for (i=0; i<=WINDOW_SIZE; i++) {
-	tree[ i ].parent = UNUSED;
-	tree[ i ].larger_child = UNUSED;
-	tree[ i ].smaller_child = UNUSED;
-    }
-    tree[ TREE_ROOT ].larger_child = r;
-    tree[ r ].parent = TREE_ROOT;
+	for (i = 0; i <= WINDOW_SIZE; i++)
+	{
+		tree[i].parent = UNUSED;
+		tree[i].larger_child = UNUSED;
+		tree[i].smaller_child = UNUSED;
+	}
+	tree[TREE_ROOT].larger_child = r;
+	tree[r].parent = TREE_ROOT;
 }
 
 /*
@@ -85,12 +86,12 @@ void ContractNode( old_node, new_node )
 int old_node;
 int new_node;
 {
-    tree[ new_node ].parent = tree[ old_node ].parent;
-    if ( tree[ tree[ old_node ].parent ].larger_child == old_node )
+		tree[ new_node ].parent = tree[ old_node ].parent;
+		if ( tree[ tree[ old_node ].parent ].larger_child == old_node )
 	tree[ tree[ old_node ].parent ].larger_child = new_node;
-    else
+		else
 	tree[ tree[ old_node ].parent ].smaller_child = new_node;
-    tree[ old_node ].parent = UNUSED;
+		tree[ old_node ].parent = UNUSED;
 }
 */
 /*
@@ -103,19 +104,19 @@ void ReplaceNode( old_node, new_node )
 int old_node;
 int new_node;
 {
-    int parent;
+		int parent;
 
-    parent = tree[ old_node ].parent;
-    if ( tree[ parent ].smaller_child == old_node )
+		parent = tree[ old_node ].parent;
+		if ( tree[ parent ].smaller_child == old_node )
 	tree[ parent ].smaller_child = new_node;
-    else
+		else
 	tree[ parent ].larger_child = new_node;
-    tree[ new_node ] = tree[ old_node ];
-    if ( tree[ new_node ].smaller_child != UNUSED )
+		tree[ new_node ] = tree[ old_node ];
+		if ( tree[ new_node ].smaller_child != UNUSED )
 	tree[ tree[ new_node ].smaller_child ].parent = new_node;
-    if ( tree[ new_node ].larger_child != UNUSED )
+		if ( tree[ new_node ].larger_child != UNUSED )
 	tree[ tree[ new_node ].larger_child ].parent = new_node;
-    tree[ old_node ].parent = UNUSED;
+		tree[ old_node ].parent = UNUSED;
 }
 */
 /*
@@ -123,17 +124,17 @@ int new_node;
  * argument.  It assumes that the node has a smaller child.  We find
  * the next smallest child by going to the smaller_child node, then
  * going to the end of the larger_child descendant chain.
-*/
+ */
 /*
 int FindNextNode( node )
 int node;
 {
-    int next;
+		int next;
 
-    next = tree[ node ].smaller_child;
-    while ( tree[ next ].larger_child != UNUSED )
+		next = tree[ node ].smaller_child;
+		while ( tree[ next ].larger_child != UNUSED )
 	next = tree[ next ].larger_child;
-    return( next );
+		return( next );
 }
 */
 /*
@@ -148,19 +149,19 @@ int node;
 void DeleteStringOld( p )
 int p;
 {
-    int  replacement;
+		int  replacement;
 
-    if ( tree[ p ].parent == UNUSED )
+		if ( tree[ p ].parent == UNUSED )
 	return;
-    if ( tree[ p ].larger_child == UNUSED )
+		if ( tree[ p ].larger_child == UNUSED )
 	ContractNode( p, tree[ p ].smaller_child );
-    else if ( tree[ p ].smaller_child == UNUSED )
+		else if ( tree[ p ].smaller_child == UNUSED )
 	ContractNode( p, tree[ p ].larger_child );
-    else {
+		else {
 	replacement = FindNextNode( p );
 	DeleteString( replacement );
 	ReplaceNode( p, replacement );
-    }
+		}
 }
 */
 /*
@@ -187,9 +188,9 @@ int AddStringOld()
 	{
 		for ( i = 0 ; i < LOOK_AHEAD_SIZE ; i++ )
 		{
-	    		delta =   window[ MOD_WINDOW( Current_position + i ) ]
+					delta =   window[ MOD_WINDOW( Current_position + i ) ]
 				- window[ MOD_WINDOW( test_node + i ) ];
-	    		if ( delta != 0 )
+					if ( delta != 0 )
 				break;		// sort de la boucle FOR
 		}
 
@@ -197,8 +198,8 @@ int AddStringOld()
 
 		if ( i >= match_length )
 		{
-	    		match_length = i;
-	    		Match_position = test_node;
+					match_length = i;
+					Match_position = test_node;
 
 			if ( match_length >= LOOK_AHEAD_SIZE )
 			{
@@ -209,26 +210,23 @@ int AddStringOld()
 		}
 
 		if ( delta >= 0 )
-	    		child = &tree[ test_node ].larger_child;
+					child = &tree[ test_node ].larger_child;
 		else
-	    		child = &tree[ test_node ].smaller_child;
+					child = &tree[ test_node ].smaller_child;
 		if ( *child == UNUSED )
 		{
-	    		*child = Current_position;
-	    		tree[ Current_position ].parent = test_node;
-	    		tree[ Current_position ].larger_child = UNUSED;
-	    		tree[ Current_position ].smaller_child = UNUSED;
-	    		return( match_length );
+					*child = Current_position;
+					tree[ Current_position ].parent = test_node;
+					tree[ Current_position ].larger_child = UNUSED;
+					tree[ Current_position ].smaller_child = UNUSED;
+					return( match_length );
 		}
 		test_node = *child;
-    	}
+			}
 }
 
 
 */
-
-
-
 
 /*
  * This is the compression routine.  It has to first load up the look
@@ -241,101 +239,103 @@ int AddStringOld()
  * character.
  */
 
-unsigned long Compress_LZSS(char *input,char *output, unsigned long length )
+unsigned long Compress_LZSS(char *input, char *output, unsigned long length)
 {
-int 		i;
-char 		*read;
-char 		*write;
-char 		*info;
-int 		look_ahead_bytes;
-int 		replace_count;
-int 		match_length;
-int 		count_bits	= 0;
-char 		mask		= 1;
-unsigned long 	len		= 0;
-unsigned long 	save_length;
-
-
+	int i;
+	char *read;
+	char *write;
+	char *info;
+	int look_ahead_bytes;
+	int replace_count;
+	int match_length;
+	int count_bits = 0;
+	char mask = 1;
+	unsigned long len = 0;
+	unsigned long save_length;
 
 	save_length = length;
 	write = output;
 	read = input;
 	Current_position = 0;
 
-	for ( i = 0 ; i < LOOK_AHEAD_SIZE ; i++ )
+	for (i = 0; i < LOOK_AHEAD_SIZE; i++)
 	{
-		if (length == 0 ) break;
-		window[ Current_position + i ] = *read++;
+		if (length == 0)
+			break;
+		window[Current_position + i] = *read++;
 		length--;
 	}
 
 	look_ahead_bytes = i;
-	InitTree( Current_position );
+	InitTree(Current_position);
 	match_length = 0;
 	Match_position = 0;
 	info = write++;
 
-	if ( ++len >= save_length ) return( save_length );
+	if (++len >= save_length)
+		return (save_length);
 
 	*info = 0;
 
-	while ( look_ahead_bytes > 0 )
+	while (look_ahead_bytes > 0)
 	{
-		if ( match_length > look_ahead_bytes )
-    			match_length = look_ahead_bytes;
+		if (match_length > look_ahead_bytes)
+			match_length = look_ahead_bytes;
 
-		if ( match_length <= BREAK_EVEN )
+		if (match_length <= BREAK_EVEN)
 		{
-    			replace_count = 1;
-    			*info |= mask;
-    			*write++ = window[ Current_position ];
-    			if ( ++len >= save_length )
-			return( save_length );
+			replace_count = 1;
+			*info |= mask;
+			*write++ = window[Current_position];
+			if (++len >= save_length)
+				return (save_length);
 		}
 		else
 		{
-    			if ( ( len = len + 2 ) >= save_length )
-			return( save_length );
-
+			if ((len = len + 2) >= save_length)
+				return (save_length);
 
 			*(short *)write =
-		(short)(( MOD_WINDOW( Current_position - Match_position - 1 )
-		<< LENGTH_BIT_COUNT ) | ( match_length - BREAK_EVEN - 1 ));
+					(short)((MOD_WINDOW(Current_position - Match_position - 1)
+									 << LENGTH_BIT_COUNT) |
+									(match_length - BREAK_EVEN - 1));
 
-			write+=2;
-    			replace_count = match_length;
+			write += 2;
+			replace_count = match_length;
 		}
 
 		if (++count_bits == 8)
 		{
-    			if ( ++len >= save_length ) return( save_length );
-    			info = write++;
-    			*info = 0;
-    			count_bits = 0;
-    			mask = 1;
+			if (++len >= save_length)
+				return (save_length);
+			info = write++;
+			*info = 0;
+			count_bits = 0;
+			mask = 1;
 		}
-		else mask = (char)(mask << 1);
+		else
+			mask = (char)(mask << 1);
 
-		for ( i = 0 ; i < replace_count ; i++ )
+		for (i = 0; i < replace_count; i++)
 		{
-    			DeleteString( MOD_WINDOW( Current_position + LOOK_AHEAD_SIZE ) );
-    			if ( length == 0 ) look_ahead_bytes--;
-    			else
-    			{
-				window[ MOD_WINDOW( Current_position + LOOK_AHEAD_SIZE ) ]
-				= *read++;
+			DeleteString(MOD_WINDOW(Current_position + LOOK_AHEAD_SIZE));
+			if (length == 0)
+				look_ahead_bytes--;
+			else
+			{
+				window[MOD_WINDOW(Current_position + LOOK_AHEAD_SIZE)] = *read++;
 				length--;
-    			}
+			}
 
-			Current_position = MOD_WINDOW( Current_position + 1 );
-    			if ( look_ahead_bytes )
+			Current_position = MOD_WINDOW(Current_position + 1);
+			if (look_ahead_bytes)
 				match_length = AddString();
 		}
 	}
 
-	if ( count_bits == 0 ) len--;
-	return( len );
+	if (count_bits == 0)
+		len--;
+	return (len);
 }
 
 /************************** End of LZSS.C *************************/
-
