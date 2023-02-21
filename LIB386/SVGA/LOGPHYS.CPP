@@ -1,3 +1,5 @@
+/*
+Write the following code in C:
 ;*══════════════════════════════════════════════════════════════════════════*
 
 		.386p
@@ -48,3 +50,17 @@ _DATA		ENDS
 ;*══════════════════════════════════════════════════════════════════════════*
 ;		The
 		END
+*/
+
+#include <SVGA/LOGPHYS.H>
+#include <stddef.h>
+
+void *Phys = NULL;
+void *Log = NULL;
+void *Screen = NULL;
+U32 ModeResX = 0;
+U32 ModeResY = 0;
+U32 ModeMemory = 0;
+U32 BytesScanLine = 0;
+U32 TabOffLine[MAX_SCREEN_Y_RES];
+U32 TabOffPhysLine[MAX_SCREEN_Y_RES];
