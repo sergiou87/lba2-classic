@@ -28,7 +28,6 @@
 #include <string.h>
 #include <stdio.h>
 #include <conio.h>
-#include <dos.h>
 #include <i86.h>
 //----------------------------------------------------------------------------
 //              Tout ce qui me manque en local

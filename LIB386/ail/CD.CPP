@@ -2,7 +2,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include <dos.h>
 
 #include <AIL/cd.h>
 
