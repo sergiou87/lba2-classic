@@ -418,11 +418,7 @@
 #include "ZV.H"
 #include "SCAN.H"
 #include "KEYB.H"
-#ifdef _WIN32
 #include "JOYSTICK.H"
-#else
-#include "CRITICAL.H"
-#endif
 
 #endif // EDITLBA2
 

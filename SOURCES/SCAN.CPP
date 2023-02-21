@@ -159,6 +159,7 @@ T_KEY ScanUnknown[] = {
 #define EnableKeyb() keyboard_cmd(0xAE)
 
 // ──────────────────────────────────────────────────────────────────────────
+/*
 void InitInt15()
 {
         union REGS r;
@@ -190,6 +191,7 @@ void InitInt15()
 
         RegisterInitClear(InitInt15, ClearInt15);
 }
+*/
 
 // ──────────────────────────────────────────────────────────────────────────
 void ClearInt15()
@@ -257,10 +259,12 @@ S32 ScanToAscii(S32 scan)
                 return 0;
         }
 
-        if (!Old_PM15_Sel) // initialized ?
-        {
-                InitInt15(); // init
-        }
+        /*
+                if (!Old_PM15_Sel) // initialized ?
+                {
+                        InitInt15(); // init
+                }
+                */
 
         //      DisableKeyb()           ;
 

@@ -13,7 +13,7 @@ extern "C"
 
 // ──────────────────────────────────────────────────────────────────────────
 //  Define Itoa(value) but implement it with sprintf
-#define Itoa(value) sprintf(ItoaTempoString, "%ld", (value))
+#define Itoa(value) (sprintf(ItoaTempoString, "%ld", (value)), ItoaTempoString)
 
 // ──────────────────────────────────────────────────────────────────────────
 #ifdef __cplusplus

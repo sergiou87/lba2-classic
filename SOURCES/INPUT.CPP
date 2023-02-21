@@ -8,9 +8,9 @@ U32 WaitNoClick = 0;
 #endif
 
 U32 LastInput = 0;
-U32 NbInput = MAX_INPUT;
+U32 NbInput = MAX_KEY_INPUT;
 
-T_DEF_KEY DefKeysDefault[MAX_INPUT + 1] =
+T_DEF_KEY DefKeysDefault[MAX_KEY_INPUT + 1] =
 		{
 				{K_GRAY_UP, K_NUMPAD_8},						// I_UP
 				{K_GRAY_DOWN, K_NUMPAD_2},					// I_DOWN
@@ -53,7 +53,7 @@ T_DEF_KEY DefKeysDefault[MAX_INPUT + 1] =
 #ifdef _WIN32
 // for WIN95
 
-T_DEF_KEY DefKeysDefault95[MAX_INPUT + 1] =
+T_DEF_KEY DefKeysDefault95[MAX_KEY_INPUT + 1] =
 		{
 				{K_GRAY_UP, K_NUMPAD_8},						// I_UP
 				{K_GRAY_DOWN, K_NUMPAD_2},					// I_DOWN
@@ -94,11 +94,11 @@ T_DEF_KEY DefKeysDefault95[MAX_INPUT + 1] =
 };
 #endif
 
-T_DEF_KEY MemoDefKeys[MAX_INPUT + 1];
-T_DEF_KEY DefKeys[MAX_INPUT + 1];
+T_DEF_KEY MemoDefKeys[MAX_KEY_INPUT + 1];
+T_DEF_KEY DefKeys[MAX_KEY_INPUT + 1];
 
 // tableau de configuration des touches utilisé au cours du jeux
-U32 TabInputBit[MAX_INPUT * 2 + 1];
+U32 TabInputBit[MAX_KEY_INPUT * 2 + 1];
 
 /*══════════════════════════════════════════════════════════════════════════*
 			██████┐ ██┐ ██┐ ██████┐ ██████┐
@@ -114,7 +114,7 @@ void InitInput(void)
 {
 	U32 mask;
 
-	for (NbInput = 0; NbInput < MAX_INPUT * 2;)
+	for (NbInput = 0; NbInput < MAX_KEY_INPUT * 2;)
 	{
 		mask = (1 << (NbInput / 2));
 
@@ -146,7 +146,7 @@ void RestoreInput()
 #define DEFKEYSDEFAULT DefKeysDefault
 #endif
 
-	memcpy(DefKeys, DEFKEYSDEFAULT, sizeof(T_DEF_KEY) * MAX_INPUT);
+	memcpy(DefKeys, DEFKEYSDEFAULT, sizeof(T_DEF_KEY) * MAX_KEY_INPUT);
 }
 
 //-------------------------------------------------------------------------
@@ -186,7 +186,7 @@ void ReadInputConfig(void)
 		// On peut identifier chaque input avec un tableau de chaine,
 		// mais bon, bof !!!
 
-		for (n = 0; n < MAX_INPUT; n++)
+		for (n = 0; n < MAX_KEY_INPUT; n++)
 		{
 			sprintf(id, "Input%d_1", n);
 			DefKeys[n].Key1 = DefFileBufferReadValueDefault(id, DEFKEYSDEFAULT[n].Key1);
@@ -221,7 +221,7 @@ void WriteInputConfig(void)
 	// On peut identifier chaque input avec un tableau de chaine,
 	// mais bon, bof !!!
 
-	for (n = 0; n < MAX_INPUT; n++)
+	for (n = 0; n < MAX_KEY_INPUT; n++)
 	{
 		sprintf(id, "Input%d_1", n);
 		DefFileBufferWriteValue(id, DefKeys[n].Key1);

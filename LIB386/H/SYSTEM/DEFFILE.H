@@ -37,7 +37,7 @@ extern "C"
 	S32 DefFileBufferReadValue2(const char *ident, S32 *result);
 
 	//****************************************************************************
-	S32 DefFileBufferWriteString(const char *ident, char *string);
+	S32 DefFileBufferWriteString(const char *ident, const char *string);
 
 //****************************************************************************
 #define DefFileBufferWriteValue(ident, value) \

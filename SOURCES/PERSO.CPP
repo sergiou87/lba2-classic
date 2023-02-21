@@ -2,8 +2,9 @@
 #include <SYSTEM.H>
 
 #include <dirent.h>
-#include <strings.h>
+#include <libgen.h>
 #include <stdlib.h>
+#include <strings.h>
 
 /*#ifndef DEMO
 #define THOMAS  1
@@ -556,10 +557,6 @@ restartloop:
         }
 
         /*-------------------------------------------------------------------------*/
-
-#ifndef _WIN32
-        CriticalErrorCount = 0; // Init Critical Error Count
-#endif
 
         LastInput = Input;
 
@@ -1904,7 +1901,7 @@ void WriteConfigFile(void)
 /*──────────────────────────────────────────────────────────────────────────*/
 
 static S32 End_Num = -1;
-static char *End_Error;
+static const char *End_Error;
 
 /*══════════════════════════════════════════════════════════════════════════*/
 
@@ -1916,7 +1913,7 @@ void ErrorHQRGet(char *name, S32 index)
 {
     char errstring[256];
 
-    sprintf(errstring, "HQR_Get(%s): buffer trop petit (index %d)", name, index);
+    sprintf(errstring, "HQR_Get(%s): buffer trop petit (index %ld)", name, index);
 
     TheEnd(NOT_ENOUGH_MEM, errstring);
 }
@@ -1998,21 +1995,9 @@ void DebugHQR(char *titre, T_HQR_HEADER *hqr)
 
 void V_ColorLine(U8 text, U8 back, U16 ncars)
 {
-#ifdef _WIN32
     text = text;
     back = back;
     ncars = ncars;
-#else
-    union REGS regs;
-
-    regs.h.ah = 0x09;
-    regs.h.bh = 0x00;
-    regs.w.cx = ncars;
-    regs.h.al = ' ';
-    regs.h.bl = (U8)((back << 4) | text);
-
-    int386(0x10, &regs, &regs);
-#endif
 }
 
 /*══════════════════════════════════════════════════════════════════════════*/
@@ -2136,62 +2121,23 @@ void Message(const char *mess, S32 flag)
 
 /*══════════════════════════════════════════════════════════════════════════*/
 
-#ifdef _WIN32
-
-void ChangeProgDir()
-{
-    unsigned nb;
-    char name[_MAX_PATH];
-
-    GetModuleFileName(NULL, name, _MAX_PATH);
-
-    for (nb = strlen(name); (name[nb] != '\\') && (name[nb] != '/'); nb--)
-        ;
-
-    name[nb + 1] = 0;
-
-    if (!SetCurrentDirectory(name))
-    {
-        switch (DistribVersion)
-        {
-        case UNKNOWN_VERSION:
-        case EA_VERSION:
-            TheEnd(ERROR_NOT_FOUND_FILE, "lba2");
-            break;
-
-        default:
-            TheEnd(ERROR_NOT_FOUND_FILE, "Twinsen");
-        }
-    }
-}
-#else
 void ChangeProgDir(char *path)
 {
-    unsigned nb;
-    char name[_MAX_PATH];
+    char name[PATH_MAX];
 
-    char drive[_MAX_DRIVE];
-    char dir[_MAX_DIR];
+    strncpy(name, path, PATH_MAX); // copy path to name
+    dirname(name);                 // get directory component of name
 
-    _splitpath(path, drive, dir, NULL, NULL);
-    _makepath(name, drive, dir, NULL, NULL);
-
-    if (name[strlen(name) - 1] == '\\')
+    if (chdir(name) != 0) // change current directory to name
     {
-        name[strlen(name) - 1] = '\0';
-    }
-
-    _dos_setdrive(toupper(name[0]) - 'A' + 1, &nb);
-
-    if (chdir(name) != 0)
         TheEnd(ERROR_NOT_FOUND_FILE, path);
+    }
 }
-#endif
 
 /*══════════════════════════════════════════════════════════════════════════*/
 /*══════════════════════════════════════════════════════════════════════════*/
 
-int main(S32 argc, char *argv[])
+int main(int argc, char *argv[])
 {
     S32 load = FALSE;
 
@@ -2237,10 +2183,6 @@ int main(S32 argc, char *argv[])
 
 #ifdef ONE_GAME_DIRECTORY
     CreateLbaDirectories();
-#endif
-
-#ifndef _WIN32
-    InstallCriticalErrorHandler();
 #endif
 
     //-------------------   buffer samples

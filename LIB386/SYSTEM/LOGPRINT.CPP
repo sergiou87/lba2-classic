@@ -1,80 +1,80 @@
 //----------------------------------------------------------------------------
-#include	<SYSTEM/adeline.h>
-#include	<SYSTEM/LOGPRINT.H>
+#include <SYSTEM/adeline.h>
+#include <SYSTEM/LOGPRINT.H>
 
-#include	<stdlib.h>
-#include	<stdarg.h>
-#include	<stdio.h>
-#include	<string.h>
-
-//----------------------------------------------------------------------------
-	U32	QuietLog = FALSE	;
-static	char	LogName[_MAX_PATH]=""	;
-static	char	LogStr[256]		;
+#include <stdlib.h>
+#include <stdarg.h>
+#include <stdio.h>
+#include <string.h>
 
 //----------------------------------------------------------------------------
-void	CreateLog(char *fname)
+U32 QuietLog = FALSE;
+static char LogName[_MAX_PATH] = "";
+static char LogStr[256];
+
+//----------------------------------------------------------------------------
+void CreateLog(char *fname)
 {
-	char 	drive[ _MAX_DRIVE ]	;
-	char 	dir[ _MAX_DIR ]		;
-	FILE	*logfile 		;
+	char drive[_MAX_DRIVE];
+	char dir[_MAX_DIR];
+	FILE *logfile;
 
-	_splitpath( fname, drive, dir, NULL, NULL )	;
+	_splitpath(fname, drive, dir, NULL, NULL);
 	_makepath(LogName, drive, dir, "ADELINE", "LOG");
 
-	logfile	= fopen(LogName, "wb")	;
-	if(!logfile)
+	logfile = fopen(LogName, "wb");
+	if (!logfile)
 	{
-		LogName[0] = 0		;
+		LogName[0] = 0;
 	}
 	else
 	{
-		fclose(logfile)		;
+		fclose(logfile);
 	}
 }
 
 //----------------------------------------------------------------------------
-void	LogPrintf(char *format, ...)
+void LogPrintf(const char *format, ...)
 {
-	char	*ptr	;
-	va_list	arglist	;
+	char *ptr;
+	va_list arglist;
 
 	va_start(arglist, format);
 
 	vsprintf(LogStr, format, arglist);
 
-	for(ptr=LogStr; *ptr; ptr++)
+	for (ptr = LogStr; *ptr; ptr++)
 	{
-		if(*ptr=='\n')
+		if (*ptr == '\n')
 		{
-			memmove(ptr+2, ptr+1, strlen(ptr))	;
-			*ptr++ = '\r'				;
-			*ptr   = '\n'				;
+			memmove(ptr + 2, ptr + 1, strlen(ptr));
+			*ptr++ = '\r';
+			*ptr = '\n';
 		}
 	}
 
 	va_end(arglist);
 
-	if(!QuietLog)
+	if (!QuietLog)
 	{
 		printf("%s", LogStr);
 	}
 
-	if(*LogName)
+	if (*LogName)
 	{
-		FILE	*logfile ;
+		FILE *logfile;
 
-		logfile	= fopen(LogName, "ab+");
-		if(logfile)
+		logfile = fopen(LogName, "ab+");
+		if (logfile)
 		{
 			fprintf(logfile, "%s", LogStr);
-			fclose(logfile)	;
+			fclose(logfile);
 		}
 	}
 }
 
 //----------------------------------------------------------------------------
-void	LogPuts(char *string)
+void LogPuts(const char *string)
 {
 	LogPrintf("%s\n", string);
 }

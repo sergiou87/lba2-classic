@@ -46,7 +46,7 @@ S32 SelectKey = 0;
 #define CFG_X0 10
 #define CFG_Y0 10
 #define CFG_X1 630
-#define CFG_Y1 (CFG_Y0 + MAX_INPUT * 10 + 35)
+#define CFG_Y1 (CFG_Y0 + MAX_KEY_INPUT * 10 + 35)
 
 #define ACTION_X (CFG_X0 + 20)
 #define KEY1_X (CFG_X0 + 371)
@@ -82,7 +82,7 @@ S32 SelectKey = 0;
 #define COUL_MENU (10 * 16 + 14)
 
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
-char KeyStrings[MAX_INPUT * 2][50]; // 14 char max
+char KeyStrings[MAX_KEY_INPUT * 2][50]; // 14 char max
 
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀
 U8 ScanKnown[] =
@@ -329,7 +329,7 @@ void InitKeyStrings(void)
 {
         S32 n;
 
-        for (n = 0; n < MAX_INPUT; n++)
+        for (n = 0; n < MAX_KEY_INPUT; n++)
         {
                 GetKeyText(KeyStrings[n * 2], DefKeys[n].Key1);
                 GetKeyText(KeyStrings[n * 2 + 1], DefKeys[n].Key2);
@@ -454,13 +454,13 @@ void DrawOneConfigMenu(S32 n)
         S32 x0, y0, x1, y1;
         S32 y;
 
-        if (n < MAX_INPUT)
+        if (n < MAX_KEY_INPUT)
         {
                 DrawOneConfig(n);
                 return;
         }
 
-        n -= MAX_INPUT;
+        n -= MAX_KEY_INPUT;
         y = CFG_MENU_Y0 + 7 + n * 10;
 
         GetMultiText(START_MENUS_TXT + CFG_TXT_DEFAUT + n, txt);
@@ -477,7 +477,7 @@ void DrawOneConfigMenu(S32 n)
                 ShadeBoxBlk(x0, y0, x1, y1, CONFIG_SHADE_LVL);
         }
 
-        if ((SelectConfig - MAX_INPUT) == n)
+        if ((SelectConfig - MAX_KEY_INPUT) == n)
         {
                 CoulText(COUL_KEY, -1);
                 BackupAngles(x0, y0, x1, y1);
@@ -578,12 +578,12 @@ void DrawScreenConfig(void)
 
         DrawStatusConfig(STATUS_MENU);
 
-        for (n = 0; n < MAX_INPUT; n++)
+        for (n = 0; n < MAX_KEY_INPUT; n++)
         {
                 DrawOneConfig(n);
         }
 
-        for (n = MAX_INPUT; n < MAX_INPUT + 3; n++)
+        for (n = MAX_KEY_INPUT; n < MAX_KEY_INPUT + 3; n++)
         {
                 DrawOneConfigMenu(n);
         }
@@ -596,7 +596,7 @@ S32 CheckKeyConfig(S32 key)
 {
         S32 n;
 
-        for (n = 0; n < MAX_INPUT; n++)
+        for (n = 0; n < MAX_KEY_INPUT; n++)
         {
                 if (DefKeys[n].Key1 == key OR DefKeys[n].Key2 == key)
                 {
@@ -640,7 +640,7 @@ void MenuConfig(void)
 
         oldselect = SelectConfig;
 
-        memcpy(MemoDefKeys, DefKeys, sizeof(T_DEF_KEY) * MAX_INPUT);
+        memcpy(MemoDefKeys, DefKeys, sizeof(T_DEF_KEY) * MAX_KEY_INPUT);
 
         MyKey = 0;
         ManageTime();
@@ -870,17 +870,17 @@ void MenuConfig(void)
                 {
                         SelectConfig--;
                         if (SelectConfig < 0)
-                                SelectConfig = MAX_INPUT - 1 + 3;
+                                SelectConfig = MAX_KEY_INPUT - 1 + 3;
                 }
                 else if (MyKey == K_DOWN)
                 {
                         SelectConfig++;
-                        if (SelectConfig >= (MAX_INPUT + 3))
+                        if (SelectConfig >= (MAX_KEY_INPUT + 3))
                                 SelectConfig = 0;
                 }
                 else if (MyKey == K_ENTER)
                 {
-                        if (SelectConfig < MAX_INPUT)
+                        if (SelectConfig < MAX_KEY_INPUT)
                         {
                                 S32 memokey;
                                 U32 *ptr;
@@ -955,17 +955,17 @@ void MenuConfig(void)
                         }
                         else
                         {
-                                switch ((SelectConfig - MAX_INPUT))
+                                switch ((SelectConfig - MAX_KEY_INPUT))
                                 {
                                 case 0: // Configuration par Défaut
-                                        memcpy(MemoDefKeys, DefKeys, sizeof(T_DEF_KEY) * MAX_INPUT);
+                                        memcpy(MemoDefKeys, DefKeys, sizeof(T_DEF_KEY) * MAX_KEY_INPUT);
                                         RestoreInput();
                                         InitKeyStrings();
                                         DrawScreenConfig();
                                         break;
 
                                 case 1: // Restaurer Configuration Précédente
-                                        memcpy(DefKeys, MemoDefKeys, sizeof(T_DEF_KEY) * MAX_INPUT);
+                                        memcpy(DefKeys, MemoDefKeys, sizeof(T_DEF_KEY) * MAX_KEY_INPUT);
                                         InitKeyStrings();
                                         DrawScreenConfig();
                                         break;
@@ -988,8 +988,8 @@ void MenuConfig(void)
 
                 case K_PAGE_DOWN:
                         SelectConfig += 10;
-                        if (SelectConfig >= (MAX_INPUT + 3))
-                                SelectConfig = MAX_INPUT - 1 + 3;
+                        if (SelectConfig >= (MAX_KEY_INPUT + 3))
+                                SelectConfig = MAX_KEY_INPUT - 1 + 3;
                         break;
 
                 case K_HOME:
@@ -997,13 +997,13 @@ void MenuConfig(void)
                         break;
 
                 case K_END:
-                        SelectConfig = MAX_INPUT - 1 + 3;
+                        SelectConfig = MAX_KEY_INPUT - 1 + 3;
                         break;
 
                 case K_ESC:
-                        if (SelectConfig != MAX_INPUT + 2)
+                        if (SelectConfig != MAX_KEY_INPUT + 2)
                         {
-                                SelectConfig = MAX_INPUT + 2; // Menu Accepter Configuration
+                                SelectConfig = MAX_KEY_INPUT + 2; // Menu Accepter Configuration
                         }
                         else
                         {
@@ -1018,7 +1018,7 @@ void MenuConfig(void)
                         oldselect = SelectConfig;
                 }
 
-                if (SelectConfig < MAX_INPUT)
+                if (SelectConfig < MAX_KEY_INPUT)
                 {
                         if (MyKey == K_LEFT OR MyKey == K_RIGHT)
                         {
@@ -1040,7 +1040,7 @@ endloop:
         if (!ok) // Sortie par <ESC>
         {
                 // restaure config
-                memcpy(DefKeys, MemoDefKeys, sizeof(T_DEF_KEY) * MAX_INPUT);
+                memcpy(DefKeys, MemoDefKeys, sizeof(T_DEF_KEY) * MAX_KEY_INPUT);
                 InitKeyStrings();
         }
 

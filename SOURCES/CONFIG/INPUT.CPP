@@ -8,9 +8,9 @@ U32 WaitNoClick = 0;
 #endif
 
 U32 LastInput = 0;
-U32 NbInput = MAX_INPUT;
+U32 NbInput = MAX_KEY_INPUT;
 
-T_DEF_KEY DefKeysDefault[MAX_INPUT + 1] =
+T_DEF_KEY DefKeysDefault[MAX_KEY_INPUT + 1] =
 		{
 				{K_UP, 0},					 // I_UP
 				{K_DOWN, 0},				 // I_DOWN
@@ -50,10 +50,10 @@ T_DEF_KEY DefKeysDefault[MAX_INPUT + 1] =
 				{K_F, 0},						 // I_FOUDRE
 };
 
-T_DEF_KEY DefKeys[MAX_INPUT + 1];
+T_DEF_KEY DefKeys[MAX_KEY_INPUT + 1];
 
 // tableau de configuration des touches utilisé au cours du jeux
-U32 TabInputBit[MAX_INPUT + 1];
+U32 TabInputBit[MAX_KEY_INPUT + 1];
 
 /*══════════════════════════════════════════════════════════════════════════*
 			██████┐ ██┐ ██┐ ██████┐ ██████┐
@@ -71,7 +71,7 @@ void InitInput(void)
 	U32 shift = 0;
 	U32 shiftbit = 0;
 
-	for (NbInput = 0; NbInput < MAX_INPUT;)
+	for (NbInput = 0; NbInput < MAX_KEY_INPUT;)
 	{
 		key = DefKeys[NbInput].Key1;
 
@@ -133,7 +133,7 @@ void ReadInputConfig(void)
 #endif // _WIN32
 	{
 		// reinit des input par défaut
-		for (n = 0; n < MAX_INPUT; n++)
+		for (n = 0; n < MAX_KEY_INPUT; n++)
 		{
 			DefKeys[n].Key1 = DefKeysDefault[n].Key1;
 			DefKeys[n].Key2 = DefKeysDefault[n].Key2;
@@ -144,7 +144,7 @@ void ReadInputConfig(void)
 		// On peut identifier chaque input avec un tableau de chaine,
 		// mais bon, bof !!!
 
-		for (n = 0; n < MAX_INPUT; n++)
+		for (n = 0; n < MAX_KEY_INPUT; n++)
 		{
 			sprintf(id, "Input%d_1", n);
 			DefKeys[n].Key1 = DefFileBufferReadValueDefault(id, DefKeysDefault[n].Key1);
@@ -181,7 +181,7 @@ void WriteInputConfig(void)
 	// On peut identifier chaque input avec un tableau de chaine,
 	// mais bon, bof !!!
 
-	for (n = 0; n < MAX_INPUT; n++)
+	for (n = 0; n < MAX_KEY_INPUT; n++)
 	{
 		sprintf(id, "Input%d_1", n);
 		DefFileBufferWriteValue(id, DefKeys[n].Key1);

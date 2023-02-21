@@ -22,10 +22,10 @@ extern "C"
   extern void CreateLog(char *name);
 
   //----------------------------------------------------------------------------
-  extern void LogPrintf(char *format, ...);
+  extern void LogPrintf(const char *format, ...);
 
   //----------------------------------------------------------------------------
-  extern void LogPuts(char *string);
+  extern void LogPuts(const char *string);
 
 //--------------------------------------------------------------------------//
 #ifdef __cplusplus

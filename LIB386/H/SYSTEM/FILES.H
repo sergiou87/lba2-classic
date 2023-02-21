@@ -8,6 +8,7 @@
 #include <sys/stat.h>
 #include <utime.h>
 #include <fcntl.h>
+#include <unistd.h>
 
 //--------------------------------------------------------------------------//
 #ifdef __cplusplus
@@ -16,60 +17,21 @@ extern "C"
 #endif
 
 //--------------------------------------------------------------------------//
-#ifdef _WIN32
-
-	//--------------------------------------------------------------------------//
-	enum
-	{
-		MODE_READ,
-		MODE_WRITE,
-		MODE_READWRITE
-	};
-
-//--------------------------------------------------------------------------//
-#define SEEK_START FILE_BEGIN
-#define SEEK_CURRENT FILE_CURRRENT
-#ifdef SEEK_END
-#undef SEEK_END
-#endif // SEEK_END
-#define SEEK_END FILE_END
-
-	//--------------------------------------------------------------------------//
-	extern S32 OpenMode(char *name, int mode);
-
-	//--------------------------------------------------------------------------//
-	extern U32 Read(S32 handle, void *buffer, U32 lenread);
-
-	//--------------------------------------------------------------------------//
-	extern U32 Write(S32 handle, void *buffer, U32 lenwrite);
-
-	//--------------------------------------------------------------------------//
-	extern void Touch(char *name);
-
-//--------------------------------------------------------------------------//
-#define Close(handle) CloseHandle((HANDLE)(handle))
-#define Seek(handle, position, mode) SetFilePointer((HANDLE)(handle), position, NULL, mode)
-#define Delete(name) DeleteFile(name)
-
-//--------------------------------------------------------------------------//
-#else // _WIN32
-
-//--------------------------------------------------------------------------//
-#define MODE_READ (O_RDONLY | O_BINARY)
-#define MODE_WRITE (O_WRONLY | O_BINARY | O_CREAT | O_TRUNC)
-#define MODE_READWRITE (O_RDWR | O_BINARY | O_CREAT)
+#define MODE_READ (O_RDONLY)
+#define MODE_WRITE (O_WRONLY | O_CREAT | O_TRUNC)
+#define MODE_READWRITE (O_RDWR | O_CREAT)
 
 //--------------------------------------------------------------------------//
 #define SEEK_START SEEK_SET
 #define SEEK_CURRENT SEEK_CUR
 
-//--------------------------------------------------------------------------//
-extern S32 OpenMode(char *name, int mode);
+	//--------------------------------------------------------------------------//
+	extern S32 OpenMode(char *name, int mode);
 
-//--------------------------------------------------------------------------//
-// #define Delete	!remove
+	//--------------------------------------------------------------------------//
+	// #define Delete	!remove
 
-extern U32 Delete(char *name);
+	extern U32 Delete(char *name);
 
 #ifdef __SW_3R
 #pragma aux Delete = \
@@ -97,7 +59,6 @@ extern U32 Delete(char *name);
 #define Touch(filename) utime(filename, NULL)
 
 //--------------------------------------------------------------------------//
-#endif //_WIN32
 
 //--------------------------------------------------------------------------//
 #define OpenRead(name) OpenMode(name, MODE_READ)
@@ -105,7 +66,7 @@ extern U32 Delete(char *name);
 #define OpenReadWrite(name) OpenMode(name, MODE_READWRITE)
 
 	//--------------------------------------------------------------------------//
-	extern U32 FileSize(char *name);
+	extern U32 FileSize(const char *name);
 
 //--------------------------------------------------------------------------//
 #ifdef __cplusplus

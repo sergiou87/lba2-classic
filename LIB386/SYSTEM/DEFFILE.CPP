@@ -231,7 +231,7 @@ S32 DefFileBufferReadValue(const char *ident)
 }
 
 // ══════════════════════════════════════════════════════════════════════════
-S32 DefFileBufferWriteString(const char *ident, char *string)
+S32 DefFileBufferWriteString(const char *ident, const char *string)
 {
 	char crlf[2] = {13, 10};
 	S32 handle;

@@ -11,118 +11,123 @@
 #include <string.h>
 
 //----------------------------------------------------------------------------
-#define	MAX_ARGC	30
-#define	MAX_EXTRA_CMD	256
+#define MAX_ARGC 30
+#define MAX_EXTRA_CMD 256
 
 //----------------------------------------------------------------------------
-	S32	ArgC			;
-	char	*ArgV[MAX_ARGC+1]	;
-static	char	ExtraCmd[MAX_EXTRA_CMD]	;
-static	char	Stop = ' '		;
+S32 ArgC;
+char *ArgV[MAX_ARGC + 1];
+static char ExtraCmd[MAX_EXTRA_CMD];
+static char Stop = ' ';
 
 //----------------------------------------------------------------------------
 static inline char *GetNextStart(char *ptr)
 {
-	while(*ptr==' ')	ptr++	;
+	while (*ptr == ' ')
+		ptr++;
 
-	if(*ptr=='"')
+	if (*ptr == '"')
 	{
-		Stop = '"'	;
-		ptr++		;
-		while(*ptr==' ')	ptr++	;
+		Stop = '"';
+		ptr++;
+		while (*ptr == ' ')
+			ptr++;
 	}
 	else
 	{
-		Stop = ' '	;
+		Stop = ' ';
 	}
 
-	return 	ptr	;
+	return ptr;
 }
 
 //----------------------------------------------------------------------------
 static inline char *GetNextEnd(char *ptr)
 {
-	while(*ptr&&*ptr!=Stop)	ptr++	;
+	while (*ptr && *ptr != Stop)
+		ptr++;
 
-	if(*ptr=='"')
+	if (*ptr == '"')
 	{
-		*ptr = ' '	;
-		while(*--ptr==' ');
+		*ptr = ' ';
+		while (*--ptr == ' ')
+			;
 
-		ptr++	;
+		ptr++;
 	}
 
-	return	ptr	;
+	return ptr;
 }
 
 //----------------------------------------------------------------------------
-void	RemoveParam(S32	param)
+void RemoveParam(S32 param)
 {
-	if(param>=ArgC)	return	;
+	if (param >= ArgC)
+		return;
 
-	for(; param<ArgC; param++)
+	for (; param < ArgC; param++)
 	{
-		ArgV[param] = ArgV[param+1]	;
+		ArgV[param] = ArgV[param + 1];
 	}
 
-	ArgC--	;
+	ArgC--;
 }
 
 //----------------------------------------------------------------------------
-S32	FindAndRemoveParam(char *str)
+S32 FindAndRemoveParam(const char *str)
 {
-	S32 i, res ;
+	S32 i, res;
 
-	res = FALSE ;
+	res = FALSE;
 
 restart:
-	for(i=1; i<ArgC; i++)
+	for (i = 1; i < ArgC; i++)
 	{
-		if(!stricmp(ArgV[i], str))
+		if (!stricmp(ArgV[i], str))
 		{
-			res = TRUE	;
-			RemoveParam(i)	;
-			goto restart	;
+			res = TRUE;
+			RemoveParam(i);
+			goto restart;
 		}
 	}
 
-	return res ;
+	return res;
 }
 
 //----------------------------------------------------------------------------
 static char *GetNextParam(char **param)
 {
-	char	*ptr, *end ;
+	char *ptr, *end;
 
-	ptr	= GetNextStart(*param);
-	if(!*ptr)
+	ptr = GetNextStart(*param);
+	if (!*ptr)
 	{
-		return	NULL	;
+		return NULL;
 	}
 
-	end	= GetNextEnd(ptr);
-	if(*end)
+	end = GetNextEnd(ptr);
+	if (*end)
 	{
-		*end	= 0	;
-		end++		;
+		*end = 0;
+		end++;
 	}
 
-	*param	= end		;
+	*param = end;
 
-	return	ptr	 ;
+	return ptr;
 }
 
 //----------------------------------------------------------------------------
 static void ParseString(char *str)
 {
-	while(ArgC<MAX_ARGC)
+	while (ArgC < MAX_ARGC)
 	{
-		char	*tmp	;
+		char *tmp;
 
 		tmp = GetNextParam(&str);
-		if(!tmp)
+		if (!tmp)
 		{
-			break	;
+			break;
 		}
 
 		ArgV[ArgC++] = tmp;
@@ -130,57 +135,57 @@ static void ParseString(char *str)
 }
 
 //----------------------------------------------------------------------------
-#ifdef	_WIN32
+#ifdef _WIN32
 
 //----------------------------------------------------------------------------
-void	GetCmdLineWin(char *cmdline)
+void GetCmdLineWin(char *cmdline)
 {
-	static	char modulefilename[_MAX_PATH] ;
-	char	*ptr	;
+	static char modulefilename[_MAX_PATH];
+	char *ptr;
 
-	GetModuleFileName(NULL, modulefilename, _MAX_PATH)	;
-	ArgV[0] = modulefilename	;
-	ArgC = 1			;
+	GetModuleFileName(NULL, modulefilename, _MAX_PATH);
+	ArgV[0] = modulefilename;
+	ArgC = 1;
 
 	// Get "CmdLine"
-	ptr = DefFileBufferReadString( "CmdLine") ;
+	ptr = DefFileBufferReadString("CmdLine");
 
 	// process it
-	if(ptr)
+	if (ptr)
 	{
-		strncpy(ExtraCmd, ptr, MAX_EXTRA_CMD-2);
-		ParseString(ExtraCmd)	;
+		strncpy(ExtraCmd, ptr, MAX_EXTRA_CMD - 2);
+		ParseString(ExtraCmd);
 	}
 
 	// process cmdline
-	strncpy(ExtraCmd, cmdline, MAX_EXTRA_CMD-2)	;
-	ParseString(ExtraCmd)	;
+	strncpy(ExtraCmd, cmdline, MAX_EXTRA_CMD - 2);
+	ParseString(ExtraCmd);
 }
 
 //----------------------------------------------------------------------------
-#endif//_WIN32
+#endif //_WIN32
 
 //----------------------------------------------------------------------------
-void	GetCmdLine(S32 argc, char *argv[])
+void GetCmdLine(S32 argc, char *argv[])
 {
-	char	*ptr		;
+	char *ptr;
 
-	ArgV[0] = argv[0]	;
+	ArgV[0] = argv[0];
 
-	ArgC = 1		;
+	ArgC = 1;
 
-	ptr = DefFileBufferReadString( "CmdLine") ;
+	ptr = DefFileBufferReadString("CmdLine");
 
-	if(ptr)
+	if (ptr)
 	{
-		strncpy(ExtraCmd, ptr, MAX_EXTRA_CMD-2)	;
-		ParseString(ExtraCmd)	;
+		strncpy(ExtraCmd, ptr, MAX_EXTRA_CMD - 2);
+		ParseString(ExtraCmd);
 	}
 
-	argc = __min(argc-1, MAX_ARGC-ArgC)	;
+	argc = __min(argc - 1, MAX_ARGC - ArgC);
 
-	memcpy(&ArgV[ArgC], &argv[1], argc*sizeof(char *));
+	memcpy(&ArgV[ArgC], &argv[1], argc * sizeof(char *));
 
-	ArgC += argc	;
+	ArgC += argc;
 }
 //----------------------------------------------------------------------------
