@@ -1,14 +1,15 @@
 //----------------------------------------------------------------------------
-#include <SYSTEM/adeline.h>
-#include <SYSTEM/a_malloc.h>
-#include <SYSTEM/exit.h>
-#include <SYSTEM/files.h>
-#include <SYSTEM/deffile.h>
-#include <SYSTEM/cmdline.h>
+#include <SYSTEM/ADELINE.H>
+#include <SYSTEM/A_MALLOC.H>
+#include <SYSTEM/EXIT.H>
+#include <SYSTEM/FILES.H>
+#include <SYSTEM/DEFFILE.H>
+#include <SYSTEM/CMDLINE.H>
 
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
+#include <algorithm>
 
 //----------------------------------------------------------------------------
 #define MAX_ARGC 30
@@ -83,7 +84,7 @@ S32 FindAndRemoveParam(const char *str)
 restart:
 	for (i = 1; i < ArgC; i++)
 	{
-		if (!stricmp(ArgV[i], str))
+		if (!strcasecmp(ArgV[i], str))
 		{
 			res = TRUE;
 			RemoveParam(i);
@@ -182,7 +183,7 @@ void GetCmdLine(S32 argc, char *argv[])
 		ParseString(ExtraCmd);
 	}
 
-	argc = __min(argc - 1, MAX_ARGC - ArgC);
+	argc = std::min(argc - 1, MAX_ARGC - ArgC);
 
 	memcpy(&ArgV[ArgC], &argv[1], argc * sizeof(char *));
 
