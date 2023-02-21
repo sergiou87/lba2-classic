@@ -1,5 +1,7 @@
 #include "C_EXTERN.H"
 
+#include <dirent.h>
+
 /*#ifndef DEMO
 #define THOMAS  1
 #endif
@@ -69,20 +71,29 @@ void AffDebugMenu()
 // Pour eviter d'ecraser les anciennes copies d'ecran !!!!
 void GetNumPcxSave()
 {
-        struct find_t find;
-        S32 done;
-        S32 num;
+        // Count how many files with the pattern LBA*.PCX exist in the
+        // directory PATH_PCX_SAVE and store that count in NumPcxSave.
+        NumPcxSave = 0;
 
-        done = _dos_findfirst(PATH_PCX_SAVE "LBA*.PCX", _A_NORMAL, &find);
-
-        while (!done)
+        DIR *d = opendir(PATH_PCX_SAVE);
+        if (d == NULL)
         {
-                num = atoi(&find.name[3]);
-                if (num >= NumPcxSave)
-                        NumPcxSave = num + 1;
-
-                done = _dos_findnext(&find);
+                return;
         }
+
+        struct dirent *de;
+        while ((de = readdir(d)) != NULL)
+        {
+                if (strncmp(de->d_name, "LBA", 3) == 0 && strlen(de->d_name) >= 3 + 4 // at least "LBA" + ".PCX"
+                    && strcmp(&de->d_name[strlen(de->d_name) - 4], ".PCX") == 0)
+                {
+                        S32 num = atoi(&de->d_name[3]);
+                        if (num >= NumPcxSave)
+                                NumPcxSave = num + 1;
+                }
+        }
+
+        closedir(d);
 }
 
 void CheckSavePcx()
