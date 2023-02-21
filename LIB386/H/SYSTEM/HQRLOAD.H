@@ -13,7 +13,7 @@ extern "C"
 
   // ──────────────────────────────────────────────────────────────────────────
   //  charge une fiche à l'adresse voulue depuis une ressource
-  extern U32 Load_HQR(char *name, void *ptr, S32 index);
+  extern U32 Load_HQR(const char *name, void *ptr, S32 index);
 
 // ──────────────────────────────────────────────────────────────────────────
 #ifdef __cplusplus

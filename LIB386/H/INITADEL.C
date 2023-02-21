@@ -1,271 +1,231 @@
-//··········································································
-#ifndef	LIB_SYSTEM
+// ··········································································
+#ifndef LIB_SYSTEM
 
 #error ADELINE: you need to include SYSTEM.H
 
 #endif
 
-//··········································································
-#ifdef	DEBUG_MALLOC
+// ··········································································
+#ifdef DEBUG_MALLOC
 
-	atexit(SafeErrorMallocMsg)	;
+atexit(SafeErrorMallocMsg);
 
 #endif
 
-//··········································································
-#ifndef	inits
+// ··········································································
+#ifndef inits
 
 #error ADELINE: you need to define inits before including INITADEL.C
 
 #endif
 
-//··········································································
-#ifndef	lname
+// ··········································································
+#ifndef lname
 
 #error ADELINE: you need to define lname before including INITADEL.C
 
 #endif
 
-//··········································································
-#ifndef	_STDLIB_H_INCLUDED
+// ··········································································
+#ifndef RESOLUTION_X
 
-#error ADELINE: you need to include STDLIB.H
-
-#endif
-
-//··········································································
-#ifndef	_STDIO_H_INCLUDED
-
-#error ADELINE: you need to include STDIO.H
+#define RESOLUTION_X 640
 
 #endif
 
-//··········································································
-#ifndef	_STRING_H_INCLUDED
+// ··········································································
+#ifndef RESOLUTION_Y
 
-#error ADELINE: you need to include STRING.H
-
-#endif
-
-//··········································································
-#ifndef	_DOS_H_INCLUDED
-
-#error ADELINE: you need to include DOS.H
+#define RESOLUTION_Y 480
 
 #endif
 
-//··········································································
-#ifndef	_DIRECT_H_INCLUDED
+// ··········································································
+#ifndef RESOLUTION_DEPTH
 
-#error ADELINE: you need to include DIRECT.H
-
-#endif
-
-//··········································································
-#ifndef	_CTYPE_H_INCLUDED
-
-#error ADELINE: you need to include CTYPE.H
+#define RESOLUTION_DEPTH 8
 
 #endif
 
-//··········································································
-#ifndef	RESOLUTION_X
-
-#define	RESOLUTION_X		640
-
-#endif
-
-//··········································································
-#ifndef	RESOLUTION_Y
-
-#define	RESOLUTION_Y		480
-
-#endif
-
-//··········································································
-#ifndef	RESOLUTION_DEPTH
-
-#define	RESOLUTION_DEPTH	8
-
-#endif
-
-//··········································································
-#if	(RESOLUTION_X&7)
+// ··········································································
+#if (RESOLUTION_X & 7)
 
 #error ADELINE: horizontal resolution must be a multiple of 8
 
 #endif
 
-//··········································································
+// ··········································································
 {
 
-//··········································································
-        char    *Adeline="ADELINE" 	;
-        char    *name=lname	 	;
-	char	*defname		;
-	char	old_path[_MAX_PATH]=""	;
-	char	old_path2[_MAX_PATH]=""	;
+	// ··········································································
+	const char *Adeline = "ADELINE";
+	const char *name = lname;
+	char *defname;
+	char old_path[_MAX_PATH] = "";
+	char old_path2[_MAX_PATH] = "";
 
-//··········································································
-#if	defined(_WIN32)&&!defined(_ARG)
+// ··········································································
+#if defined(_WIN32) && !defined(_ARG)
 
-//··········································································
-#ifndef	APPNAME
-#define	APPNAME	"DefaultName"
-#endif//APPNAME
+// ··········································································
+#ifndef APPNAME
+#define APPNAME "DefaultName"
+#endif // APPNAME
 
-	InitWindow(hInstance, nCmdShow, APPNAME)	;
+	InitWindow(hInstance, nCmdShow, APPNAME);
 
-//··········································································
-#endif//defined(_WIN32)&&!defined(_ARG)
+// ··········································································
+#endif // defined(_WIN32)&&!defined(_ARG)
 
-//··········································································
-// Quiet Log
-#if	((inits) & INIT_QUIET)
-	QuietLog = TRUE			;
+// ··········································································
+//  Quiet Log
+#if ((inits)&INIT_QUIET)
+	QuietLog = TRUE;
 #endif
+	// TODO: I have no idea what this code below does
+	/*
+	// ··········································································
+	getcwd(old_path, _MAX_PATH);
 
-//··········································································
-	getcwd(old_path, _MAX_PATH)	;
+	PathConfigFile[0] = 0;
 
-	PathConfigFile[0] = 0		;
-
-        defname = getenv(Adeline) 	;
-        if(defname)
+	defname = getenv(Adeline);
+	if (defname)
 	{
-		char 	drive[ _MAX_DRIVE ]	;
-		char 	dir[ _MAX_DIR ]		;
-		unsigned int	n		;
+		char drive[_MAX_DRIVE];
+		char dir[_MAX_DIR];
+		unsigned int n;
 
-		if(FileSize(defname))
+		if (FileSize(defname))
 		{
-			_splitpath( defname, drive, dir, NULL, NULL );
+			_splitpath(defname, drive, dir, NULL, NULL);
 		}
 		else
 		{
 			// env var contain only directory name with no file specified
-			strcpy(PathConfigFile, defname)	;
+			strcpy(PathConfigFile, defname);
 			strcat(PathConfigFile, "\\dummy.tmp");
-			_splitpath(PathConfigFile, drive, dir, NULL, NULL );
+			_splitpath(PathConfigFile, drive, dir, NULL, NULL);
 		}
 		_makepath(PathConfigFile, drive, dir, "", "");
-		if(name)
+		if (name)
 		{
-			strcat(PathConfigFile, name)	;
+			strcat(PathConfigFile, name);
 		}
-		_dos_setdrive(toupper(drive[0])-'A'+1, &n);
-		n = strlen(dir)-1		;
-		while((dir[n]=='\\')||(dir[n]=='/'))
+		_dos_setdrive(toupper(drive[0]) - 'A' + 1, &n);
+		n = strlen(dir) - 1;
+		while ((dir[n] == '\\') || (dir[n] == '/'))
 		{
-			dir[n] = 0		;
-			n--			;
+			dir[n] = 0;
+			n--;
 		}
-		getcwd(old_path2, _MAX_PATH)	;
-		chdir(dir)			;
+		getcwd(old_path2, _MAX_PATH);
+		chdir(dir);
 	}
 	else
 	{
 		strcpy(PathConfigFile, old_path);
-		strcat(PathConfigFile, "\\")	;
-		if(name)
+		strcat(PathConfigFile, "\\");
+		if (name)
 		{
 			strcat(PathConfigFile, name);
 		}
 
-		chdir("Drivers")		;
+		chdir("Drivers");
 	}
+	*/
 
-//··········································································
-// LOG
-#if	((inits) & INIT_LOG)
-		CreateLog(PathConfigFile)	;
+// ··········································································
+//  LOG
+#if ((inits)&INIT_LOG)
+	CreateLog(PathConfigFile);
 #endif
 
-//··········································································
-// Config File
-	if(name&&!FileSize(PathConfigFile))
+	// ··········································································
+	//  Config File
+	if (name && !FileSize(PathConfigFile))
 	{
 		LogPrintf("Error: Can't find config file %s\n\n", PathConfigFile);
 		exit(1);
 	}
 
-//··········································································
-// CMDLINE
+	// ··········································································
+	//  CMDLINE
 
-#if	defined(_WIN32)&&!defined(_ARG)
+#if defined(_WIN32) && !defined(_ARG)
 	GetCmdLineWin(lpCmdLine);
-#else//	defined(_WIN32)&&!defined(_ARG)
-	GetCmdLine(argc, argv)	;
-#endif//defined(_WIN32)&&!defined(_ARG)
+#else	 //	defined(_WIN32)&&!defined(_ARG)
+	GetCmdLine(argc, argv);
+#endif // defined(_WIN32)&&!defined(_ARG)
 
-//··········································································
-// OS
+	// ··········································································
+	//  OS
 	LogPuts("\nIdentifying Operating System. Please wait...\n");
 
-	if(!FindAndRemoveParam("/OSNodetect"))
+	if (!FindAndRemoveParam("/OSNodetect"))
 	{
-		DetectOS()		;
+		DetectOS();
 	}
 
-	DisplayOS()			;
+	DisplayOS();
 
-	if(ParamsOS())
+	if (ParamsOS())
 	{
 		LogPuts("\nSome command Line Parameters override OS detection.\nNew OS parameters:\n");
 
-		DisplayOS()		;
+		DisplayOS();
 	}
 
-//··········································································
-// CPU
+	// ··········································································
+	//  CPU
 	LogPuts("\nIdentifying CPU. Please wait...\n");
 
-	if(!FindAndRemoveParam("/CPUNodetect"))
+	if (!FindAndRemoveParam("/CPUNodetect"))
 	{
 		ProcessorIdentification();
 	}
 
-	DisplayCPU()			;
+	DisplayCPU();
 
-	if(ParamsCPU())
+	if (ParamsCPU())
 	{
 		LogPuts("\nSome command Line Parameters override CPU detection.\nNew CPU parameters:\n");
 
-		DisplayCPU()		;
+		DisplayCPU();
 	}
 
-//··········································································
-// CmdLine Parser
-#ifdef	paramparser
+// ··········································································
+//  CmdLine Parser
+#ifdef paramparser
 
 	{
-		char	cur_path[_MAX_PATH]	;
+		char cur_path[_MAX_PATH];
 
-		getcwd(cur_path, _MAX_PATH)	;
-		if(defname)
+		getcwd(cur_path, _MAX_PATH);
+		if (defname)
 		{
 			chdir(old_path2);
 		}
-		ChDiskDir(old_path)	;
+		ChDiskDir(old_path);
 
-	        paramparser()  		;
+		paramparser();
 
-		ChDiskDir(cur_path)	;
+		ChDiskDir(cur_path);
 	}
 
 #endif
 
-//··········································································
-// AIL API init (for vmm_lock/timer)
+	// ··········································································
+	//  AIL API init (for vmm_lock/timer)
 
-	InitAIL() ;
+	InitAIL();
 
-//··········································································
-// svga
+// ··········································································
+//  svga
 #ifdef _WIN32
-#if   ((inits) & (INIT_SVGA|INIT_VESA))
+#if ((inits) & (INIT_SVGA | INIT_VESA))
 
-#ifndef	LIB_SVGA
+#ifndef LIB_SVGA
 
 #error ADELINE: you need to include SVGA.H
 
@@ -273,25 +233,25 @@
 
 	LogPuts("\nInitialising SVGA device. Please wait...\n");
 
-	if(ParamsSvga())
+	if (ParamsSvga())
 	{
 		LogPuts("\nSome command Line Parameters override SVGA detection.\n");
 	}
 
-        if(InitGraphSvga(RESOLUTION_X, RESOLUTION_Y, RESOLUTION_DEPTH))
-        {
-        	exit(1)	;
-        }
+	if (InitGraphSvga(RESOLUTION_X, RESOLUTION_Y, RESOLUTION_DEPTH))
+	{
+		exit(1);
+	}
 
 #endif
 #endif
 
-//··········································································
-// Midi device
+	// ··········································································
+	//  Midi device
 
-#if ((inits) & INIT_MIDI)
+#if ((inits)&INIT_MIDI)
 
-#ifndef	LIB_AIL
+#ifndef LIB_AIL
 
 #error ADELINE: you need to include AIL.H
 
@@ -299,16 +259,17 @@
 
 	LogPuts("\nInitialising Midi device. Please wait...\n");
 
-	if( !InitMidiDriver(NULL) )		exit( 1 ) ;
+	if (!InitMidiDriver(NULL))
+		exit(1);
 
 #endif
 
-//··········································································
-// Sample device
+		// ··········································································
+		//  Sample device
 
-#if ((inits) & INIT_SAMPLE)
+#if ((inits)&INIT_SAMPLE)
 
-#ifndef	LIB_AIL
+#ifndef LIB_AIL
 
 #error ADELINE: you need to include AIL.H
 
@@ -316,16 +277,17 @@
 
 	LogPuts("\nInitialising Sample device. Please wait...\n");
 
-	if( !InitSampleDriver(NULL) )		exit( 1 ) ;
+	if (!InitSampleDriver(NULL))
+		exit(1);
 
 #endif
 
-//··········································································
-// Smacker
+		// ··········································································
+		//  Smacker
 
-#if ((inits) & INIT_SMACKER)
+#if ((inits)&INIT_SMACKER)
 
-#ifndef	LIB_SMACKER
+#ifndef LIB_SMACKER
 
 #error ADELINE: you need to include SMACKER.H
 
@@ -333,24 +295,24 @@
 
 	LogPuts("\nInitialising Smacker. Please wait...\n");
 
-	InitSmacker()	;
+	InitSmacker();
 
 #endif
 
-//··········································································
-// keyboard
-#if   ((inits) & INIT_KEYB)
+// ··········································································
+//  keyboard
+#if ((inits)&INIT_KEYB)
 
-        InitKeyboard()  ;
+	InitKeyboard();
 
 #endif
 
-//··········································································
-// svga
+// ··········································································
+//  svga
 #ifndef _WIN32
-#if   ((inits) & (INIT_SVGA|INIT_VESA))
+#if ((inits) & (INIT_SVGA | INIT_VESA))
 
-#ifndef	LIB_SVGA
+#ifndef LIB_SVGA
 
 #error ADELINE: you need to include SVGA.H
 
@@ -358,80 +320,80 @@
 
 	LogPuts("\nInitialising SVGA device. Please wait...\n");
 
-	if(ParamsSvga())
+	if (ParamsSvga())
 	{
 		LogPuts("\nSome command Line Parameters override SVGA detection.\n");
 	}
 
-        if(InitGraphSvga(RESOLUTION_X, RESOLUTION_Y, RESOLUTION_DEPTH))
-        {
-        	exit(1)	;
-        }
+	if (InitGraphSvga(RESOLUTION_X, RESOLUTION_Y, RESOLUTION_DEPTH))
+	{
+		exit(1);
+	}
 
 #endif
 #endif
 
-//··········································································
-// mouse
-#if   ((inits) & INIT_MOUSE)
+// ··········································································
+//  mouse
+#if ((inits)&INIT_MOUSE)
 
-        InitMouse()	;
+	InitMouse();
 #endif
 
-//··········································································
-// init Timer
+	// ··········································································
+	//  init Timer
 
-#if   ((inits) & INIT_TIMER)
+#if ((inits)&INIT_TIMER)
 
-#ifdef	_WIN32
+#ifdef _WIN32
 
-        InitTimer() ;
+	InitTimer();
 
 #else //_WIN32
 
-	if(!InitTimerAIL())
-        {
-	        LogPuts( "Error: Could not link timer routine with AIL INT8 handler.\n") ;
-	        exit( 1 ) ;
-        }
+	if (!InitTimerAIL())
+	{
+		LogPuts("Error: Could not link timer routine with AIL INT8 handler.\n");
+		exit(1);
+	}
 
-#endif//_WIN32
+#endif //_WIN32
 
 #endif
 
-//··········································································
-	if(defname)
+	// ··········································································
+	if (defname)
 	{
 		chdir(old_path2);
 	}
 
-	ChDiskDir(old_path)	;
+	ChDiskDir(old_path);
 
-//··········································································
-// Quiet Log
-#if	!((inits) & INIT_QUIET)
-	QuietLog = TRUE			;
+// ··········································································
+//  Quiet Log
+#if !((inits)&INIT_QUIET)
+	QuietLog = TRUE;
 #endif
 
-//··········································································
-// DefFile
-#if	((inits) & INIT_DEFFILE)
+// ··········································································
+//  DefFile
+#if ((inits)&INIT_DEFFILE)
 
-#ifndef	ibuffer
+#ifndef ibuffer
 
 #error ADELINE: you need to define ibuffer
 
 #endif
 
-#ifndef	ibuffersize
+#ifndef ibuffersize
 
 #error ADELINE: you need to define ibuffersize
 
 #endif
-	DefFileBufferInit(PathConfigFile, (void*)(ibuffer), ibuffersize);
+	DefFileBufferInit(PathConfigFile, (void *)(ibuffer), ibuffersize);
 #endif
 
-//··········································································
+	// ··········································································
 }
 
-//··········································································
+// ··········································································

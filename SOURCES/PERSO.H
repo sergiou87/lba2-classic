@@ -28,9 +28,9 @@ extern void InitProgram();
 /*--------------------------------------------------------------------------*/
 extern void TheEndCheckFile(const char *filename);
 /*--------------------------------------------------------------------------*/
-extern void InitTheEnd(S32 num, char *error);
+extern void InitTheEnd(S32 num, const char *error);
 /*--------------------------------------------------------------------------*/
-extern void TheEnd(S32 num, char *error);
+extern void TheEnd(S32 num, const char *error);
 /*--------------------------------------------------------------------------*/
 extern void TheEndInfo(void);
 /*--------------------------------------------------------------------------*/

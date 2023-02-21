@@ -81,7 +81,7 @@ void Beep()
 char *End_Error = "Ok";
 
 //-------------------------------------------------------------------------
-void TheEnd(char *err)
+void TheEnd(const char *err)
 {
 	End_Error = err;
 	exit(0);

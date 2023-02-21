@@ -35,7 +35,7 @@ S32 HQR_Flag; // flag "load done" par HQR_Get
 //  maxsize: taille buffer memoire
 //  MaxIndex: nombre de fiche max stocké
 //  (devrait être > maxsize/average file size )
-T_HQR_HEADER *HQR_Init_Ressource(char *hqrname,
+T_HQR_HEADER *HQR_Init_Ressource(const char *hqrname,
 																 S32 maxsize,
 																 S32 maxrsrc)
 {
