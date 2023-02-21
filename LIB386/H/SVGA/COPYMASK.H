@@ -1,28 +1,27 @@
 //--------------------------------------------------------------------------
-#ifndef	LIB_SVGA_COPYMASK
-#define	LIB_SVGA_COPYMASK
+#ifndef LIB_SVGA_COPYMASK
+#define LIB_SVGA_COPYMASK
 
 //--------------------------------------------------------------------------
-#include	<SVGA/graph.h>
+#include <SVGA/GRAPH.H>
 
 //--------------------------------------------------------------------------
-#ifdef	__cplusplus
-extern	"C"	{
+#ifdef __cplusplus
+extern "C"
+{
 #endif
 
-//--------------------------------------------------------------------------
-S32	CopyMask(S32 nummask, S32 x, S32 y, void *bankmask, void *src)	;
+	//--------------------------------------------------------------------------
+	S32 CopyMask(S32 nummask, S32 x, S32 y, void *bankmask, void *src);
 
-#pragma aux CopyMask	"*"			\
-	parm caller	[eax] [ebx] [ecx] [esi] [edx]	\
-	modify	[edi]
+#pragma aux CopyMask "*" parm caller[eax][ebx][ecx][esi][edx] modify[edi]
 
 //--------------------------------------------------------------------------
-#ifdef	__cplusplus
+#ifdef __cplusplus
 }
 #endif
 
 //--------------------------------------------------------------------------
-#endif//LIB_SVGA_COPYMASK
+#endif // LIB_SVGA_COPYMASK
 
 //--------------------------------------------------------------------------

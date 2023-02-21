@@ -1,63 +1,57 @@
 //--------------------------------------------------------------------------
-#ifndef	LIB_SVGA_FONT
-#define	LIB_SVGA_FONT
+#ifndef LIB_SVGA_FONT
+#define LIB_SVGA_FONT
 
 //--------------------------------------------------------------------------
-#include	<SVGA/mask.h>
+#include <SVGA/MASK.H>
 
 //--------------------------------------------------------------------------
-#ifdef	__cplusplus
-extern	"C"	{
+#ifdef __cplusplus
+extern "C"
+{
 #endif
 
-//--------------------------------------------------------------------------
-extern	void	*PtrFont	;
+	//--------------------------------------------------------------------------
+	extern void *PtrFont;
 
-#pragma	aux	PtrFont	"*"
+#pragma aux PtrFont "*"
 
-//--------------------------------------------------------------------------
-extern	S32	InterLeave	;
-extern	S32	InterSpace	;
-
-//--------------------------------------------------------------------------
-#define	ColorFont(color)	ColorMask(color)
+	//--------------------------------------------------------------------------
+	extern S32 InterLeave;
+	extern S32 InterSpace;
 
 //--------------------------------------------------------------------------
-#define	SetFont(ptrfont, interleave, interspace)	\
-{							\
-	PtrFont		= (ptrfont)	;		\
-	InterLeave	= (interleave)	;		\
-	InterSpace	= (interspace)	;		\
-}
+#define ColorFont(color) ColorMask(color)
 
 //--------------------------------------------------------------------------
-extern	S32	SizeFont(char *str)	;
+#define SetFont(ptrfont, interleave, interspace) \
+	{                                              \
+		PtrFont = (ptrfont);                         \
+		InterLeave = (interleave);                   \
+		InterSpace = (interspace);                   \
+	}
 
-#pragma aux SizeFont	"*"			\
-	parm caller	[esi]			\
-	modify		[eax ecx edx edi]
+	//--------------------------------------------------------------------------
+	extern S32 SizeFont(char *str);
+
+#pragma aux SizeFont "*" parm caller[esi] modify[eax ecx edx edi]
+
+	//--------------------------------------------------------------------------
+	extern S32 CarFont(S32 x, S32 y, char c);
+
+#pragma aux CarFont "*" parm caller[ebx][ecx][eax] modify[edx esi edi]
+
+	//--------------------------------------------------------------------------
+	extern S32 Font(S32 x, S32 y, char *str);
+
+#pragma aux Font "*" parm caller[ebx][ecx][esi] modify[edx edi]
 
 //--------------------------------------------------------------------------
-extern	S32	CarFont(S32 x, S32 y, char c)	;
-
-#pragma aux CarFont	"*"			\
-	parm caller	[ebx] [ecx] [eax]	\
-	modify		[edx esi edi]
-
-//--------------------------------------------------------------------------
-extern	S32	Font(S32 x, S32 y, char *str);
-
-#pragma aux Font	"*"			\
-	parm caller	[ebx] [ecx] [esi]	\
-	modify		[edx edi]
-
-//--------------------------------------------------------------------------
-#ifdef	__cplusplus
+#ifdef __cplusplus
 }
 #endif
 
 //--------------------------------------------------------------------------
-#endif//LIB_SVGA_FONT
+#endif // LIB_SVGA_FONT
 
 //--------------------------------------------------------------------------
-

@@ -2,12 +2,12 @@
 #include <SYSTEM/adeline.h>
 #include <SYSTEM/exit.h>
 #include <SYSTEM/a_malloc.h>
-#include <SYSTEM/logprint.h>
+#include <SYSTEM/LOGPRINT.H>
 #include <SYSTEM/cmdline.h>
-#include <POLYGON/poly.h>
+#include <POLYGON/POLY.H>
 #include <SVGA/clip.h>
 #include <SVGA/logphys.h>
-#include <SVGA/initmode.h>
+#include <SVGA/INITMODE.H>
 
 #include <mem.h>
 #include <ctype.h>
@@ -22,8 +22,8 @@
 #else //_WIN32
 
 //--------------------------------------------------------------------------
-#include <SVGA/vesa.h>
-#include <SVGA/copybov.h>
+#include <SVGA/VESA.H>
+#include <SVGA/COPYBOV.H>
 
 //--------------------------------------------------------------------------
 #endif //_WIN32

@@ -4,13 +4,13 @@
 #include <SYSTEM/a_malloc.h>
 #include <SVGA/screenxy.h>
 #include <SVGA/logphys.h>
-#include <SVGA/clrbox.h>
-#include <SVGA/copybox.h>
+#include <SVGA/clrBOX.H>
+#include <SVGA/copyBOX.H>
 #include <SVGA/savblock.h>
 #include <SVGA/resblock.h>
-#include <SVGA/graph.h>
+#include <SVGA/GRAPH.H>
 #include <SVGA/inimouse.h>
-#include <SVGA/dirtybox.h>
+#include <SVGA/DIRTYBOX.H>
 
 #include <stdlib.h>
 #include <string.h>
@@ -23,7 +23,7 @@
 
 #else //_WIN32
 #include <SYSTEM/dossys.h>
-#include <SVGA/copybov.h>
+#include <SVGA/COPYBOV.H>
 #include <SVGA/cleabov.h>
 
 #endif //_WIN32

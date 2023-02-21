@@ -1,38 +1,37 @@
 //--------------------------------------------------------------------------
-#ifndef	LIB_SVGA_MASK
-#define	LIB_SVGA_MASK
+#ifndef LIB_SVGA_MASK
+#define LIB_SVGA_MASK
 
 //--------------------------------------------------------------------------
-#include	<SVGA/graph.h>
+#include <SVGA/GRAPH.H>
 
 //--------------------------------------------------------------------------
-#ifdef	__cplusplus
-extern	"C"	{
+#ifdef __cplusplus
+extern "C"
+{
 #endif
 
-//--------------------------------------------------------------------------
-extern	U8	ColMask	;
+	//--------------------------------------------------------------------------
+	extern U8 ColMask;
 
 //--------------------------------------------------------------------------
-#define	ColorMask(color)	ColMask = (U8)(color)
+#define ColorMask(color) ColMask = (U8)(color)
+
+	//--------------------------------------------------------------------------
+	S32 AffMask(S32 nummask, S32 x, S32 y, void *bankmask);
+
+#pragma aux AffMask "*" parm caller[eax][ebx][ecx][esi] modify[edx edi]
 
 //--------------------------------------------------------------------------
-S32	AffMask(S32 nummask, S32 x, S32 y, void *bankmask)	;
-
-#pragma aux AffMask	"*"		\
-	parm caller	[eax] [ebx] [ecx] [esi]	\
-	modify	[edx edi]
-
-//--------------------------------------------------------------------------
-#define	GetDxDyMask(nummask, px, py, bankmask)	\
+#define GetDxDyMask(nummask, px, py, bankmask) \
 	GetDxDyGraph(nummask, px, py, bankmask)
 
 //--------------------------------------------------------------------------
-#ifdef	__cplusplus
+#ifdef __cplusplus
 }
 #endif
 
 //--------------------------------------------------------------------------
-#endif//LIB_SVGA_MASK
+#endif // LIB_SVGA_MASK
 
 //--------------------------------------------------------------------------

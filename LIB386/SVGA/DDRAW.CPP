@@ -3,11 +3,11 @@
 
 // ──────────────────────────────────────────────────────────────────────────
 #include <SYSTEM/adeline.h>
-#include <SYSTEM/logprint.h>
+#include <SYSTEM/LOGPRINT.H>
 #include <SYSTEM/winsys.h>
 #include <SVGA/logphys.h>
-#include <SVGA/initmode.h>
-#include <SVGA/dirtybox.h>
+#include <SVGA/INITMODE.H>
+#include <SVGA/DIRTYBOX.H>
 #include <SVGA/ddraw.h>
 
 // ──────────────────────────────────────────────────────────────────────────

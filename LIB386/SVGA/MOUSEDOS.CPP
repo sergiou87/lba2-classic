@@ -3,7 +3,7 @@
 #include <SYSTEM/exit.h>
 
 #include <SVGA/logphys.h>
-#include <SVGA/dirtybox.h>
+#include <SVGA/DIRTYBOX.H>
 #include <SVGA/inimouse.h>
 #include <SVGA/mouse.h>
 

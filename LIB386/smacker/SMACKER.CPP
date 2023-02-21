@@ -1,5 +1,5 @@
 #include <SYSTEM/adeline.h>
-#include <SYSTEM/logprint.h>
+#include <SYSTEM/LOGPRINT.H>
 
 #ifdef _WIN32
 #include <AIL/mssw.h>

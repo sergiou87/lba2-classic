@@ -2,7 +2,7 @@
 #include <SYSTEM/adeline.h>
 #include <SVGA/affstr.h>
 #include <SVGA/clip.h>
-#include <SVGA/dirtybox.h>
+#include <SVGA/DIRTYBOX.H>
 #include <SVGA/gprintf.h>
 
 #include <stdio.h>

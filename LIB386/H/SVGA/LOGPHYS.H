@@ -1,55 +1,55 @@
 //--------------------------------------------------------------------------
-#ifndef	LIB_SVGA_LOGPHYS
-#define	LIB_SVGA_LOGPHYS
+#ifndef LIB_SVGA_LOGPHYS
+#define LIB_SVGA_LOGPHYS
 
 //--------------------------------------------------------------------------
-#include	"initmode.h"
+#include "INITMODE.H"
 
 //--------------------------------------------------------------------------
-#ifdef	__cplusplus
-extern	"C"	{
+#ifdef __cplusplus
+extern "C"
+{
 #endif
 
-//--------------------------------------------------------------------------
-extern	void 	*Phys			;
+  //--------------------------------------------------------------------------
+  extern void *Phys;
 
-#pragma	aux	Phys		"*"
+#pragma aux Phys "*"
 
-//--------------------------------------------------------------------------
-extern	void	*Log			;
+  //--------------------------------------------------------------------------
+  extern void *Log;
 
-#pragma	aux	Log		"*"
+#pragma aux Log "*"
 
-//--------------------------------------------------------------------------
-extern	void	*Screen			;
+  //--------------------------------------------------------------------------
+  extern void *Screen;
 
-#pragma	aux	Screen		"*"
+#pragma aux Screen "*"
 
-//--------------------------------------------------------------------------
-extern	U32	ModeResX		;
-extern	U32	ModeResY		;
-extern	U32	ModeMemory		;
+  //--------------------------------------------------------------------------
+  extern U32 ModeResX;
+  extern U32 ModeResY;
+  extern U32 ModeMemory;
 
-//--------------------------------------------------------------------------
-extern	U32	BytesScanLine		;
+  //--------------------------------------------------------------------------
+  extern U32 BytesScanLine;
 
-//--------------------------------------------------------------------------
-extern	U32	TabOffLine[]		;
-extern	U32	TabOffPhysLine[]	;
+  //--------------------------------------------------------------------------
+  extern U32 TabOffLine[];
+  extern U32 TabOffPhysLine[];
 
-#pragma	aux	TabOffLine	"*"
-#pragma	aux	TabOffPhysLine	"*"
-
-//--------------------------------------------------------------------------
-#define	CopyScreen(src, dst)	FastCopy(dst, src, ModeDesiredSize)
+#pragma aux TabOffLine "*"
+#pragma aux TabOffPhysLine "*"
 
 //--------------------------------------------------------------------------
-#ifdef	__cplusplus
+#define CopyScreen(src, dst) FastCopy(dst, src, ModeDesiredSize)
+
+//--------------------------------------------------------------------------
+#ifdef __cplusplus
 }
 #endif
 
 //--------------------------------------------------------------------------
-#endif//LIB_SVGA_LOGPHYS
+#endif // LIB_SVGA_LOGPHYS
 
 //--------------------------------------------------------------------------
-

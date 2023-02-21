@@ -1,6 +1,6 @@
 // ══════════════════════════════════════════════════════════════════════════
 #include <SYSTEM/adeline.h>
-#include <SYSTEM/logprint.h>
+#include <SYSTEM/LOGPRINT.H>
 #include <SYSTEM/files.h>
 #include <SYSTEM/loadsave.h>
 #include <SYSTEM/itoa.h>

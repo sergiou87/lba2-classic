@@ -1,5 +1,5 @@
 #include <SYSTEM/adeline.h>
-#include <SYSTEM/logprint.h>
+#include <SYSTEM/LOGPRINT.H>
 #include <SYSTEM/exit.h>
 
 #include <stdio.h>

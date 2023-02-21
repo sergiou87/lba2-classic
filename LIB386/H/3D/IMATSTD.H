@@ -1,33 +1,33 @@
 //****************************************************************************
-#ifndef	LIB_3D_IMATSTD
-#define	LIB_3D_IMATSTD
+#ifndef LIB_3D_IMATSTD
+#define LIB_3D_IMATSTD
 
 //****************************************************************************
-#include	"imat.h"
+#include "IMAT.H"
 
 //****************************************************************************
-#ifdef	__cplusplus
-extern	"C"	{
+#ifdef __cplusplus
+extern "C"
+{
 #endif
 
-//****************************************************************************
-extern	Func_InitMatrix	*InitMatrixStd	;
+  //****************************************************************************
+  extern Func_InitMatrix *InitMatrixStd;
 
-#pragma aux	InitMatrixStd	"*"
+#pragma aux InitMatrixStd "*"
+
+  //****************************************************************************
+  // These should not be called directly but through the above pointer
+  extern Func_InitMatrix InitMatrixStdI;
+  extern Func_InitMatrix InitMatrixStdF;
+  extern Func_InitMatrix InitMatrixStdM;
 
 //****************************************************************************
-// These should not be called directly but through the above pointer
-extern	Func_InitMatrix	InitMatrixStdI	;
-extern	Func_InitMatrix	InitMatrixStdF	;
-extern	Func_InitMatrix	InitMatrixStdM	;
-
-//****************************************************************************
-#ifdef	__cplusplus
+#ifdef __cplusplus
 }
 #endif
 
 //****************************************************************************
-#endif//LIB_3D_IMATSTD
+#endif // LIB_3D_IMATSTD
 
 //****************************************************************************
-

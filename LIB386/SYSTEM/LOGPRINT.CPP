@@ -1,6 +1,6 @@
 //----------------------------------------------------------------------------
 #include	<SYSTEM/adeline.h>
-#include	<SYSTEM/logprint.h>
+#include	<SYSTEM/LOGPRINT.H>
 
 #include	<stdlib.h>
 #include	<stdarg.h>

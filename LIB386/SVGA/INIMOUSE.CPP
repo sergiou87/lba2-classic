@@ -1,8 +1,8 @@
 // ──────────────────────────────────────────────────────────────────────────
 #include <SYSTEM/adeline.h>
 
-#include <SVGA/initmode.h>
-#include <SVGA/dirtybox.h>
+#include <SVGA/INITMODE.H>
+#include <SVGA/DIRTYBOX.H>
 #include <SVGA/inimouse.h>
 #include <SVGA/mouse.h>
 

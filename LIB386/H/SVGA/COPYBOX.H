@@ -1,44 +1,42 @@
 //****************************************************************************
-#ifndef	LIB_SVGA_COPYBOX
-#define	LIB_SVGA_COPYBOX
+#ifndef LIB_SVGA_COPYBOX
+#define LIB_SVGA_COPYBOX
 
 //****************************************************************************
-#include	<SVGA/dirtybox.h>
-#include	<SVGA/box.h>
+#include <SVGA/DIRTYBOX.H>
+#include <SVGA/BOX.H>
 
 //****************************************************************************
-#ifdef	__cplusplus
-extern	"C"	{
+#ifdef __cplusplus
+extern "C"
+{
 #endif
 
-//****************************************************************************
-typedef	void	Func_CopyBox(void *dst, void *src, U32 *TabOffDst, T_BOX *box) ;
+	//****************************************************************************
+	typedef void Func_CopyBox(void *dst, void *src, U32 *TabOffDst, T_BOX *box);
 
-#pragma aux	Arg_CopyBox	"*"	\
-	parm caller	[edi] [esi] [edx] [ebx]	\
-	modify	[eax ecx]
+#pragma aux Arg_CopyBox "*" parm caller[edi][esi][edx][ebx] modify[eax ecx]
 
-#pragma	aux (Arg_CopyBox)	Func_CopyBox
+#pragma aux(Arg_CopyBox) Func_CopyBox
 
-//****************************************************************************
-extern	Func_CopyBox	*CopyBox	;
+	//****************************************************************************
+	extern Func_CopyBox *CopyBox;
 
-#pragma aux CopyBox	"*"
+#pragma aux CopyBox "*"
 
-//****************************************************************************
-// These functions should not be called directly but through the above pointer
-// which auto-initalize to point to the right routine at runtime.
-extern	Func_CopyBox	CopyBoxI	;
-extern	Func_CopyBox	CopyBoxF	;
-extern	Func_CopyBox	CopyBoxM	;
+	//****************************************************************************
+	// These functions should not be called directly but through the above pointer
+	// which auto-initalize to point to the right routine at runtime.
+	extern Func_CopyBox CopyBoxI;
+	extern Func_CopyBox CopyBoxF;
+	extern Func_CopyBox CopyBoxM;
 
 //****************************************************************************
-#ifdef	__cplusplus
+#ifdef __cplusplus
 }
 #endif
 
 //****************************************************************************
-#endif//LIB_SVGA_COPYBOX
+#endif // LIB_SVGA_COPYBOX
 
 //****************************************************************************
-
