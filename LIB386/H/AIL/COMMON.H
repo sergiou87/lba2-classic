@@ -1,39 +1,40 @@
 //--------------------------------------------------------------------------
-#ifndef	LIB_AIL_AIL
-#define	LIB_AIL_AIL
+#ifndef LIB_AIL_AIL
+#define LIB_AIL_AIL
 
 //--------------------------------------------------------------------------
 #ifdef __cplusplus
-extern "C" {
+extern "C"
+{
 #endif
 
-//--------------------------------------------------------------------------
-extern	S32		Sample_Driver_Enabled	;
-extern	S32		Midi_Driver_Enabled	;
-extern	S32		SamplingRate		;
+  //--------------------------------------------------------------------------
+  extern S32 Sample_Driver_Enabled;
+  extern S32 Midi_Driver_Enabled;
+  extern S32 SamplingRate;
+
+  //--------------------------------------------------------------------------
+  extern char MidiDriverName[];
+  extern char SampleDriverName[];
 
 //--------------------------------------------------------------------------
-extern	char		MidiDriverName[]	;
-extern	char		SampleDriverName[]	;
+#ifdef _WIN32
+
+  //--------------------------------------------------------------------------
+  extern VOID_FUNC *PauseMidiPtr;
+  extern VOID_FUNC *ResumeMidiPtr;
+
+  extern VOID_FUNC *PauseSamplesPtr;
+  extern VOID_FUNC *ResumeSamplesPtr;
+
+  //--------------------------------------------------------------------------
+  extern VOID_FUNC PauseBothMiles;
+
+  //--------------------------------------------------------------------------
+  extern VOID_FUNC ResumeBothMiles;
 
 //--------------------------------------------------------------------------
-#ifdef	_WIN32
-
-//--------------------------------------------------------------------------
-extern	VOID_FUNC	*PauseMidiPtr		;
-extern	VOID_FUNC	*ResumeMidiPtr		;
-
-extern	VOID_FUNC	*PauseSamplesPtr	;
-extern	VOID_FUNC	*ResumeSamplesPtr	;
-
-//--------------------------------------------------------------------------
-extern	VOID_FUNC	PauseBothMiles		;
-
-//--------------------------------------------------------------------------
-extern	VOID_FUNC	ResumeBothMiles		;
-
-//--------------------------------------------------------------------------
-#endif//_WIN32
+#endif //_WIN32
 
 //--------------------------------------------------------------------------
 #ifdef __cplusplus
@@ -41,6 +42,6 @@ extern	VOID_FUNC	ResumeBothMiles		;
 #endif
 
 //--------------------------------------------------------------------------
-#endif//LIB_AIL_AIL
+#endif // LIB_AIL_AIL
 
 //--------------------------------------------------------------------------
