@@ -30,16 +30,19 @@ S32 RestartRainSample = FALSE;
 
 void DelBlocHQRSample(char *name, S32 index)
 {
-        name = name;
-        index = index;
+    // TODO: Implement
+    /*
+    name = name;
+    index = index;
 
-        // methode violente : on vire tous les samples
-        HQ_StopSample();
-        // pour remettre la pluie en route
-        RestartRainSample = TRUE;
+    // methode violente : on vire tous les samples
+    HQ_StopSample();
+    // pour remettre la pluie en route
+    RestartRainSample = TRUE;
 
-        // mise à 0 du pointeur de fonction appelé par HQR_Get()
-        HQRGetDelFunc = NULL;
+    // mise à 0 du pointeur de fonction appelé par HQR_Get()
+    HQRGetDelFunc = NULL;
+    */
 }
 
 /*══════════════════════════════════════════════════════════════════════════*
@@ -50,172 +53,198 @@ void DelBlocHQRSample(char *name, S32 index)
 /*──────────────────────────────────────────────────────────────────────────*/
 void InitParmSample(void)
 {
-        ParmSampleVolume = 127; // plein pot
-        ParmSampleDecalage = 0;
-        ParmSampleFrequence = 0;
+    ParmSampleVolume = 127; // plein pot
+    ParmSampleDecalage = 0;
+    ParmSampleFrequence = 0;
 }
 
 /*──────────────────────────────────────────────────────────────────────────*/
 
 U32 HQ_MixSample(S32 numsample, S32 frequence, S32 decalage, S32 repeat, S32 pan, S32 volume)
 {
-        U32 timesample;
-        U32 retvalue = -1;
-        U8 *ptr;
+    return 0;
+    // TODO: Implement
+    /*
 
-        if (SamplesEnable AND numsample != -1)
+    U32 timesample;
+    U32 retvalue = -1;
+    U8 *ptr;
+
+    if (SamplesEnable AND numsample != -1)
+    {
+        HQR_GET_CALLBACK *memoerrorfunc;
+
+        timesample = IsSamplePlaying(numsample);
+
+        if (timesample
+                AND(TimerSystemHR - timesample) < SAMPLE_TIME_REPEAT)
         {
-                HQR_GET_CALLBACK *memoerrorfunc;
-
-                timesample = IsSamplePlaying(numsample);
-
-                if (timesample
-                        AND(TimerSystemHR - timesample) < SAMPLE_TIME_REPEAT)
-                {
-                        InitParmSample();
-                        return 0;
-                }
-
-                SaveTimer();
-
-                // tient compte du ParmSampleVolume
-                if (ParmSampleVolume != 127)
-                {
-                        volume = RegleTrois(0, ParmSampleVolume, 127, volume);
-                }
-
-                // tient compte du SampleVolume
-                volume = RegleTrois(0, SampleVolume, 127, volume);
-
-                if (ParmSampleFrequence)
-                        frequence = ParmSampleFrequence;
-                if (ParmSampleDecalage)
-                        decalage = ParmSampleDecalage;
-
-                if (decalage)
-                {
-                        frequence = frequence - decalage / 2 + MyRnd(decalage);
-                }
-
-                // si pas assez de memoire, tant pis, on joue pas
-                // le sample, mais on ne sort pas du prog !
-                memoerrorfunc = HQRGetErrorFunc;
-                HQRGetErrorFunc = NULL;
-
-                HQRGetDelFunc = DelBlocHQRSample;
-
-                if (numsample & 0xFF000000)
-                        numsample = (numsample >> 8) & 0xFFFF;
-
-                // Blindage inutile
-                ptr = (U8 *)GivePtrSample(numsample);
-                if (ptr)
-                {
-                        retvalue = PlaySample(ptr, numsample, frequence, repeat, volume, pan);
-                }
-                else
-                {
-                        LogPrintf("Can't play sample %d: not enough memory.\n", numsample);
-                }
-
-                HQRGetDelFunc = NULL;
-                HQRGetErrorFunc = memoerrorfunc;
-
-                RestoreTimer();
+            InitParmSample();
+            return 0;
         }
 
-        InitParmSample();
+        SaveTimer();
 
-        return retvalue;
+        // tient compte du ParmSampleVolume
+        if (ParmSampleVolume != 127)
+        {
+            volume = RegleTrois(0, ParmSampleVolume, 127, volume);
+        }
+
+        // tient compte du SampleVolume
+        volume = RegleTrois(0, SampleVolume, 127, volume);
+
+        if (ParmSampleFrequence)
+            frequence = ParmSampleFrequence;
+        if (ParmSampleDecalage)
+            decalage = ParmSampleDecalage;
+
+        if (decalage)
+        {
+            frequence = frequence - decalage / 2 + MyRnd(decalage);
+        }
+
+        // si pas assez de memoire, tant pis, on joue pas
+        // le sample, mais on ne sort pas du prog !
+        memoerrorfunc = HQRGetErrorFunc;
+        HQRGetErrorFunc = NULL;
+
+        HQRGetDelFunc = DelBlocHQRSample;
+
+        if (numsample & 0xFF000000)
+            numsample = (numsample >> 8) & 0xFFFF;
+
+        // Blindage inutile
+        ptr = (U8 *)GivePtrSample(numsample);
+        if (ptr)
+        {
+            retvalue = PlaySample(ptr, numsample, frequence, repeat, volume, pan);
+        }
+        else
+        {
+            LogPrintf("Can't play sample %d: not enough memory.\n", numsample);
+        }
+
+        HQRGetDelFunc = NULL;
+        HQRGetErrorFunc = memoerrorfunc;
+
+        RestoreTimer();
+    }
+
+    InitParmSample();
+
+    return retvalue;
+    */
 }
 
 /*──────────────────────────────────────────────────────────────────────────*/
 U32 HQ_RestartSample(S32 numsample, S32 frequence, S32 repeat, S32 pan, S32 volume)
 {
-        U32 retvalue = -1;
-        U8 *ptr;
+    return 0;
+    // TODO: Implement
+    /*
 
-        if (SamplesEnable AND numsample != -1)
+    U32 retvalue = -1;
+    U8 *ptr;
+
+    if (SamplesEnable AND numsample != -1)
+    {
+        SaveTimer();
+
+        HQRGetDelFunc = DelBlocHQRSample;
+
+        // Blindage inutile
+        ptr = (U8 *)GivePtrSample(numsample);
+        if (ptr)
         {
-                SaveTimer();
-
-                HQRGetDelFunc = DelBlocHQRSample;
-
-                // Blindage inutile
-                ptr = (U8 *)GivePtrSample(numsample);
-                if (ptr)
-                {
-                        retvalue = PlaySample(ptr, numsample, frequence, repeat, volume, pan);
-                }
-
-                HQRGetDelFunc = NULL;
-
-                RestoreTimer();
+            retvalue = PlaySample(ptr, numsample, frequence, repeat, volume, pan);
         }
 
-        InitParmSample();
+        HQRGetDelFunc = NULL;
 
-        return retvalue;
+        RestoreTimer();
+    }
+
+    InitParmSample();
+
+    return retvalue;
+    */
 }
 
 /*══════════════════════════════════════════════════════════════════════════*/
 void HQ_StopSample(void)
 {
-        StopSamples();    // stop all samples
-        FadeInSamples(0); // clear fadeout flag
+    // TODO: Implement
+    /*
+
+    StopSamples();    // stop all samples
+    FadeInSamples(0); // clear fadeout flag
+    */
 }
 
 /*══════════════════════════════════════════════════════════════════════════*/
 void HQ_PauseSamples(void)
 {
-        while (FadeOutSamples(200))
-                ; // 1/5 s
-        PauseSamples();
+    // TODO: Implement
+    /*
+
+    while (FadeOutSamples(200))
+        ; // 1/5 s
+    PauseSamples();
+    */
 }
 /*══════════════════════════════════════════════════════════════════════════*/
 void HQ_ResumeSamples(void)
 {
-        ResumeSamples();
-        while (FadeInSamples(200) != 200)
-                ; // 1/5 s
+    // TODO: Implement
+    /*
+    ResumeSamples();
+    while (FadeInSamples(200) != 200)
+        ; // 1/5 s
+    */
 }
 /*══════════════════════════════════════════════════════════════════════════*/
 /*══════════════════════════════════════════════════════════════════════════*/
 S32 GiveBalance(S32 xp, S32 yp, S32 distance, U32 *pan, S32 *vol)
 {
-        if ((yp > 480 + 480)
-                OR(yp < -480))
-                return FALSE;
+    return TRUE;
+    // TODO: Implement
+    /*
 
-        if ((xp < -320)
-                OR(xp >= 640 + 320))
-                return FALSE;
+    if ((yp > 480 + 480)
+            OR(yp < -480))
+        return FALSE;
 
-        if (xp < 160)
-                *pan = RegleTrois(0, 32, 160 + 319, xp + 320);
-        else if (xp > 480)
-                *pan = RegleTrois(96, 127, 640 + 319 - 480, xp - 480);
+    if ((xp < -320)
+            OR(xp >= 640 + 320))
+        return FALSE;
+
+    if (xp < 160)
+        *pan = RegleTrois(0, 32, 160 + 319, xp + 320);
+    else if (xp > 480)
+        *pan = RegleTrois(96, 127, 640 + 319 - 480, xp - 480);
+    else
+        *pan = RegleTrois(32, 96, 480 - 160, xp - 160);
+
+    if (CubeMode == CUBE_INTERIEUR)
+        if (distance > DISTANCE_SAMPLE_MAX)
+            *vol = 0;
         else
-                *pan = RegleTrois(32, 96, 480 - 160, xp - 160);
-
-        if (CubeMode == CUBE_INTERIEUR)
-                if (distance > DISTANCE_SAMPLE_MAX)
-                        *vol = 0;
-                else
-                        *vol = BoundRegleTrois(127, 0, DISTANCE_SAMPLE_MAX, distance);
+            *vol = BoundRegleTrois(127, 0, DISTANCE_SAMPLE_MAX, distance);
+    else
+    {
+        if (distance <= DISTANCE_SAMPLE_MIN_EXT)
+            *vol = 127;
+        else if (distance > DISTANCE_SAMPLE_MAX_EXT)
+            return FALSE;
         else
-        {
-                if (distance <= DISTANCE_SAMPLE_MIN_EXT)
-                        *vol = 127;
-                else if (distance > DISTANCE_SAMPLE_MAX_EXT)
-                        return FALSE;
-                else
-                        *vol = BoundRegleTrois(127, 0,
-                                               DISTANCE_SAMPLE_MAX_EXT - DISTANCE_SAMPLE_MIN_EXT,
-                                               distance - DISTANCE_SAMPLE_MIN_EXT);
-        }
+            *vol = BoundRegleTrois(127, 0,
+                                   DISTANCE_SAMPLE_MAX_EXT - DISTANCE_SAMPLE_MIN_EXT,
+                                   distance - DISTANCE_SAMPLE_MIN_EXT);
+    }
 
-        return TRUE;
+    return TRUE;
+    */
 }
 
 /*──────────────────────────────────────────────────────────────────────────*/
@@ -224,88 +253,99 @@ U32 HQ_3D_MixSample(S32 numsample, S32 frequence, S32 decalage,
                     S32 repeat,
                     S32 x, S32 y, S32 z)
 {
-        U32 pan;
-        S32 volume, distance;
-        S32 retvalue = 0;
+    return 0;
+    // TODO: Implement
+    /*
 
-        if (SamplesEnable)
+    U32 pan;
+    S32 volume, distance;
+    S32 retvalue = 0;
+
+    if (SamplesEnable)
+    {
+        PtrProjectPoint(x, y, z);
+
+        if (CubeMode == CUBE_INTERIEUR)
+            distance = Distance2D(320, 240, Xp, Yp);
+        else
+            distance = Distance3D(x, y, z, CameraX, CameraY, CameraZ);
+
+        //              if( distance<DISTANCE_SAMPLE_MAX_EXT )
         {
-                PtrProjectPoint(x, y, z);
-
-                if (CubeMode == CUBE_INTERIEUR)
-                        distance = Distance2D(320, 240, Xp, Yp);
-                else
-                        distance = Distance3D(x, y, z, CameraX, CameraY, CameraZ);
-
-                //              if( distance<DISTANCE_SAMPLE_MAX_EXT )
-                {
-                        if (GiveBalance(Xp, Yp, distance, &pan, &volume))
-                        {
-                                retvalue = HQ_MixSample(numsample, frequence, decalage, repeat, pan, volume);
-                        }
-                }
+            if (GiveBalance(Xp, Yp, distance, &pan, &volume))
+            {
+                retvalue = HQ_MixSample(numsample, frequence, decalage, repeat, pan, volume);
+            }
         }
+    }
 
-        if (!retvalue AND !repeat) // sample Always
-        {
-                retvalue = numsample << 8;
-        }
+    if (!retvalue AND !repeat) // sample Always
+    {
+        retvalue = numsample << 8;
+    }
 
-        InitParmSample();
+    InitParmSample();
 
-        return (retvalue);
+    return (retvalue);
+    */
 }
 
 /*──────────────────────────────────────────────────────────────────────────*/
 
 void HQ_ChangePanSample(S32 numsample, S32 volume, U32 pan)
 {
-        if (SamplesEnable)
+    // TODO: Implement
+    /*
+    if (SamplesEnable)
+    {
+        if (ParmSampleVolume != 127)
         {
-                if (ParmSampleVolume != 127)
-                {
-                        volume = RegleTrois(0, ParmSampleVolume, 127, volume);
-                        ParmSampleVolume = 127;
-                }
-
-                // tient compte du SampleVolume
-                volume = RegleTrois(0, SampleVolume, 127, volume);
-
-                ChangeVolumePanSample(numsample, volume, pan);
+            volume = RegleTrois(0, ParmSampleVolume, 127, volume);
+            ParmSampleVolume = 127;
         }
 
-        InitParmSample();
+        // tient compte du SampleVolume
+        volume = RegleTrois(0, SampleVolume, 127, volume);
+
+        ChangeVolumePanSample(numsample, volume, pan);
+    }
+
+    InitParmSample();
+    */
 }
 
 /*──────────────────────────────────────────────────────────────────────────*/
 
 void HQ_3D_ChangePanSample(S32 numsample, S32 x, S32 y, S32 z)
 {
-        U32 pan;
-        S32 volume, distance;
+    // TODO: Implement
+    /*
+    U32 pan;
+    S32 volume, distance;
 
-        if (SamplesEnable)
+    if (SamplesEnable)
+    {
+        PtrProjectPoint(x, y, z);
+
+        if (CubeMode == CUBE_INTERIEUR)
+            distance = Distance2D(320, 240, Xp, Yp);
+        else
+            distance = Distance3D(x, y, z, CameraX, CameraY, CameraZ);
+
+        volume = 0;
+
+        GiveBalance(Xp, Yp, distance, &pan, &volume);
+
+        if (volume > 0)
         {
-                PtrProjectPoint(x, y, z);
-
-                if (CubeMode == CUBE_INTERIEUR)
-                        distance = Distance2D(320, 240, Xp, Yp);
-                else
-                        distance = Distance3D(x, y, z, CameraX, CameraY, CameraZ);
-
-                volume = 0;
-
-                GiveBalance(Xp, Yp, distance, &pan, &volume);
-
-                if (volume > 0)
-                {
-                        HQ_ChangePanSample(numsample, volume, pan);
-                }
-                else
-                        HQ_StopOneSample(numsample);
+            HQ_ChangePanSample(numsample, volume, pan);
         }
+        else
+            HQ_StopOneSample(numsample);
+    }
 
-        InitParmSample();
+    InitParmSample();
+    */
 }
 
 /*══════════════════════════════════════════════════════════════════════════*/
@@ -313,109 +353,115 @@ void HQ_3D_ChangePanSample(S32 numsample, S32 x, S32 y, S32 z)
 
 void LaunchAmbiance(void)
 {
-        S32 numsample;
-        S32 n;
-        S32 decal;
-        S32 freq;
-        S32 volume;
-        S32 repeat;
+    // TODO: Implement
+    /*
+    S32 numsample;
+    S32 n;
+    S32 decal;
+    S32 freq;
+    S32 volume;
+    S32 repeat;
 
-        if (!SamplesEnable)
-                return;
+    if (!SamplesEnable)
+        return;
 
 #ifdef DEMO
-        if (NumCube == NUM_CUBE_PHANTOM)
-                return;
+    if (NumCube == NUM_CUBE_PHANTOM)
+        return;
 #endif
 
-        for (n = 0; n < 4; n++)
+    for (n = 0; n < 4; n++)
+    {
+        numsample = SampleAmbiance[n];
+        repeat = SampleRepeat[n];
+
+        if (numsample != -1               // si defini
+                         AND repeat == 0) // on lance immediatement les repeat infini
         {
-                numsample = SampleAmbiance[n];
-                repeat = SampleRepeat[n];
+            decal = SampleRnd[n];
+            freq = SampleFreq[n];
+            volume = SampleVol[n];
 
-                if (numsample != -1               // si defini
-                                 AND repeat == 0) // on lance immediatement les repeat infini
-                {
-                        decal = SampleRnd[n];
-                        freq = SampleFreq[n];
-                        volume = SampleVol[n];
+            InitParmSample();
 
-                        InitParmSample();
-
-                        if (!IsSamplePlaying(numsample))
-                        {
-                                HQ_MixSample(numsample,
-                                             freq, decal,
-                                             repeat, 64, volume);
-                        }
-                }
+            if (!IsSamplePlaying(numsample))
+            {
+                HQ_MixSample(numsample,
+                             freq, decal,
+                             repeat, 64, volume);
+            }
         }
+    }
+    */
 }
 
 /*──────────────────────────────────────────────────────────────────────────*/
 
 void GereAmbiance(void)
 {
-        S32 sample;
-        S32 numsample;
-        S32 n;
-        S32 decal;
-        S32 repeat;
-        S32 freq;
-        S32 volume;
+    // TODO: Implement
+    /*
+    S32 sample;
+    S32 numsample;
+    S32 n;
+    S32 decal;
+    S32 repeat;
+    S32 freq;
+    S32 volume;
 
-        if (!SamplesEnable)
-                return;
+    if (!SamplesEnable)
+        return;
 
 #ifdef DEMO
-        if (NumCube == NUM_CUBE_PHANTOM)
-                return;
+    if (NumCube == NUM_CUBE_PHANTOM)
+        return;
 #endif
 
-        if (TimerRefHR >= TimerNextAmbiance)
+    if (TimerRefHR >= TimerNextAmbiance)
+    {
+        sample = MyRnd(4); // 0 1 2 3
+
+        for (n = 0; n < 4; n++)
         {
-                sample = MyRnd(4); /* 0 1 2 3 */
+            if (!(SamplePlayed & (1 << sample))) // si pas joue
+        {
+            SamplePlayed |= (1 << sample); // marque le joué
+            if (SamplePlayed == 15)        // tous joue
+                SamplePlayed = 0;
 
-                for (n = 0; n < 4; n++)
+            numsample = SampleAmbiance[sample];
+            repeat = SampleRepeat[sample];
+
+            if (numsample != -1               // si defini
+                            AND repeat != 0) // on ne relance jamais 1 repeat infini
+            {
+                decal = SampleRnd[sample];
+                freq = SampleFreq[sample];
+                volume = SampleVol[sample];
+
+                InitParmSample();
+
+                if (!IsSamplePlaying(numsample))
                 {
-                        if (!(SamplePlayed & (1 << sample))) /* si pas joue */
-                        {
-                                SamplePlayed |= (1 << sample); /* marque le joué */
-                                if (SamplePlayed == 15)        /* tous joue */
-                                        SamplePlayed = 0;
-
-                                numsample = SampleAmbiance[sample];
-                                repeat = SampleRepeat[sample];
-
-                                if (numsample != -1               // si defini
-                                                 AND repeat != 0) // on ne relance jamais 1 repeat infini
-                                {
-                                        decal = SampleRnd[sample];
-                                        freq = SampleFreq[sample];
-                                        volume = SampleVol[sample];
-
-                                        InitParmSample();
-
-                                        if (!IsSamplePlaying(numsample))
-                                        {
-                                                HQ_MixSample(numsample,
-                                                             freq, decal,
-                                                             repeat, MyRnd(127), volume);
-                                        }
-                                        break;
-                                }
-                        }
-                        sample++;
-                        sample &= 3;
+                    HQ_MixSample(numsample,
+                                freq, decal,
+                                repeat, MyRnd(127), volume);
                 }
-
-                TimerNextAmbiance = TimerRefHR +
-                                    (MyRnd(SecondEcart) + SecondMin) * 1000;
+                break;
+            }
         }
+        sample++;
+        sample &= 3;
+    }
 
-        // on s'assure de ne jamais en jouer un autre
-        if (SecondMin < 0)
-                TimerNextAmbiance = TimerRefHR + 200000;
+    TimerNextAmbiance = TimerRefHR +
+                        (MyRnd(SecondEcart) + SecondMin) * 1000;
+    }
+
+    // on s'assure de ne jamais en jouer un autre
+    if (SecondMin < 0)
+        TimerNextAmbiance = TimerRefHR + 200000;
+    */
 }
 
 /*──────────────────────────────────────────────────────────────────────────*/
@@ -423,15 +469,18 @@ void GereAmbiance(void)
 // Appelée au changement de cube pour couper les ambiance du cube en cours
 void ClearAmbiance(void)
 {
-        S32 n;
+    // TODO: Implement
+    /*
+    S32 n;
 
-        for (n = 0; n < 4; n++)
+    for (n = 0; n < 4; n++)
+    {
+        if (SampleAmbiance[n] != -1) // si defini
         {
-                if (SampleAmbiance[n] != -1) /* si defini */
-                {
-                        HQ_StopOneSample(SampleAmbiance[n]);
-                }
+            HQ_StopOneSample(SampleAmbiance[n]);
         }
+    }
+    */
 }
 
 /*══════════════════════════════════════════════════════════════════════════*
@@ -442,334 +491,375 @@ void ClearAmbiance(void)
 /*──────────────────────────────────────────────────────────────────────────*/
 void InitPalette(void)
 {
-        PtrPalNormal = (U8 *)LoadMalloc_HQR(RESS_HQR_NAME, RESS_PAL);
-        if (!PtrPalNormal)
-                TheEndCheckFile(RESS_HQR_NAME);
+    // TODO: Implement
+    /*
+    PtrPalNormal = (U8 *)LoadMalloc_HQR(RESS_HQR_NAME, RESS_PAL);
+    if (!PtrPalNormal)
+        TheEndCheckFile(RESS_HQR_NAME);
 
-        PtrPalEclair = (U8 *)LoadMalloc_HQR(RESS_HQR_NAME, RESS_PAL_ECLAIR);
-        if (!PtrPalEclair)
-                TheEndCheckFile(RESS_HQR_NAME);
+    PtrPalEclair = (U8 *)LoadMalloc_HQR(RESS_HQR_NAME, RESS_PAL_ECLAIR);
+    if (!PtrPalEclair)
+        TheEndCheckFile(RESS_HQR_NAME);
 
-        PtrPalBlack = (U8 *)LoadMalloc_HQR(RESS_HQR_NAME, RESS_PAL_BLACK);
-        if (!PtrPalBlack)
-                TheEndCheckFile(RESS_HQR_NAME);
+    PtrPalBlack = (U8 *)LoadMalloc_HQR(RESS_HQR_NAME, RESS_PAL_BLACK);
+    if (!PtrPalBlack)
+        TheEndCheckFile(RESS_HQR_NAME);
+    */
 }
 
 /*──────────────────────────────────────────────────────────────────────────*/
 void ChoicePalette(void)
 {
-        if (CubeMode == CUBE_INTERIEUR
-                            OR(Island == 0 AND TEMPETE_FINIE))
-        {
-                IdxPalette = RESS_XPL00; // citabau
-        }
-        else
-        {
-                IdxPalette = RESS_XPL0 + Island;
-        }
+    // TODO: Implement
+    /*
+    if (CubeMode == CUBE_INTERIEUR
+                        OR(Island == 0 AND TEMPETE_FINIE))
+    {
+        IdxPalette = RESS_XPL00; // citabau
+    }
+    else
+    {
+        IdxPalette = RESS_XPL0 + Island;
+    }
 
-        if (IdxPalette != LastIdxPalette)
-        {
-                if (!Load_HQR(RESS_HQR_NAME, PtrXplPalette, IdxPalette))
-                        TheEnd(ERROR_NOT_FOUND_FILE, RESS_HQR_NAME);
+    if (IdxPalette != LastIdxPalette)
+    {
+        if (!Load_HQR(RESS_HQR_NAME, PtrXplPalette, IdxPalette))
+            TheEnd(ERROR_NOT_FOUND_FILE, RESS_HQR_NAME);
 
-                LastIdxPalette = IdxPalette;
-        }
+        LastIdxPalette = IdxPalette;
+    }
 
-        PtrXplHeader = (XPL_HEADER *)PtrXplPalette;
+    PtrXplHeader = (XPL_HEADER *)PtrXplPalette;
 
-        PtrPalCurrent = PtrXplPalette + PtrXplHeader->OffsetPalette;
-        PtrNuances = PtrXplPalette + PtrXplHeader->OffsetFog;
-        PtrTransPal = PtrXplPalette + PtrXplHeader->OffsetTransp;
-        FogCoul = PtrXplHeader->FogCoul;
-        PalLevel = PtrXplHeader->ShadeNormalLevel;
+    PtrPalCurrent = PtrXplPalette + PtrXplHeader->OffsetPalette;
+    PtrNuances = PtrXplPalette + PtrXplHeader->OffsetFog;
+    PtrTransPal = PtrXplPalette + PtrXplHeader->OffsetTransp;
+    FogCoul = PtrXplHeader->FogCoul;
+    PalLevel = PtrXplHeader->ShadeNormalLevel;
 
-        // Fixe Palette
-        if (CubeMode == CUBE_INTERIEUR OR TEMPETE_FINIE)
-        {
-                if (IsSamplePlaying(SAMPLE_RAIN))
-                        HQ_StopOneSample(SAMPLE_RAIN);
-        }
+    // Fixe Palette
+    if (CubeMode == CUBE_INTERIEUR OR TEMPETE_FINIE)
+    {
+        if (IsSamplePlaying(SAMPLE_RAIN))
+            HQ_StopOneSample(SAMPLE_RAIN);
+    }
 
-        RestartRainSample = TRUE;
-        PtrPal = PtrPalCurrent;
-        PtrCLUTGouraud = PtrCLUTFog = PtrNuances;
+    RestartRainSample = TRUE;
+    PtrPal = PtrPalCurrent;
+    PtrCLUTGouraud = PtrCLUTFog = PtrNuances;
+    */
 }
 
 /*──────────────────────────────────────────────────────────────────────────*/
 
 void StartRainSample(void)
 {
-        if (SamplesEnable
-                AND CubeMode == CUBE_EXTERIEUR
-                                    AND !TEMPETE_FINIE
-                                        AND !IsSamplePlaying(SAMPLE_RAIN))
-        {
-                HQ_MixSample(SAMPLE_RAIN,
-                             0x1000, 300, // frequence, decalage
-                             0, 64, VOLUME_RAIN);
-        }
+    // TODO: Implement
+    /*
+    if (SamplesEnable
+            AND CubeMode == CUBE_EXTERIEUR
+                                AND !TEMPETE_FINIE
+                                    AND !IsSamplePlaying(SAMPLE_RAIN))
+    {
+        HQ_MixSample(SAMPLE_RAIN,
+                     0x1000, 300, // frequence, decalage
+                     0, 64, VOLUME_RAIN);
+    }
 
-        RestartRainSample = FALSE;
+    RestartRainSample = FALSE;
+    */
 }
 
 // ──────────────────────────────────────────────────────────────────────────
 void FadePal(U8 r, U8 v, U8 b, U8 *ptrpal, S32 scale)
 {
-        U8 workpal[768];
-        S32 n;
+    // TODO: Implement
+    /*
+    U8 workpal[768];
+    S32 n;
 
-        for (n = 0; n < 256; n++)
-        {
-                workpal[n * 3 + 0] = (U8)RegleTrois(r, ptrpal[n * 3 + 0], FADE_DELAY, scale);
-                workpal[n * 3 + 1] = (U8)RegleTrois(v, ptrpal[n * 3 + 1], FADE_DELAY, scale);
-                workpal[n * 3 + 2] = (U8)RegleTrois(b, ptrpal[n * 3 + 2], FADE_DELAY, scale);
-        }
+    for (n = 0; n < 256; n++)
+    {
+        workpal[n * 3 + 0] = (U8)RegleTrois(r, ptrpal[n * 3 + 0], FADE_DELAY, scale);
+        workpal[n * 3 + 1] = (U8)RegleTrois(v, ptrpal[n * 3 + 1], FADE_DELAY, scale);
+        workpal[n * 3 + 2] = (U8)RegleTrois(b, ptrpal[n * 3 + 2], FADE_DELAY, scale);
+    }
 
-        PaletteSync(workpal);
+    PaletteSync(workpal);
+    */
 }
 
 // ──────────────────────────────────────────────────────────────────────────
 void FadeToBlack(U8 *ptrpal)
 {
-        S32 starttime, delta;
+    // TODO: Implement
+    /*
+    S32 starttime, delta;
 
-        if (FlagBlackPal)
-                return;
+    if (FlagBlackPal)
+        return;
 
-        SaveTimer();
+    SaveTimer();
 
-        starttime = TimerSystemHR;
+    starttime = TimerSystemHR;
 
-        do
-        {
-                ManageTime();
+    do
+    {
+        ManageTime();
 
-                delta = starttime + FADE_DELAY - TimerSystemHR;
+        delta = starttime + FADE_DELAY - TimerSystemHR;
 
-                if (delta < 0)
-                        delta = 0;
+        if (delta < 0)
+            delta = 0;
 
-                FadePal(0, 0, 0, ptrpal, delta);
-        } while (delta);
+        FadePal(0, 0, 0, ptrpal, delta);
+    } while (delta);
 
-        FlagBlackPal = TRUE;
+    FlagBlackPal = TRUE;
 
-        RestoreTimer();
+    RestoreTimer();
+    */
 }
 
 // ──────────────────────────────────────────────────────────────────────────
 void WhiteFade()
 {
-        U8 workpal[768];
-        S32 starttime, delta;
+    // TODO: Implement
+    /*
+    U8 workpal[768];
+    S32 starttime, delta;
 
-        SaveTimer();
+    SaveTimer();
 
-        memset(workpal, 255, 768);
+    memset(workpal, 255, 768);
 
-        starttime = TimerSystemHR;
+    starttime = TimerSystemHR;
 
-        do
-        {
-                ManageTime();
+    do
+    {
+        ManageTime();
 
-                delta = TimerSystemHR - starttime;
+        delta = TimerSystemHR - starttime;
 
-                if (delta > FADE_DELAY)
-                        delta = FADE_DELAY;
+        if (delta > FADE_DELAY)
+            delta = FADE_DELAY;
 
-                FadePal(0, 0, 0, workpal, delta);
-        } while (delta != FADE_DELAY);
+        FadePal(0, 0, 0, workpal, delta);
+    } while (delta != FADE_DELAY);
 
-        FlagBlackPal = FALSE;
+    FlagBlackPal = FALSE;
 
-        RestoreTimer();
+    RestoreTimer();
+    */
 }
 
 // ──────────────────────────────────────────────────────────────────────────
 void FadeWhiteToPal(U8 *ptrpal)
 {
-        S32 starttime, delta;
+    // TODO: Implement
+    /*
+    S32 starttime, delta;
 
-        SaveTimer();
+    SaveTimer();
 
-        starttime = TimerSystemHR;
+    starttime = TimerSystemHR;
 
-        do
-        {
-                ManageTime();
+    do
+    {
+        ManageTime();
 
-                delta = TimerSystemHR - starttime;
+        delta = TimerSystemHR - starttime;
 
-                if (delta > FADE_DELAY)
-                        delta = FADE_DELAY;
+        if (delta > FADE_DELAY)
+            delta = FADE_DELAY;
 
-                FadePal(255, 255, 255, ptrpal, delta);
-        } while (delta != FADE_DELAY);
+        FadePal(255, 255, 255, ptrpal, delta);
+    } while (delta != FADE_DELAY);
 
-        FlagBlackPal = FALSE;
+    FlagBlackPal = FALSE;
 
-        RestoreTimer();
+    RestoreTimer();
+    */
 }
 
 // ──────────────────────────────────────────────────────────────────────────
 void FadeToPal(U8 *ptrpal)
 {
-        S32 starttime, delta;
+    // TODO: Implement
+    /*
+    S32 starttime, delta;
 
-        SaveTimer();
+    SaveTimer();
 
-        starttime = TimerSystemHR;
+    starttime = TimerSystemHR;
 
-        do
-        {
-                ManageTime();
+    do
+    {
+        ManageTime();
 
-                delta = TimerSystemHR - starttime;
+        delta = TimerSystemHR - starttime;
 
-                if (delta > FADE_DELAY)
-                        delta = FADE_DELAY;
+        if (delta > FADE_DELAY)
+            delta = FADE_DELAY;
 
-                FadePal(0, 0, 0, ptrpal, delta);
-        } while (delta != FADE_DELAY);
+        FadePal(0, 0, 0, ptrpal, delta);
+    } while (delta != FADE_DELAY);
 
-        FlagBlackPal = FALSE;
+    FlagBlackPal = FALSE;
 
-        RestoreTimer();
+    RestoreTimer();
+    */
 }
 
 // ──────────────────────────────────────────────────────────────────────────
 void FadeToBlackAndSamples(U8 *ptrpal)
 {
-        S32 delta = 0;
+    // TODO: Implement
+    /*
+    S32 delta = 0;
 
-        SaveTimer();
+    SaveTimer();
 
-        if (!FlagBlackPal)
+    if (!FlagBlackPal)
+    {
+        do
         {
-                do
-                {
-                        delta = FadeOutSamples(FADE_DELAY);
-                        FadePal(0, 0, 0, ptrpal, delta);
-                } while (delta != 0);
-        }
+            delta = FadeOutSamples(FADE_DELAY);
+            FadePal(0, 0, 0, ptrpal, delta);
+        } while (delta != 0);
+    }
 
-        if ((CubeMode == CUBE_INTERIEUR OR TEMPETE_FINIE)
-                AND IsSamplePlaying(SAMPLE_RAIN))
-        {
-                HQ_StopOneSample(SAMPLE_RAIN);
-        }
+    if ((CubeMode == CUBE_INTERIEUR OR TEMPETE_FINIE)
+            AND IsSamplePlaying(SAMPLE_RAIN))
+    {
+        HQ_StopOneSample(SAMPLE_RAIN);
+    }
 
-        PauseSamples();
+    PauseSamples();
 
-        FlagBlackPal = TRUE;
+    FlagBlackPal = TRUE;
 
-        RestoreTimer();
+    RestoreTimer();
+    */
 }
 
 // ──────────────────────────────────────────────────────────────────────────
 void FadeToPalAndSamples(U8 *ptrpal)
 {
-        S32 delta = FADE_DELAY;
+    // TODO: Implement
+    /*
+    S32 delta = FADE_DELAY;
 
-        SaveTimer();
+    SaveTimer();
 
-        ResumeSamples();
+    ResumeSamples();
 
-        if ((CubeMode == CUBE_INTERIEUR OR TEMPETE_FINIE)
-                AND IsSamplePlaying(SAMPLE_RAIN))
-        {
-                HQ_StopOneSample(SAMPLE_RAIN);
-        }
+    if ((CubeMode == CUBE_INTERIEUR OR TEMPETE_FINIE)
+            AND IsSamplePlaying(SAMPLE_RAIN))
+    {
+        HQ_StopOneSample(SAMPLE_RAIN);
+    }
 
-        do
-        {
-                delta = FadeInSamples(FADE_DELAY);
-                FadePal(0, 0, 0, ptrpal, delta);
-        } while (delta != FADE_DELAY);
+    do
+    {
+        delta = FadeInSamples(FADE_DELAY);
+        FadePal(0, 0, 0, ptrpal, delta);
+    } while (delta != FADE_DELAY);
 
-        FlagBlackPal = FALSE;
+    FlagBlackPal = FALSE;
 
-        RestoreTimer();
+    RestoreTimer();
+    */
 }
 
 // ──────────────────────────────────────────────────────────────────────────
 void SetBlackPal()
 {
-        S32 n;
+    // TODO: Implement
+    /*
+    S32 n;
 
-        for (n = 0; n < 256; n++)
-        {
-                PalOne(n, 0, 0, 0);
-        }
-        FlagBlackPal = TRUE;
+    for (n = 0; n < 256; n++)
+    {
+        PalOne(n, 0, 0, 0);
+    }
+    FlagBlackPal = TRUE;
+    */
 }
 
 // ──────────────────────────────────────────────────────────────────────────
 void FadePalToPal(U8 *ptrpal, U8 *ptrpal1)
 {
-        U8 workpal[768];
-        S32 starttime, delta;
+    // TODO: Implement
+    /*
+    U8 workpal[768];
+    S32 starttime, delta;
 
-        SaveTimer();
+    SaveTimer();
 
-        starttime = TimerSystemHR;
+    starttime = TimerSystemHR;
 
-        do
+    do
+    {
+        S32 n;
+
+        ManageTime();
+
+        delta = TimerSystemHR - starttime;
+
+        if (delta > FADE_DELAY)
+            delta = FADE_DELAY;
+
+        for (n = 0; n < 256; n++)
         {
-                S32 n;
+            workpal[n * 3 + 0] = (U8)RegleTrois(ptrpal[n * 3 + 0], ptrpal1[n * 3 + 0], FADE_DELAY, delta);
+            workpal[n * 3 + 1] = (U8)RegleTrois(ptrpal[n * 3 + 1], ptrpal1[n * 3 + 1], FADE_DELAY, delta);
+            workpal[n * 3 + 2] = (U8)RegleTrois(ptrpal[n * 3 + 2], ptrpal1[n * 3 + 2], FADE_DELAY, delta);
+        }
 
-                ManageTime();
+        PaletteSync(workpal);
+    } while (delta != FADE_DELAY);
 
-                delta = TimerSystemHR - starttime;
-
-                if (delta > FADE_DELAY)
-                        delta = FADE_DELAY;
-
-                for (n = 0; n < 256; n++)
-                {
-                        workpal[n * 3 + 0] = (U8)RegleTrois(ptrpal[n * 3 + 0], ptrpal1[n * 3 + 0], FADE_DELAY, delta);
-                        workpal[n * 3 + 1] = (U8)RegleTrois(ptrpal[n * 3 + 1], ptrpal1[n * 3 + 1], FADE_DELAY, delta);
-                        workpal[n * 3 + 2] = (U8)RegleTrois(ptrpal[n * 3 + 2], ptrpal1[n * 3 + 2], FADE_DELAY, delta);
-                }
-
-                PaletteSync(workpal);
-        } while (delta != FADE_DELAY);
-
-        RestoreTimer();
+    RestoreTimer();
+    */
 }
 
 // ──────────────────────────────────────────────────────────────────────────
 void FadeToPalIndex(U8 num)
 {
+    // TODO: Implement
+    /*
+    if (num >= MAX_PALETTES)
+        return;
 
-        if (num >= MAX_PALETTES)
-                return;
+    if (num == 3) // palette noire demandee ?
+        FadeToBlackAndSamples(PtrPal);
+    else if (PtrPal == PtrPalBlack)
+        FadeToPalAndSamples(*ListPalette[num]);
+    else
+        FadePalToPal(PtrPal, *ListPalette[num]);
 
-        if (num == 3) // palette noire demandee ?
-                FadeToBlackAndSamples(PtrPal);
-        else if (PtrPal == PtrPalBlack)
-                FadeToPalAndSamples(*ListPalette[num]);
-        else
-                FadePalToPal(PtrPal, *ListPalette[num]);
-
-        PtrPal = *ListPalette[num];
+    PtrPal = *ListPalette[num];
+    */
 }
 
 // ──────────────────────────────────────────────────────────────────────────
 void PaletteIndex(U8 num)
 {
-        if (num >= MAX_PALETTES)
-                return;
+    // TODO: Implement
+    /*
+    if (num >= MAX_PALETTES)
+        return;
 
-        SaveTimer();
+    SaveTimer();
 
-        PaletteSync(*ListPalette[num]);
+    PaletteSync(*ListPalette[num]);
 
-        PtrPal = *ListPalette[num];
+    PtrPal = *ListPalette[num];
 
-        RestoreTimer();
+    RestoreTimer();
+    */
 }
 
 /*══════════════════════════════════════════════════════════════════════════*
@@ -781,64 +871,70 @@ void PaletteIndex(U8 num)
 
 void ReadVolumeSettings()
 {
-        //---------------------------------------------------------------
-        //      Read config file (LBA2.CFG)
-        //---------------------------------------------------------------
-        SampleVolume = DefFileBufferReadValueDefault("WaveVolume", DEF_SAMPLE_VOLUME);
+    // TODO: Implement
+    /*
+    //---------------------------------------------------------------
+    //      Read config file (LBA2.CFG)
+    //---------------------------------------------------------------
+    SampleVolume = DefFileBufferReadValueDefault("WaveVolume", DEF_SAMPLE_VOLUME);
 
-        if (SampleVolume < 0)
-                SampleVolume = 0;
-        if (SampleVolume > 127)
-                SampleVolume = 127;
+    if (SampleVolume < 0)
+        SampleVolume = 0;
+    if (SampleVolume > 127)
+        SampleVolume = 127;
 
-        //---------------------------------------------------------------
-        VoiceVolume = DefFileBufferReadValueDefault("VoiceVolume", DEF_VOICE_VOLUME);
+    //---------------------------------------------------------------
+    VoiceVolume = DefFileBufferReadValueDefault("VoiceVolume", DEF_VOICE_VOLUME);
 
-        if (VoiceVolume < 0)
-                VoiceVolume = 0;
-        if (VoiceVolume > 127)
-                VoiceVolume = 127;
+    if (VoiceVolume < 0)
+        VoiceVolume = 0;
+    if (VoiceVolume > 127)
+        VoiceVolume = 127;
 
-        //---------------------------------------------------------------
-        JingleVolume = DefFileBufferReadValueDefault("MusicVolume", DEF_JINGLE_VOLUME);
+    //---------------------------------------------------------------
+    JingleVolume = DefFileBufferReadValueDefault("MusicVolume", DEF_JINGLE_VOLUME);
 
-        if (JingleVolume > 127)
-                JingleVolume = 127;
+    if (JingleVolume > 127)
+        JingleVolume = 127;
 
-        SetVolumeJingle(JingleVolume);
+    SetVolumeJingle(JingleVolume);
 
-        //---------------------------------------------------------------
+    //---------------------------------------------------------------
 #ifdef CDROM
-        CDVolume = DefFileBufferReadValueDefault("CDVolume", DEF_CD_VOLUME);
+    CDVolume = DefFileBufferReadValueDefault("CDVolume", DEF_CD_VOLUME);
 
-        if (CDVolume > 127)
-                CDVolume = 127;
+    if (CDVolume > 127)
+        CDVolume = 127;
 
-        SetVolumeCD(CDVolume);
+    SetVolumeCD(CDVolume);
 #endif
 
-        //---------------------------------------------------------------
-        MasterVolume = DefFileBufferReadValueDefault("MasterVolume", DEF_MASTER_VOLUME);
+    //---------------------------------------------------------------
+    MasterVolume = DefFileBufferReadValueDefault("MasterVolume", DEF_MASTER_VOLUME);
 
-        if (MasterVolume < 0)
-                MasterVolume = 0;
-        if (MasterVolume > 127)
-                MasterVolume = 127;
+    if (MasterVolume < 0)
+        MasterVolume = 0;
+    if (MasterVolume > 127)
+        MasterVolume = 127;
 
-        SetMasterVolumeSample(MasterVolume);
+    SetMasterVolumeSample(MasterVolume);
+    */
 }
 
 /*──────────────────────────────────────────────────────────────────────────*/
 
 void WriteVolumeSettings()
 {
-        DefFileBufferWriteValue("WaveVolume", SampleVolume);
-        DefFileBufferWriteValue("VoiceVolume", VoiceVolume);
-        DefFileBufferWriteValue("MusicVolume", JingleVolume);
+    // TODO: Implement
+    /*
+    DefFileBufferWriteValue("WaveVolume", SampleVolume);
+    DefFileBufferWriteValue("VoiceVolume", VoiceVolume);
+    DefFileBufferWriteValue("MusicVolume", JingleVolume);
 #ifdef CDROM
-        DefFileBufferWriteValue("CDVolume", CDVolume);
+    DefFileBufferWriteValue("CDVolume", CDVolume);
 #endif
-        DefFileBufferWriteValue("MasterVolume", MasterVolume);
+    DefFileBufferWriteValue("MasterVolume", MasterVolume);
+    */
 }
 
 /*──────────────────────────────────────────────────────────────────────────*/
