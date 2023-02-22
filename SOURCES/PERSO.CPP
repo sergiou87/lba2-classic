@@ -2176,9 +2176,6 @@ int main(int argc, char *argv[])
 
     End_Error = PathConfigFile;
 
-    return 0;
-    // TODO: Implement
-    /*
 #ifdef DEMO
 #define APPNAME "LBA2 Twinsen's Odyssey Demo"
 #else // DEMO
@@ -2189,6 +2186,9 @@ int main(int argc, char *argv[])
 #define lname "lba2.cfg"
 #define inits INIT_DEFFILE | INIT_LOG | INIT_TIMER | INIT_SVGA | INIT_KEYB | INIT_SAMPLE | INIT_SMACKER
 #include <INITADEL.C>
+    return 0;
+    // TODO: Implement
+    /*
 
 #ifdef _WIN32
     atexit(TheEndInfo);

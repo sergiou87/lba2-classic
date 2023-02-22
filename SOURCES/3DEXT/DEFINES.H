@@ -1,7 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <math.h>
-#include <mem>
 #include <string.h>
 
 #include <SYSTEM.H>
@@ -48,4 +47,4 @@ typedef struct
 
 /*---------------------------------------------------*/
 
-#include "extern.h"
+#include "EXTERN.H"

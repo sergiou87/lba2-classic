@@ -4,6 +4,9 @@
              ▀▀▀   ▀▀  ▀ ▀▀  ▀ ▀▀▀▀▀ ▀▀▀▀▀ ▀   ▀   ▀▀   ▀▀   ▀▀  ▀
  *══════════════════════════════════════════════════════════════════════════*/
 
+#ifndef LBA_EXT_H
+#define LBA_EXT_H
+
 #include <SYSTEM/ADELINE.H>
 #include <SYSTEM/HQRRESS.H>
 #include <POLYGON/POLY.H>
@@ -113,3 +116,5 @@ extern S32 OffsetAniPoly1;
 extern S32 OffsetAniPoly2;
 extern S32 OffsetAniPoly3;
 extern S32 OffsetAniPoly4;
+
+#endif // LBA_EXT_H

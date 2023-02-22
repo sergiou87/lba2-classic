@@ -1,9 +1,9 @@
 #include <SYSTEM/ADELINE.H>
 #include <SYSTEM/LOGPRINT.H>
 
-#include <AIL/MSSW.H>
+// #include <AIL/MSSW.H>
 
-#include <AIL/COMMON.H>
+// #include <AIL/COMMON.H>
 
 #include <SYSTEM.H>
 
@@ -39,7 +39,8 @@ static MEMORY_BLOCK Block[MAX_BLOCKS];
 static S32 NbBlock = 0;
 
 // ████████████████████████████████████████████████████████████████████████████
-
+// TODO: something
+/*
 extern HDIGDRIVER DigDriver; // Handle to digital audio driver
 
 // ████████████████████████████████████████████████████████████████████████████
@@ -192,21 +193,22 @@ void SmackResetMemory()
 		Block[i].Ptr->Flags = FLAG_FREE | FLAG_LAST;
 	}
 }
-
+*/
 // ████████████████████████████████████████████████████████████████████████████
 
 void InitSmacker()
 {
-	SmackSoundUseMSS(DigDriver);
+	// TODO: Implement
+	// SmackSoundUseMSS(DigDriver);
 
-	if (DigDriver)
-	{
-		LogPuts("Digital Sound Driver linked to Smacker.");
-	}
-	else
-	{
-		LogPuts("No Digital Sound Driver. Smacker will not playback soundtracks.");
-	}
+	// if (DigDriver)
+	// {
+	// 	LogPuts("Digital Sound Driver linked to Smacker.");
+	// }
+	// else
+	// {
+	// 	LogPuts("No Digital Sound Driver. Smacker will not playback soundtracks.");
+	// }
 }
 
 // ████████████████████████████████████████████████████████████████████████████
