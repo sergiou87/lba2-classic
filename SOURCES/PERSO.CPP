@@ -39,6 +39,8 @@ S32 TotalNbf = 0;
 
 void AffDebugMenu()
 {
+    // TODO: Implement
+    /*
     S32 lig = 0;
 
     CoulText(LBAWHITE, 0);
@@ -67,6 +69,7 @@ void AffDebugMenu()
 
     GraphPrintf(FALSE, 0, lig += 9, "AlphaCam     : %d", AlphaCam);
     GraphPrintf(FALSE, 0, lig += 9, "VueDistance  : %d", VueDistance);
+    */
 }
 #endif
 
@@ -75,6 +78,8 @@ void AffDebugMenu()
 // Pour eviter d'ecraser les anciennes copies d'ecran !!!!
 void GetNumPcxSave()
 {
+    // TODO: Implement
+    /*
     // Count how many files with the pattern LBA*.PCX exist in the
     // directory PATH_PCX_SAVE and store that count in NumPcxSave.
     NumPcxSave = 0;
@@ -98,10 +103,13 @@ void GetNumPcxSave()
     }
 
     closedir(d);
+    */
 }
 
 void CheckSavePcx()
 {
+    // TODO: Implement
+    /*
     // TODO: Fix F9 shortcut to save a screenshot.
     if (false) // Key == K_F9)
     {
@@ -116,11 +124,11 @@ void CheckSavePcx()
 
         GetNumPcxSave();
 
-        /*		strcpy( NamePcxSave, PATH_PCX_SAVE ) ;
-                        strcat( NamePcxSave, "LBA" ) ;
-                        strcat( NamePcxSave, itoa( NumPcxSave,"          ",10 ) ) ;
-                        AddExt( NamePcxSave, ".PCX" ) ;
-        */
+                // strcpy( NamePcxSave, PATH_PCX_SAVE ) ;
+                //         strcat( NamePcxSave, "LBA" ) ;
+                //         strcat( NamePcxSave, itoa( NumPcxSave,"          ",10 ) ) ;
+                //         AddExt( NamePcxSave, ".PCX" ) ;
+
         sprintf(NamePcxSave, "%sLBA%05ld.PCX", PATH_PCX_SAVE, NumPcxSave);
 
         CoulText(LBAWHITE, 0);
@@ -153,21 +161,24 @@ void CheckSavePcx()
         BoxBlit();
         RestoreTimer();
     }
+    */
 }
 
 void CheckSaveLogPcx(U8 *pal)
 {
+    // TODO: Implement
+    /*
     if (Key == K_F9)
     {
         SaveTimer();
 
         GetNumPcxSave();
 
-        /*                strcpy( NamePcxSave, PATH_PCX_SAVE ) ;
-                        strcat( NamePcxSave, "LBA" ) ;
-                        strcat( NamePcxSave, itoa( NumPcxSave,"          ",10 ) ) ;
-                        AddExt( NamePcxSave, ".PCX" ) ;
-        */
+                        // strcpy( NamePcxSave, PATH_PCX_SAVE ) ;
+                        // strcat( NamePcxSave, "LBA" ) ;
+                        // strcat( NamePcxSave, itoa( NumPcxSave,"          ",10 ) ) ;
+                        // AddExt( NamePcxSave, ".PCX" ) ;
+
         sprintf(NamePcxSave, "%sLBA%05ld.PCX", PATH_PCX_SAVE, NumPcxSave);
 
         SavePCX(NamePcxSave, Log, ModeDesiredX, ModeDesiredY, pal);
@@ -179,6 +190,7 @@ void CheckSaveLogPcx(U8 *pal)
 
         RestoreTimer();
     }
+    */
 }
 
 //****************************************************************************
@@ -191,6 +203,8 @@ void CheckSaveLogPcx(U8 *pal)
 
 void LoadListAnim3DS(void)
 {
+    // TODO: Implement
+    /*
     U32 handle, buffer;
     S32 n;
 
@@ -207,11 +221,14 @@ void LoadListAnim3DS(void)
     ListAnim3DS = (T_ANIM_3DS *)LoadMalloc_HQR(PATH_RESSOURCE "anim3ds.hqr", n);
     if (!ListAnim3DS)
         TheEndCheckFile(PATH_RESSOURCE "anim3ds.hqr");
+        */
 }
 
 /*──────────────────────────────────────────────────────────────────────────*/
 void InitGameLists()
 {
+    // TODO: Implement
+    /*
     T_INCRUST_DISP *ptrdisp = ListIncrustDisp;
     S32 i;
 
@@ -242,13 +259,15 @@ void InitGameLists()
     NbObjets = 0;
     NbZones = 0;
     NbBrickTrack = 0;
+    */
 }
 
 /*══════════════════════════════════════════════════════════════════════════*/
 
 void InitGame(int argc)
 {
-    /*-------------------------------------------------------------------------*/
+    // TODO: Implement
+    /*
     UnsetClip();
 
     AlphaLight = 896 * MUL_ANGLE;
@@ -265,8 +284,7 @@ void InitGame(int argc)
     SceneStartY = 24 * SIZE_BRICK_Y;
     SceneStartZ = 16 * SIZE_BRICK_XZ;
 
-    /*-------------------------------------------------------------------------*/
-    /* init FIRST scene files */
+    // init FIRST scene files
 
     NewCube = 0;
     NumCube = -1;
@@ -300,11 +318,14 @@ void InitGame(int argc)
         Cls();
         BoxUpdate();
     }
+    */
 }
 
 /*──────────────────────────────────────────────────────────────────────────*/
 void GamePaused(U32 flags)
 {
+    // TODO: Implement
+    /*
     T_INCRUST_DISP *ptrdisp = NULL;
     S32 n;
     S32 endtimer;
@@ -378,6 +399,7 @@ void GamePaused(U32 flags)
     PersoFlashTimer = 0;
 
     ClearWaitNoInput();
+    */
 }
 
 /*══════════════════════════════════════════════════════════════════════════*
@@ -397,6 +419,9 @@ U8 WaitNoKey35 = FALSE;
 
 S32 MainLoop()
 {
+    return 0;
+    // TODO: Implement
+    /*
     S32 xm, ym, zm;
     T_OBJET *ptrobj;
     U8 i;
@@ -413,8 +438,6 @@ restartloop:
     ClearWaitNoInput();
     InitWaitNoInput(I_FIRE | I_MENUS | I_OPTIONS | I_SAVE | I_LOAD);
 
-    /*-------------------------------------------------------------------------*/
-
     if (EscTimer)
     {
         SetTimerHR(EscTimer);
@@ -423,17 +446,13 @@ restartloop:
 
     EscTimer = 0;
 
-    /*-------------------------------------------------------------------------*/
-
-    /* vitesse de chute propor pour tous les objets */
+    // vitesse de chute propor pour tous les objets
     InitMove(&RealFalling, -2560);
-    /* vitesse de decalage propor tapis roulant */
+    // vitesse de decalage propor tapis roulant
     InitMove(&RealShifting, 640);
 
-    /* frequence de paning des samples always */
+    // frequence de paning des samples always
     InitMove(&SampleAlwaysMove, 2);
-
-    /*-------------------------------------------------------------------------*/
 
     FirstSave = TRUE;
 
@@ -441,29 +460,29 @@ restartloop:
     {
     startloop:
 
-        /*#ifdef  THOMAS
-                        if( DefKeys[0].Key1==0 )
-                        {
-                                PalOne( LBAWHITE, 255, 255, 255 ) ;
-                                CoulText( LBAWHITE, 0 ) ;
-                                GraphPrintf( TRUE, 0, 0, "STOP: Patch Inputs trouvé !!!", TRUE ) ;
-                                while( Key ) ;
-                                while( !Key ) ;
-                        }
-        #endif
-        */
+        // #ifdef  THOMAS
+        //                 if( DefKeys[0].Key1==0 )
+        //                 {
+        //                         PalOne( LBAWHITE, 255, 255, 255 ) ;
+        //                         CoulText( LBAWHITE, 0 ) ;
+        //                         GraphPrintf( TRUE, 0, 0, "STOP: Patch Inputs trouvé !!!", TRUE ) ;
+        //                         while( Key ) ;
+        //                         while( !Key ) ;
+        //                 }
+        // #endif
+
         ptrobj = &ListObjet[NUM_PERSO];
 
         // DEBUG pour trouver bug Alpha
 
 #ifndef _WIN32
-/*              if( ModeHercule )
-                {
-                        HStringf( 0, 0, "Alpha: %4d", ptrobj->Obj.Alpha ) ;
-                        HStringf( 0, 1, "Beta : %4d", ptrobj->Obj.Beta ) ;
-                        HStringf( 0, 2, "Gamma: %4d", ptrobj->Obj.Gamma ) ;
-                }
-*/
+        //   if( ModeHercule )
+        //     {
+        //             HStringf( 0, 0, "Alpha: %4d", ptrobj->Obj.Alpha ) ;
+        //             HStringf( 0, 1, "Beta : %4d", ptrobj->Obj.Beta ) ;
+        //             HStringf( 0, 2, "Gamma: %4d", ptrobj->Obj.Gamma ) ;
+        //     }
+
 #endif
 
         // debug patch Gamma
@@ -471,8 +490,6 @@ restartloop:
         {
             Message("STOP: 'j'ai trouvé le Patch_Alpha' !", TRUE);
         }
-
-        /*-------------------------------------------------------------------------*/
 
         if (NewCube != -1)
         {
@@ -534,7 +551,6 @@ restartloop:
             FlagReajustPosTwinsen = TRUE;
         }
 
-/*-------------------------------------------------------------------------*/
 #ifdef DEBUG_TOOLS
         UnsetClip();
 
@@ -546,8 +562,6 @@ restartloop:
         }
 #endif
 
-        /*-------------------------------------------------------------------------*/
-
         // en attendant une methode propre de gestion de memoire
         // des samples !
         if (RestartRainSample)
@@ -555,8 +569,6 @@ restartloop:
             StartRainSample();
             LaunchAmbiance();
         }
-
-        /*-------------------------------------------------------------------------*/
 
         LastInput = Input;
 
@@ -576,17 +588,15 @@ restartloop:
                 return (MyKey != K_ESC);
             }
 
-            /*                      if( HigTrack>1 AND GetMusicCD()==-1 )
-                                    {
-                                            S32     num = MyRnd(HigTrack-1)+1 ;
+            //   if( HigTrack>1 AND GetMusicCD()==-1 )
+            //     {
+            //             S32     num = MyRnd(HigTrack-1)+1 ;
 
-                                            PlayCdTrack( num ) ;
-                                    }
-            */
+            //             PlayCdTrack( num ) ;
+            //     }
         }
 
-        /*-------------------------------------------------------------------------*/
-        /* gestion clavier */ /* tools */
+        // gestion clavier tools
 
         // Faut-il le laisser ? (non, à mon avis !)
         if (DemoSlide AND MyKey == K_T)
@@ -756,8 +766,7 @@ restartloop:
 
         CheckSavePcx(); // F9: Sauve Screen dans PATH_PCX_SAVE
 
-        /*-------------------------------------------------------------------------*/
-        /* gestion clavier */ /* game */
+        // gestion clavier game
 
         if (!FlagFade)
         {
@@ -1465,9 +1474,9 @@ restartloop:
                 RestoreTimer();
             }
 
-            if (Input & I_RETURN) /* recentre sur perso */
+            if (Input & I_RETURN) // recentre sur perso
             {
-                if (!CameraZone /* si pas camera forcée */
+                if (!CameraZone // si pas camera forcée
                         AND !CinemaMode)
                 {
                     SaveTimer();
@@ -1511,25 +1520,20 @@ restartloop:
 
         } // if !flagfade
 
-        /*-------------------------------------------------------------------------*/
-
-        /* vitesse de chute propor pour tous les objets */
+        // vitesse de chute propor pour tous les objets
         StepFalling = GetDeltaMove(&RealFalling);
-        /* vitesse de decalage propor pour tous les objets */
+        // vitesse de decalage propor pour tous les objets
         StepShifting = GetDeltaMove(&RealShifting);
 
         // doit-on repaner les samples always
         pansample = GetDeltaMove(&SampleAlwaysMove);
-
-        /*-------------------------------------------------------------------------*/
 
         CameraZone = FALSE;
 
         GereAmbiance();
         CheckNextMusic();
 
-        /*-------------------------------------------------------------------------*/
-        /* gere les objets */
+        // gere les objets
 
         // asm
         ptrobj = ListObjet;
@@ -1701,8 +1705,7 @@ restartloop:
             }
         }
 
-        /*-------------------------------------------------------------------------*/
-        /* recentre sur hero (numobjfollow) */
+        // recentre sur hero (numobjfollow)
 
         if (!CameraZone)
         {
@@ -1732,7 +1735,7 @@ restartloop:
                                 ptrobj->Obj.Y,
                                 ptrobj->Obj.Z);
 
-                if (Xp<80 OR Xp> 539 OR Yp<(80 + ClipWindowYMin) OR Yp>(ClipWindowYMax - 50) /*429*/)
+                if (Xp<80 OR Xp> 539 OR Yp<(80 + ClipWindowYMin) OR Yp>(ClipWindowYMax - 50)) // 429)
                 {
                     SaveTimer();
 
@@ -1778,8 +1781,7 @@ restartloop:
             }
         }
 
-        /*-------------------------------------------------------------------------*/
-        /* affiche tout */
+        // affiche tout
 
         AffScene(FirstTime);
 
@@ -1813,6 +1815,7 @@ restartloop:
     }
 
     return 0;
+    */
 }
 
 /*══════════════════════════════════════════════════════════════════════════*
@@ -1824,6 +1827,8 @@ restartloop:
 
 void ReadConfigFile(void)
 {
+    // TODO: Implement
+    /*
     char *ptr;
 
     ReadInputConfig();    // Lit Config Clavier dans LBA2.CFG
@@ -1869,11 +1874,14 @@ void ReadConfigFile(void)
 
     // version distributeur
     DistribVersion = DefFileBufferReadValueDefault("Version", UNKNOWN_VERSION);
+    */
 }
 
 /*──────────────────────────────────────────────────────────────────────────*/
 void WriteConfigFile(void)
 {
+    // TODO: Implement
+    /*
     DefFileBufferInit(PathConfigFile, ScreenAux, (640 * 480 + RECOVER_AREA));
 
     WriteInputConfig();    // Sauve Config Clavier dans LBA2.CFG
@@ -1891,6 +1899,7 @@ void WriteConfigFile(void)
         DefFileBufferWriteString("FlagDisplayText", "ON");
     else
         DefFileBufferWriteString("FlagDisplayText", "OFF");
+    */
 }
 
 /*══════════════════════════════════════════════════════════════════════════*
@@ -1911,17 +1920,22 @@ HQR_GET_CALLBACK ErrorHQRGet;
 
 void ErrorHQRGet(char *name, S32 index)
 {
+    // TODO: Implement
+    /*
     char errstring[256];
 
     sprintf(errstring, "HQR_Get(%s): buffer trop petit (index %ld)", name, index);
 
     TheEnd(NOT_ENOUGH_MEM, errstring);
+    */
 }
 
 /*══════════════════════════════════════════════════════════════════════════*/
 
 void InitProgram()
 {
+    // TODO: Implement
+    /*
     BoxInit(MAX_BOXES);
 
     Cls();
@@ -1941,6 +1955,7 @@ void InitProgram()
 
     // init path de sauvegardes
     strcpy(PathSave, PATH_SAVE);
+    */
 }
 
 /*══════════════════════════════════════════════════════════════════════════*/
@@ -2003,6 +2018,8 @@ void V_ColorLine(U8 text, U8 back, U16 ncars)
 /*══════════════════════════════════════════════════════════════════════════*/
 void TheEndInfo()
 {
+    // TODO: Implement
+    /*
     S32 err = FALSE;
 
 #ifdef CDROM
@@ -2081,6 +2098,7 @@ void TheEndInfo()
     WriteConfigFile();
 
     Clear3dExt();
+    */
 }
 
 /*══════════════════════════════════════════════════════════════════════════*/
@@ -2152,6 +2170,9 @@ int main(int argc, char *argv[])
     ChangeProgDir();
 #endif
 
+    return 0;
+    // TODO: Implement
+    /*
     HQRGetErrorFunc = ErrorHQRGet;
 
     InitMainBuffer(); // Alloue gros buffer pour tous les pointeurs
@@ -2463,15 +2484,15 @@ int main(int argc, char *argv[])
 
     // Pour un SlideShow sur un salon, il ne faut pas que les p'tits gars
     // puissent jouer avec le clavier !!!!!
-    /*      if( ArgC==2 AND !stricmp(ArgV[1],"/NOKEY") )
-            {
-                    KeyOff = TRUE ;
-                    Key = Joy = Fire = Input = 0 ;
-            }
+    //       if( ArgC==2 AND !stricmp(ArgV[1],"/NOKEY") )
+    //         {
+    //                 KeyOff = TRUE ;
+    //                 Key = Joy = Fire = Input = 0 ;
+    //         }
 
-    //      SlideDemo(ArgC,ArgV) ;
+    // //      SlideDemo(ArgC,ArgV) ;
 
-    */
+
     if (ArgC > 1)
     {
 #ifdef DEMO
@@ -2533,6 +2554,7 @@ int main(int argc, char *argv[])
     TheEnd(PROGRAM_OK, "");
 
     return 0;
+    */
 }
 
 /*══════════════════════════════════════════════════════════════════════════*/
