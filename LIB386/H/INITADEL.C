@@ -180,19 +180,21 @@ atexit(SafeErrorMallocMsg);
 	//  CPU
 	LogPuts("\nIdentifying CPU. Please wait...\n");
 
-	if (!FindAndRemoveParam("/CPUNodetect"))
-	{
-		ProcessorIdentification();
-	}
+	// TODO: delete?
+	// if (!FindAndRemoveParam("/CPUNodetect"))
+	// {
+	// 	ProcessorIdentification();
+	// }
 
-	DisplayCPU();
+	// TODO: delete?
+	// DisplayCPU();
 
-	if (ParamsCPU())
-	{
-		LogPuts("\nSome command Line Parameters override CPU detection.\nNew CPU parameters:\n");
+	// if (ParamsCPU())
+	// {
+	// 	LogPuts("\nSome command Line Parameters override CPU detection.\nNew CPU parameters:\n");
 
-		DisplayCPU();
-	}
+	// 	DisplayCPU();
+	// }
 
 // ··········································································
 //  CmdLine Parser

@@ -1,3 +1,4 @@
+/*
 ;----------------------------------------------------------------------------
 			.386P
 			.MODEL SMALL, SYSCALL
@@ -12,15 +13,15 @@
 			.CODE
 
 ;----------------------------------------------------------------------------
-			PUBLIC	SYSCALL	RestoreBlock
+			PUBLIC	SYSCALL	SaveBlock
 
 ;----------------------------------------------------------------------------
-;void	RestoreBlock( void *screen, void *buffer, S32 x0, S32 y0, S32 x1, S32 y1)
+;void	SaveBlock( void *screen, void *buffer, S32 x0, S32 y0, S32 x1, S32 y1)
 
-;#pragma aux RestoreBlock	"*"			\
-;	parm	[edi] [esi] [eax] [ebx] [ecx] [edx]
+;#pragma aux SaveBlock	"*"				\
+;	parm	[esi] [edi] [eax] [ebx] [ecx] [edx]
 
-RestoreBlock		proc
+SaveBlock		proc
 
 			sub	ecx, eax		; ECX = DeltaX-1
 			sub	edx, ebx		; EDX = DeltaY-1
@@ -29,10 +30,10 @@ RestoreBlock		proc
 			add	edx, 2			; EDX = DeltaY+1
 
 			mov	ebx, TabOffLine[ebx*4]
-			add	edi, eax
+			add	esi, eax
 
 			mov	eax, TabOffLine[1*4]
-			add	edi, ebx
+			add	esi, ebx
 
 			push	ebp
 			sub	eax, ecx
@@ -51,14 +52,14 @@ Again:
 			mov	ecx, ebp
 			rep	movsb
 
-			add	edi, eax
+			add	esi, eax
 odd:
 			mov	ecx, ebx		; Delta X
 			rep	movsd
 			mov	ecx, ebp
 			rep	movsb
 
-			add	edi, eax
+			add	esi, eax
 
 			dec	edx
 			jnz	Again
@@ -66,8 +67,17 @@ odd:
 			pop	ebp
 
 			ret
-RestoreBlock		endp
+
+SaveBlock		endp
 
 ;----------------------------------------------------------------------------
 ;			The
-       			End
+						End
+*/
+
+#include <SVGA/SAVBLOCK.H>
+
+void SaveBlock(void *screen, void *buffer, S32 x0, S32 y0, S32 x1, S32 y1)
+{
+	// TODO: Implement
+}

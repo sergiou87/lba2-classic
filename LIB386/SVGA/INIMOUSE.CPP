@@ -1,25 +1,24 @@
 // ──────────────────────────────────────────────────────────────────────────
-#include <SYSTEM/adeline.h>
+#include <SYSTEM/ADELINE.H>
 
 #include <SVGA/INITMODE.H>
 #include <SVGA/DIRTYBOX.H>
-#include <SVGA/inimouse.h>
-#include <SVGA/mouse.h>
+#include <SVGA/INIMOUSE.H>
+#include <SVGA/MOUSE.H>
 
 // ──────────────────────────────────────────────────────────────────────────
-#ifdef _WIN32
+// #ifdef _WIN32
+
+// // ──────────────────────────────────────────────────────────────────────────
+// #include <SYSTEM/winsys.h>
 
 // ──────────────────────────────────────────────────────────────────────────
-#include <SYSTEM/winsys.h>
+// #else //_WIN32
 
 // ──────────────────────────────────────────────────────────────────────────
-#else //_WIN32
+// #include <SYSTEM/EXIT.H>
+// #include <AIL/MSS.H>
 
-// ──────────────────────────────────────────────────────────────────────────
-#include <SYSTEM/exit.h>
-#include <AIL/mss.h>
-
-#include <i86.h>
 #include <stdlib.h>
 
 // ──────────────────────────────────────────────────────────────────────────
@@ -27,7 +26,7 @@ static S32 Installed = FALSE;
 static S32 LastFlagMouse = FALSE;
 
 // ──────────────────────────────────────────────────────────────────────────
-#endif //_WIN32
+// #endif //_WIN32
 
 // ──────────────────────────────────────────────────────────────────────────
 volatile S32 Click = 0;
@@ -56,118 +55,27 @@ extern "C"
 #endif
 
 // ──────────────────────────────────────────────────────────────────────────
-#ifdef _WIN32
-
-// ──────────────────────────────────────────────────────────────────────────
-extern WINDOW_PROC_PTR OldMouseWindowProc;
-extern WINDOW_PROC MouseWindowProc;
+// extern WINDOW_PROC_PTR OldMouseWindowProc;
+// extern WINDOW_PROC MouseWindowProc;
 
 // ──────────────────────────────────────────────────────────────────────────
 void InitMouse()
 {
-	OldMouseWindowProc = WindowProc;
-	WindowProc = MouseWindowProc;
+	// OldMouseWindowProc = WindowProc;
+	// WindowProc = MouseWindowProc;
 
-	SetMouseBox(0, 0, ModeDesiredX, ModeDesiredY);
+	// SetMouseBox(0, 0, ModeDesiredX, ModeDesiredY);
 
-	GphSprite = &BinGphMouse;
-	DefSprite = 0;
+	// GphSprite = &BinGphMouse;
+	// DefSprite = 0;
 
-	Click = 0;
+	// Click = 0;
 }
 
 // ──────────────────────────────────────────────────────────────────────────
 void ClearMouse()
 {
-	WindowProc = OldMouseWindowProc;
+	// WindowProc = OldMouseWindowProc;
 }
-
-// ──────────────────────────────────────────────────────────────────────────
-#else //_WIN32
-
-// ──────────────────────────────────────────────────────────────────────────
-static void _loadds far click_handler(int max, int mcx, int mdx)
-{
-	MouseX = mcx >> 3;
-	MouseY = mdx >> 3;
-
-	if (max & 0x02)
-		Click |= 1;
-	if (max & 0x04)
-		Click &= ~1;
-	if (max & 0x08)
-		Click |= 2;
-	if (max & 0x10)
-		Click &= ~2;
-}
-
-#pragma aux click_handler \
-		parm[eax][ecx][edx]
-
-// ──────────────────────────────────────────────────────────────────────────
-void InitMouse()
-{
-	struct SREGS sregs;
-	union REGS inregs, outregs;
-
-	// Lock VMM
-	if (!AIL_vmm_lock_range((void *)&MouseX, (void *)&MouseY) OR !AIL_vmm_lock_range((void *)&Click, (void *)((&Click) + 1)) OR !AIL_vmm_lock_range((void *)FP_OFF(click_handler), (void *)ShowMouse))
-		exit(1);
-
-	segread(&sregs);
-
-	// check for mouse driver
-	inregs.w.ax = 0;
-	int386(0x33, &inregs, &outregs);
-
-	SetMouseBox(0, 0, ModeDesiredX, ModeDesiredY);
-	SetMouseSpeed(4, 4);
-
-	GphSprite = &BinGphMouse;
-	DefSprite = 0;
-
-	Click = 0;
-
-	UpdateMouseRes();
-
-	// install click watcher
-	inregs.w.ax = 0xC;
-	inregs.w.cx = 0x01 | 0x02 | 0x04 | 0x08 | 0x10;
-	inregs.x.edx = FP_OFF(click_handler);
-	sregs.es = FP_SEG(click_handler);
-	int386x(0x33, &inregs, &outregs, &sregs);
-
-	RegisterInitClear(InitMouse, ClearMouse);
-
-	FlagMouse = LastFlagMouse;
-
-	Installed = TRUE;
-}
-
-// ──────────────────────────────────────────────────────────────────────────
-void ClearMouse()
-{
-	union REGS inregs, outregs;
-
-	if (!Installed)
-	{
-		return;
-	}
-
-	inregs.w.ax = 0;
-	int386(0x33, &inregs, &outregs);
-
-	LastFlagMouse = FlagMouse;
-
-	// Unlock VMM
-	AIL_vmm_unlock_range((void *)&MouseX, (void *)&MouseY);
-	AIL_vmm_unlock_range((void *)&Click, (void *)((&Click) + 1));
-	AIL_vmm_unlock_range((void *)FP_OFF(click_handler), (void *)ShowMouse);
-
-	Installed = FALSE;
-}
-
-// ──────────────────────────────────────────────────────────────────────────
-#endif //_WIN32
 
 // ──────────────────────────────────────────────────────────────────────────

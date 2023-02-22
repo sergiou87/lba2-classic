@@ -1,25 +1,26 @@
 //****************************************************************************
-#ifndef	LIB_SVGA_SAVBLOCK
-#define	LIB_SVGA_SAVBLOCK
+#ifndef LIB_SVGA_SAVBLOCK
+#define LIB_SVGA_SAVBLOCK
+
+#include <SYSTEM/ADELINE.H>
 
 //****************************************************************************
-#ifdef	__cplusplus
-extern	"C"	{
+#ifdef __cplusplus
+extern "C"
+{
 #endif
 
-//****************************************************************************
-extern void	SaveBlock( void *screen, void *buffer, S32 x0, S32 y0, S32 x1, S32 y1);
+	//****************************************************************************
+	extern void SaveBlock(void *screen, void *buffer, S32 x0, S32 y0, S32 x1, S32 y1);
 
-#pragma aux SaveBlock	"*"				\
-	parm caller	[esi] [edi] [eax] [ebx] [ecx] [edx]
+#pragma aux SaveBlock "*" parm caller[esi][edi][eax][ebx][ecx][edx]
 
 //****************************************************************************
-#ifdef	__cplusplus
+#ifdef __cplusplus
 }
 #endif
 
 //****************************************************************************
-#endif//LIB_SVGA_SAVBLOCK
+#endif // LIB_SVGA_SAVBLOCK
 
 //****************************************************************************
-

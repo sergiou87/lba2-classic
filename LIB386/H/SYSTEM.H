@@ -40,8 +40,8 @@
 #include <SYSTEM/A_MALLOC.H>
 #include <SYSTEM/N_MALLOC.H>
 #include <SYSTEM/S_MALLOC.H>
-#include <SYSTEM/CPU.H>
-#include <SYSTEM/DISPCPU.H>
+// #include <SYSTEM/CPU.H>
+// #include <SYSTEM/DISPCPU.H>
 #include <SYSTEM/DISPOS.H>
 // #include	<SYSTEM/DLLLOAD.H>
 #include <SYSTEM/EXIT.H>

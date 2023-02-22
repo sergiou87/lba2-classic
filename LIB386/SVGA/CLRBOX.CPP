@@ -1,10 +1,13 @@
+/*
 ;*══════════════════════════════════════════════════════════════════════════*
 		.386p
-
-		.model SMALL, SYSCALL
+		OPTION	LANGUAGE:SYSCALL
+		OPTION	SCOPED
 
 ;*══════════════════════════════════════════════════════════════════════════*
-		.DATA
+DGROUP		GROUP	_DATA
+
+_DATA		SEGMENT USE32 PARA PUBLIC 'DATA'
 
 ;*══════════════════════════════════════════════════════════════════════════*
 		extrn	SYSCALL	Chooser_RtnI:DWORD
@@ -13,39 +16,93 @@
 		extrn	SYSCALL	Chooser_Result:DWORD
 
 ;*══════════════════════════════════════════════════════════════════════════*
-		public	SYSCALL	CopyBox
+		public	SYSCALL	ClearColor
 
-CopyBox		dd	offset CopyBoxInit
-
-;*══════════════════════════════════════════════════════════════════════════*
-		.CODE
+ClearColor	dq	0
 
 ;*══════════════════════════════════════════════════════════════════════════*
-		extrn	SYSCALL	CopyBoxI:PROC
-		extrn	SYSCALL	CopyBoxF:PROC
-		extrn	SYSCALL	CopyBoxM:PROC
+		public	SYSCALL	ClearBox
+
+ClearBox	dd	offset ClearBoxInit
+
+;*══════════════════════════════════════════════════════════════════════════*
+_DATA		ENDS
+
+;*══════════════════════════════════════════════════════════════════════════*
+_TEXT		SEGMENT	USE32 PARA PUBLIC 'CODE'
+					ASSUME	CS:FLAT, DS:FLAT, ES:FLAT, SS:FLAT
+
+;*══════════════════════════════════════════════════════════════════════════*
+		extrn	SYSCALL	ClearBoxI:PROC
+		extrn	SYSCALL	ClearBoxF:PROC
+		extrn	SYSCALL	ClearBoxM:PROC
 
 ;*══════════════════════════════════════════════════════════════════════════*
 		extrn	SYSCALL	Chooser:PROC
 
 ;*══════════════════════════════════════════════════════════════════════════*
-;void	CopyBox(void *dst, void *src, U32 *TabOffDst, T_BOX *box) ;
+;void	ClearBox(void *dst, U32 *TabOffDst, T_BOX *box) ;
 
-;#pragma aux CopyBox	       	       	\
-;	parm	[edi] [esi] [edx] [ebx]	\
-;	modify	[eax ecx]
+;#pragma aux ClearBox	       	       	\
+;	parm	[edi] [edx] [ebx]	\
+;	modify	[eax ecx esi]
 
-CopyBoxInit	proc
+ClearBoxInit	proc
 
-		mov	[Chooser_RtnI], offset CopyBoxI	; Integer
-		mov	[Chooser_RtnF], offset CopyBoxF	; FPU
-		mov	[Chooser_RtnM], offset CopyBoxM	; MMX
-		mov	[Chooser_Result], offset CopyBox; Pointer
+		mov	[Chooser_RtnI], offset ClearBoxI	; Integer
+		mov	[Chooser_RtnF], offset ClearBoxF	; FPU
+		mov	[Chooser_RtnM], offset ClearBoxM	; MMX
+		mov	[Chooser_Result], offset ClearBox	; Pointer
 		jmp	Chooser
 
-CopyBoxInit	endp
+ClearBoxInit	endp
+
+;*══════════════════════════════════════════════════════════════════════════*
+;void	SetClearColor(U32 color)	;
+
+;#pragma aux SetClearColor		\
+;	parm	[eax]			\
+;	modify	[ecx edx]
+
+SetClearColor	proc
+
+		and	eax, 0FFh	; 000C
+
+		mov	edx, eax	; 000C
+
+		shl	edx, 8		; 00C0
+
+		mov	ecx, edx	; 00C0
+		or	edx, eax	; 00CC
+
+		shl	edx, 16		; CC00
+		or	eax, ecx	; 00CC
+
+		or	eax, edx	; CCCC
+
+		mov	dword ptr[ClearColor], eax
+		mov	dword ptr[ClearColor+4], eax
+
+		ret
+
+SetClearColor	endp
+
+;*══════════════════════════════════════════════════════════════════════════*
+_TEXT		ENDS
 
 ;*══════════════════════════════════════════════════════════════════════════*
 ;		The
 		END
+*/
 
+#include <SVGA/CLRBOX.H>
+
+void ClearBox(void *dst, U32 *TabOffDst, T_BOX *box)
+{
+	// TODO: Implement
+}
+
+void SetClearColor(U32 color)
+{
+	// TODO: Implement
+}

@@ -1,75 +1,53 @@
-//──────────────────────────────────────────────────────────────────────────
-#include	<SYSTEM/adeline.h>
-#include	<SYSTEM/dosmallo.h>
-#include	<SYSTEM/n_malloc.h>
+// ──────────────────────────────────────────────────────────────────────────
+#include <SYSTEM/ADELINE.H>
+#include <SYSTEM/N_MALLOC.H>
 
-#include	<malloc.h>
+#include <stdlib.h>
 
-//──────────────────────────────────────────────────────────────────────────
-#define	MALLOC_MASK	(~(MALLOC_ALIGN-1))
+// ──────────────────────────────────────────────────────────────────────────
+#define MALLOC_MASK (~(MALLOC_ALIGN - 1))
 
-//──────────────────────────────────────────────────────────────────────────
-void	*NormMalloc(U32 size)
+// ──────────────────────────────────────────────────────────────────────────
+void *NormMalloc(U32 size)
 {
-	S32	addr, temp	;
+	S32 addr, temp;
 
-	temp = (S32)malloc(size+MALLOC_ALIGN)	;
+	temp = (S32)malloc(size + MALLOC_ALIGN);
 
-	if(!temp)
+	if (!temp)
 	{
-		return	NULL	;
+		return NULL;
 	}
 
-	addr = (temp+MALLOC_ALIGN)&MALLOC_MASK	;
+	addr = (temp + MALLOC_ALIGN) & MALLOC_MASK;
 
-	*((S8*)addr-2)	= 0			;
-	*((S8*)addr-1)	= (S8)(addr - temp)	;
+	*((S8 *)addr - 2) = 0;
+	*((S8 *)addr - 1) = (S8)(addr - temp);
 
-	return (void*)addr	;
+	return (void *)addr;
 }
 
-//──────────────────────────────────────────────────────────────────────────
-void	NormFree(void *addr)
+// ──────────────────────────────────────────────────────────────────────────
+void NormFree(void *addr)
 {
-#ifndef	_WIN32
-	if(*((S8*)addr-2))
-	{
-		NormDosFree(addr);
-	}
-	else
-	{
-#endif//_WIN32
-		addr = (void*)( (S32)addr - *((S8*)addr-1) )	;
-		free(addr)	;
-#ifndef	_WIN32
-	}
-#endif//_WIN32
+	addr = (void *)((S32)addr - *((S8 *)addr - 1));
+	free(addr);
 }
 
-//──────────────────────────────────────────────────────────────────────────
-void	*NormMshrink(void *addr, U32 size)
+// ──────────────────────────────────────────────────────────────────────────
+void *NormMshrink(void *addr, U32 size)
 {
-	void	*temp	;
+	void *temp;
 
-#ifndef	_WIN32
-	if(*((S8*)addr-2))
-	{
-		addr = NormDosMshrink(addr, size)	;
-	}
-	else
-	{
-#endif//_WIN32
-		temp = (void*)( (S32)addr - *((S8*)addr-1) )	;
+	temp = (void *)((S32)addr - *((S8 *)addr - 1));
 
-		if(!_expand(temp, (size_t)(size+MALLOC_ALIGN)))
-		{
-			addr = NULL	;
-		}
-#ifndef	_WIN32
-	}
-#endif//_WIN32
+	// TODO: delete?? or just return realloc(temp, (size_t)(size + MALLOC_ALIGN)) ?
+	// if (!_expand(temp, (size_t)(size + MALLOC_ALIGN)))
+	// {
+	// 	addr = NULL;
+	// }
 
-	return addr	;
+	return addr;
 }
 
-//──────────────────────────────────────────────────────────────────────────
+// ──────────────────────────────────────────────────────────────────────────

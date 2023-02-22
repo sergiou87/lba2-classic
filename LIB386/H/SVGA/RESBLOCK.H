@@ -1,25 +1,26 @@
 //****************************************************************************
-#ifndef	LIB_SVGA_RESBLOCK
-#define	LIB_SVGA_RESBLOCK
+#ifndef LIB_SVGA_RESBLOCK
+#define LIB_SVGA_RESBLOCK
+
+#include <SYSTEM/ADELINE.H>
 
 //****************************************************************************
-#ifdef	__cplusplus
-extern	"C"	{
+#ifdef __cplusplus
+extern "C"
+{
 #endif
 
-//****************************************************************************
-void	RestoreBlock( void *screen, void *buffer, S32 x0, S32 y0, S32 x1, S32 y1);
+	//****************************************************************************
+	void RestoreBlock(void *screen, void *buffer, S32 x0, S32 y0, S32 x1, S32 y1);
 
-#pragma aux RestoreBlock	"*"			\
-	parm caller	[edi] [esi] [eax] [ebx] [ecx] [edx]
+#pragma aux RestoreBlock "*" parm caller[edi][esi][eax][ebx][ecx][edx]
 
 //****************************************************************************
-#ifdef	__cplusplus
+#ifdef __cplusplus
 }
 #endif
 
 //****************************************************************************
-#endif//LIB_SVGA_RESBLOCK
+#endif // LIB_SVGA_RESBLOCK
 
 //****************************************************************************
-

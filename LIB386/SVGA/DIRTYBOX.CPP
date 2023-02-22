@@ -1,6 +1,6 @@
 //****************************************************************************
 #include <SYSTEM/ADELINE.H>
-#include <SYSTEM/CPU.H>
+// #include <SYSTEM/CPU.H>
 #include <SYSTEM/A_MALLOC.H>
 #include <SVGA/SCREENXY.H>
 #include <SVGA/LOGPHYS.H>
@@ -676,18 +676,19 @@ void BoxChangeClip(S32 x0, S32 y0, S32 x1, S32 y1, S32 clean)
 //****************************************************************************
 S32 BoxInit(S32 nbBox)
 {
-	if ((ProcessorSignature.FPU == 1) && (ProcessorSignature.Family >= 5)								// At least Pentium
-			&& ((ProcessorSignature.Manufacturer == 1) || (ProcessorFeatureFlags.MMX == 1)) // either Intel or MMX
-	)
-	{
-		BoxMask = ~7;
-		BoxAlign = 7;
-	}
-	else
-	{
-		BoxMask = ~3;
-		BoxAlign = 3;
-	}
+	// TODO: only powerful CPUs?
+	// if ((ProcessorSignature.FPU == 1) && (ProcessorSignature.Family >= 5)								// At least Pentium
+	// 		&& ((ProcessorSignature.Manufacturer == 1) || (ProcessorFeatureFlags.MMX == 1)) // either Intel or MMX
+	// )
+	// {
+	BoxMask = ~7;
+	BoxAlign = 7;
+	// }
+	// else
+	// {
+	// 	BoxMask = ~3;
+	// 	BoxAlign = 3;
+	// }
 
 	if (nbBox < 4) // minimum of one box per list
 	{

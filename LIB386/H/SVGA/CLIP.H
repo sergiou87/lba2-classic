@@ -2,6 +2,8 @@
 #ifndef LIB_SVGA_CLIP
 #define LIB_SVGA_CLIP
 
+#include <SYSTEM/ADELINE.H>
+
 //--------------------------------------------------------------------------
 #ifdef __cplusplus
 extern "C"
