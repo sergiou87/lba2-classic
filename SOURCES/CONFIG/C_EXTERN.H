@@ -1,15 +1,17 @@
-#include <direct.h>
+#ifndef __C_EXTERN_H__
+#define __C_EXTERN_H__
+
 #include <ctype.h>
 
-#include <system.h>
-#include <svga.h>
-#include <3d.h>
+#include <SYSTEM.H>
+#include <SVGA.H>
+#include <3D.H>
 
-#include <fileio.h>
+#include <FILEIO.H>
 
-#include "AddKeys.h"
-#include "Input.h"
-#include "Config.h"
+#include "ADDKEYS.H"
+#include "INPUT.H"
+#include "CONFIG.H"
 
 #define MAX_BOXES 200
 
@@ -26,3 +28,5 @@ extern void Beep();
 
 #define FadeToBlackAndSamples FadeToBlack
 #define FadeToPalAndSamples FadeToPal
+
+#endif // __C_EXTERN_H__

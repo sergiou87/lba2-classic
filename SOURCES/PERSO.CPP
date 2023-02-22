@@ -2170,12 +2170,12 @@ int main(int argc, char *argv[])
     ChangeProgDir();
 #endif
 
-    return 0;
-    // TODO: Implement
-    /*
     HQRGetErrorFunc = ErrorHQRGet;
 
     InitMainBuffer(); // Alloue gros buffer pour tous les pointeurs
+    return 0;
+    // TODO: Implement
+    /*
 
     End_Error = PathConfigFile;
 

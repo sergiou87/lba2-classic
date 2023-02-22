@@ -17,11 +17,11 @@ typedef struct
 	S32 Size;
 	U32 Time;
 } T_HQR_BLOC;
-
+*/
 // ──────────────────────────────────────────────────────────────────────────
 HQR_GET_CALLBACK *HQRGetErrorFunc = NULL;
 HQR_GET_CALLBACK *HQRGetDelFunc = NULL;
-
+/*
 // ──────────────────────────────────────────────────────────────────────────
 S32 HQR_Flag; // flag "load done" par HQR_Get
 */

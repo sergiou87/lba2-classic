@@ -1,11 +1,4 @@
 // ··········································································
-#ifndef LIB_SYSTEM
-
-#error ADELINE: you need to include SYSTEM.H
-
-#endif
-
-// ··········································································
 #ifdef DEBUG_MALLOC
 
 atexit(SafeErrorMallocMsg);
@@ -222,7 +215,8 @@ atexit(SafeErrorMallocMsg);
 	// ··········································································
 	//  AIL API init (for vmm_lock/timer)
 
-	InitAIL();
+// TODO: Is this necessary?
+// InitAIL();
 
 // ··········································································
 //  svga
@@ -349,19 +343,7 @@ atexit(SafeErrorMallocMsg);
 
 #if ((inits)&INIT_TIMER)
 
-#ifdef _WIN32
-
 	InitTimer();
-
-#else //_WIN32
-
-	if (!InitTimerAIL())
-	{
-		LogPuts("Error: Could not link timer routine with AIL INT8 handler.\n");
-		exit(1);
-	}
-
-#endif //_WIN32
 
 #endif
 
