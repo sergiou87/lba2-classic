@@ -1,24 +1,19 @@
-#include <SYSTEM/adeline.h>
+#include <SYSTEM/ADELINE.H>
 #include <SYSTEM/LOGPRINT.H>
-#include <SYSTEM/exit.h>
+#include <SYSTEM/EXIT.H>
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef _WIN32
-#include "mixer.h"
-#include <SYSTEM/winsys.h>
+#include "MIXER.H"
+#include <SYSTEM/WINSYS.H>
 #include <SYSTEM/TIMERWIN.H>
-#include <AIL/mssw.h>
-#else
-#include <SYSTEM/TIMERDOS.H>
-#include <AIL/mss.h>
-#endif
+// #include <AIL/mssw.h>
 
 #include <AIL/COMMON.H>
-#include <AIL/sample.h>
-#include <AIL/stream.h>
+#include <AIL/SAMPLE.H>
+#include <AIL/STREAM.H>
 
 // ████████████████████████████████████████████████████████████████████████████
 
@@ -32,7 +27,8 @@
 
 #define NB_VOICES MAX_SAMPLE_VOICES + MAX_SYNTHESIZER_VOICES + MAX_STREAMING_VOICES
 
-extern HDIGDRIVER DigDriver; // Handle to digital audio driver
+// TODO: delete?
+// extern HDIGDRIVER DigDriver; // Handle to digital audio driver
 
 // ████████████████████████████████████████████████████████████████████████████
 typedef struct
@@ -58,7 +54,8 @@ static S32 OldWaveVolume;
 #endif //_WIN32
 
 // ████████████████████████████████████████████████████████████████████████████
-static HTIMER HandleTimer = NULL;
+// TODO: delete?
+// static HTIMER HandleTimer = NULL;
 static void *Timer_ptrsample;
 static U32 Timer_usernum;
 static S32 Timer_pitchbend;
@@ -91,7 +88,8 @@ enum
 
 // ████████████████████████████████████████████████████████████████████████████
 
-VOID_FUNC SpecialInitSampleDriver;
+// TODO: delete?
+// VOID_FUNC SpecialInitSampleDriver;
 
 // ████████████████████████████████████████████████████████████████████████████
 
@@ -130,142 +128,146 @@ S32 InitSampleDriver(char *driver_name)
 		return TRUE;
 	}
 
-#ifdef _WIN32
+	// TODO: Implement
+	/*
+	#ifdef _WIN32
 
-	driver_name = driver_name;
+		driver_name = driver_name;
 
-	AIL_set_preference(DIG_USE_WAVEOUT, FALSE);
-retry:
-	if (InitDriver(SamplingRate, 16, 2))
-	{
-		if (InitDriver(SamplingRate, 8, 2))
+		AIL_set_preference(DIG_USE_WAVEOUT, FALSE);
+	retry:
+		if (InitDriver(SamplingRate, 16, 2))
 		{
-			if (InitDriver(SamplingRate / 2, 8, 1))
+			if (InitDriver(SamplingRate, 8, 2))
 			{
-
-				if (!AIL_get_preference(DIG_USE_WAVEOUT))
+				if (InitDriver(SamplingRate / 2, 8, 1))
 				{
-					AIL_set_preference(DIG_USE_WAVEOUT, TRUE);
-					goto retry;
+
+					if (!AIL_get_preference(DIG_USE_WAVEOUT))
+					{
+						AIL_set_preference(DIG_USE_WAVEOUT, TRUE);
+						goto retry;
+					}
+					LogPuts("Could find a compatible Digital Audio Driver. Digital Audio Disabled.");
+					return TRUE;
 				}
-				LogPuts("Could find a compatible Digital Audio Driver. Digital Audio Disabled.");
-				return TRUE;
 			}
 		}
-	}
 
-#else
-	// Set application preferences
-	AIL_set_preference(DIG_HARDWARE_SAMPLE_RATE, SamplingRate);
-	AIL_set_preference(DIG_LATENCY, 30);
-	AIL_set_preference(DIG_USE_16_BITS, YES);
-	AIL_set_preference(DIG_USE_STEREO, YES);
-	AIL_set_preference(DIG_MIXER_CHANNELS, NB_VOICES);
-	AIL_set_preference(AIL_SCAN_FOR_HARDWARE, YES);
+	#else
+		// Set application preferences
+		AIL_set_preference(DIG_HARDWARE_SAMPLE_RATE, SamplingRate);
+		AIL_set_preference(DIG_LATENCY, 30);
+		AIL_set_preference(DIG_USE_16_BITS, YES);
+		AIL_set_preference(DIG_USE_STEREO, YES);
+		AIL_set_preference(DIG_MIXER_CHANNELS, NB_VOICES);
+		AIL_set_preference(AIL_SCAN_FOR_HARDWARE, YES);
 
-	// Initialize digital sound system
-	if (driver_name && strcmp(driver_name, ""))
-	{
-		strcpy(SampleDriverName, driver_name);
-		DigDriver = AIL_install_DIG_driver_file(driver_name, NULL);
-	}
-	else
-	{
-		LONG res;
-
-		SampleDriverName[0] = (char)0;
-
-		res = AIL_install_DIG_INI(&DigDriver);
-		switch (res)
+		// Initialize digital sound system
+		if (driver_name && strcmp(driver_name, ""))
 		{
-		case AIL_INIT_SUCCESS:
-			break;
-		case AIL_NO_INI_FILE:
-			LogPuts("No Digital Audio Driver specified. Digital Audio Disabled.");
-			return TRUE;
-		default:
-			DigDriver = NULL;
-			LogPuts("Please Run Setsound.exe again.");
-			break;
+			strcpy(SampleDriverName, driver_name);
+			DigDriver = AIL_install_DIG_driver_file(driver_name, NULL);
 		}
-	}
-	if (DigDriver == NULL)
-	{
-		LogPuts((char *)AIL_error);
-		return FALSE;
-	}
-#endif
-	{
-		char desc[128] = "";
-		S32 format;
-		S32 rate;
-
-		AIL_digital_configuration(DigDriver, &rate, &format, desc);
-
-		if (!desc[0])
+		else
 		{
-			strcpy(desc, SampleDriverName);
+			LONG res;
+
+			SampleDriverName[0] = (char)0;
+
+			res = AIL_install_DIG_INI(&DigDriver);
+			switch (res)
+			{
+			case AIL_INIT_SUCCESS:
+				break;
+			case AIL_NO_INI_FILE:
+				LogPuts("No Digital Audio Driver specified. Digital Audio Disabled.");
+				return TRUE;
+			default:
+				DigDriver = NULL;
+				LogPuts("Please Run Setsound.exe again.");
+				break;
+			}
+		}
+		if (DigDriver == NULL)
+		{
+			LogPuts((char *)AIL_error);
+			return FALSE;
+		}
+	#endif
+		{
+			char desc[128] = "";
+			S32 format;
+			S32 rate;
+
+			AIL_digital_configuration(DigDriver, &rate, &format, desc);
+
+			if (!desc[0])
+			{
+				strcpy(desc, SampleDriverName);
+			}
+
+			LogPrintf("Sample device         : %s\n"
+								"Digital configuration : %d bit, %s, %d Hz\n",
+								desc,
+								format & DIG_F_16BITS_MASK ? 16 : 8,
+								format & DIG_F_STEREO_MASK ? "Stereo" : "Mono",
+								rate);
 		}
 
-		LogPrintf("Sample device         : %s\n"
-							"Digital configuration : %d bit, %s, %d Hz\n",
-							desc,
-							format & DIG_F_16BITS_MASK ? 16 : 8,
-							format & DIG_F_STEREO_MASK ? "Stereo" : "Mono",
-							rate);
-	}
+		for (Nb_Voices = 0; Nb_Voices < MAX_SAMPLE_VOICES; Nb_Voices++)
+		{
+			HSAMPLE handle;
 
-	for (Nb_Voices = 0; Nb_Voices < MAX_SAMPLE_VOICES; Nb_Voices++)
-	{
-		HSAMPLE handle;
+			handle = AIL_allocate_sample_handle(DigDriver);
 
-		handle = AIL_allocate_sample_handle(DigDriver);
+			if (!handle)
+				break;
 
-		if (!handle)
-			break;
+			Sample_Handle[Nb_Voices].handle = handle;
+			Sample_Handle[Nb_Voices].sample = 0;
+		}
 
-		Sample_Handle[Nb_Voices].handle = handle;
-		Sample_Handle[Nb_Voices].sample = 0;
-	}
+		SampleSeed = 0x1000000;
 
-	SampleSeed = 0x1000000;
+		Sample_Driver_Enabled = TRUE;
 
-	Sample_Driver_Enabled = TRUE;
+		RegisterInitClear(SpecialInitSampleDriver, ClearSampleDriver); // Automatic clear
 
-	RegisterInitClear(SpecialInitSampleDriver, ClearSampleDriver); // Automatic clear
+	#ifdef _WIN32
+		UseWaveMixer = GetMixerVolDevice(&WaveVolume, MIXERLINE_COMPONENTTYPE_SRC_WAVEOUT);
+		if (UseWaveMixer)
+		{
+			LogPuts("Mixer Device found. Used for WAVE volume control.");
+			OldWaveVolume = GetMixerVolume(&WaveVolume);
+		}
+		else
+		{
+			LogPuts("Mixer Device not found. Wave volume control handled in software.");
+		}
 
-#ifdef _WIN32
-	UseWaveMixer = GetMixerVolDevice(&WaveVolume, MIXERLINE_COMPONENTTYPE_SRC_WAVEOUT);
-	if (UseWaveMixer)
-	{
-		LogPuts("Mixer Device found. Used for WAVE volume control.");
-		OldWaveVolume = GetMixerVolume(&WaveVolume);
-	}
-	else
-	{
-		LogPuts("Mixer Device not found. Wave volume control handled in software.");
-	}
-
-	PauseSamplesPtr = PauseSamples;
-	if (PauseMiles)
-	{
-		PauseMiles = PauseBothMiles;
-	}
-	else
-	{
-		PauseMiles = PauseSamples;
-	}
-	ResumeSamplesPtr = ResumeSamples;
-	if (ResumeMiles)
-	{
-		ResumeMiles = ResumeBothMiles;
-	}
-	else
-	{
+		PauseSamplesPtr = PauseSamples;
+		if (PauseMiles)
+		{
+			PauseMiles = PauseBothMiles;
+		}
+		else
+		{
+			PauseMiles = PauseSamples;
+		}
 		ResumeSamplesPtr = ResumeSamples;
-	}
-#endif
+		if (ResumeMiles)
+		{
+			ResumeMiles = ResumeBothMiles;
+		}
+		else
+		{
+			ResumeSamplesPtr = ResumeSamples;
+		}
+	#endif
 
+		return TRUE;
+		*/
 	return TRUE;
 }
 
@@ -282,19 +284,21 @@ void ClearSampleDriver()
 {
 	if (!Sample_Driver_Enabled)
 		return;
+	// TODO: Implement
+	/*
+	#ifdef _WIN32
+		// Restore mixer volume
+		if (UseWaveMixer)
+		{
+			SetMixerVolume(&WaveVolume, OldWaveVolume);
+		}
+	#endif //_WIN32
 
-#ifdef _WIN32
-	// Restore mixer volume
-	if (UseWaveMixer)
-	{
-		SetMixerVolume(&WaveVolume, OldWaveVolume);
-	}
-#endif //_WIN32
-
-	Sample_Driver_Enabled = FALSE;
+		Sample_Driver_Enabled = FALSE;
+		*/
 }
 // ████████████████████████████████████████████████████████████████████████████
-
+/*
 static S32 GetHandleIndice(U32 sample)
 {
 	S32 hnum;
@@ -445,148 +449,163 @@ static void ScaleVolumeSamples(S32 fadevol)
 }
 
 // ████████████████████████████████████████████████████████████████████████████
-
+*/
 void SetMasterVolumeSample(S32 volume)
 {
-#ifdef _WIN32
-	if (UseWaveMixer)
-	{
-		SetMixerVolume(&WaveVolume, volume);
-	}
-	else
-#endif
-	{
-		if (volume <= 0)
+	// TODO: Implement
+	/*
+	#ifdef _WIN32
+		if (UseWaveMixer)
 		{
-			volume = 0;
+			SetMixerVolume(&WaveVolume, volume);
 		}
 		else
+	#endif
 		{
-			volume++;
-
-			if (volume > 128)
+			if (volume <= 0)
 			{
-				volume = 128;
+				volume = 0;
 			}
+			else
+			{
+				volume++;
+
+				if (volume > 128)
+				{
+					volume = 128;
+				}
+			}
+
+			if (volume == LibWaveMasterVolume)
+			{
+				return;
+			}
+
+			LibWaveMasterVolume = volume;
+
+			if (!SamplesFade)
+				ScaleVolumeSamples(volume);
+
+			ChangeVolumeStream(GetVolumeStream());
 		}
-
-		if (volume == LibWaveMasterVolume)
-		{
-			return;
-		}
-
-		LibWaveMasterVolume = volume;
-
-		if (!SamplesFade)
-			ScaleVolumeSamples(volume);
-
-		ChangeVolumeStream(GetVolumeStream());
-	}
+		*/
 }
 
 // ████████████████████████████████████████████████████████████████████████████
 
 S32 GetMasterVolumeSample()
 {
-#ifdef _WIN32
-	if (UseWaveMixer)
-	{
-		return GetMixerVolume(&WaveVolume);
-	}
-	else
-#endif
-	{
-		if (LibWaveMasterVolume)
+	// TODO: Implement
+	/*
+	#ifdef _WIN32
+		if (UseWaveMixer)
 		{
-			return (LibWaveMasterVolume - 1);
+			return GetMixerVolume(&WaveVolume);
 		}
 		else
+	#endif
 		{
-			return (0);
+			if (LibWaveMasterVolume)
+			{
+				return (LibWaveMasterVolume - 1);
+			}
+			else
+			{
+				return (0);
+			}
 		}
-	}
+		*/
+	return 0;
 }
 
 // ████████████████████████████████████████████████████████████████████████████
 
 S32 FadeOutSamples(S32 delay)
 {
-	S32 delta;
+	// TODO: Implement
+	/*
+		S32 delta;
 
-	if (!SamplesFade)
-	{
+		if (!SamplesFade)
+		{
+			ManageTime();
+
+			FadeStartTime = TimerSystemHR;
+
+			SamplesFade = TRUE;
+		}
+
 		ManageTime();
 
-		FadeStartTime = TimerSystemHR;
+		delta = FadeStartTime + delay - TimerSystemHR;
 
-		SamplesFade = TRUE;
-	}
+		if (delta < 0)
+			delta = 0;
 
-	ManageTime();
-
-	delta = FadeStartTime + delay - TimerSystemHR;
-
-	if (delta < 0)
-		delta = 0;
-
-	if (Sample_Driver_Enabled)
-	{
-		S32 ratio;
-
-		if (delay)
+		if (Sample_Driver_Enabled)
 		{
-			ratio = delta * 128 / delay;
-		}
-		else
-		{
-			ratio = 128;
+			S32 ratio;
+
+			if (delay)
+			{
+				ratio = delta * 128 / delay;
+			}
+			else
+			{
+				ratio = 128;
+			}
+
+			ScaleVolumeSamples(ratio);
 		}
 
-		ScaleVolumeSamples(ratio);
-	}
-
-	return delta;
+		return delta;
+		*/
+	return 0;
 }
 
 // ████████████████████████████████████████████████████████████████████████████
 
 S32 FadeInSamples(S32 delay)
 {
-	S32 delta;
+	// TODO: Implement
+	/*
+		S32 delta;
 
-	if (SamplesFade)
-	{
+		if (SamplesFade)
+		{
+			ManageTime();
+
+			FadeStartTime = TimerSystemHR;
+
+			SamplesFade = FALSE;
+		}
+
 		ManageTime();
 
-		FadeStartTime = TimerSystemHR;
+		delta = TimerSystemHR - FadeStartTime;
 
-		SamplesFade = FALSE;
-	}
+		if (delta > delay)
+			delta = delay;
 
-	ManageTime();
-
-	delta = TimerSystemHR - FadeStartTime;
-
-	if (delta > delay)
-		delta = delay;
-
-	if (Sample_Driver_Enabled)
-	{
-		S32 ratio;
-
-		if (delay)
+		if (Sample_Driver_Enabled)
 		{
-			ratio = delta * 128 / delay;
-		}
-		else
-		{
-			ratio = 128;
+			S32 ratio;
+
+			if (delay)
+			{
+				ratio = delta * 128 / delay;
+			}
+			else
+			{
+				ratio = 128;
+			}
+
+			ScaleVolumeSamples(ratio);
 		}
 
-		ScaleVolumeSamples(ratio);
-	}
-
-	return delta;
+		return delta;
+		*/
+	return 0;
 }
 
 // ████████████████████████████████████████████████████████████████████████████
@@ -600,61 +619,65 @@ void InverseStereoSample(S32 inverse)
 
 U32 PlaySample(void *ptrsample, U32 usernum, S32 pitchbend, S32 nbrepeat, S32 volume, S32 pan)
 {
-	HSAMPLE handle;
-	U32 hnum;
+	// TODO: Implement
+	/*
+		HSAMPLE handle;
+		U32 hnum;
 
-	// get one available handle
-	handle = FindFreeHandle(&hnum);
+		// get one available handle
+		handle = FindFreeHandle(&hnum);
 
-	// if none, exit
-	if (!handle)
-		return NULL;
+		// if none, exit
+		if (!handle)
+			return NULL;
 
-	// link sample data with sample handle
-	if (!AIL_set_sample_file(handle, ptrsample, -1))
-	{
-		return 0xFFFFFFFF;
-	}
+		// link sample data with sample handle
+		if (!AIL_set_sample_file(handle, ptrsample, -1))
+		{
+			return 0xFFFFFFFF;
+		}
 
-	// Pichpend
-	AIL_set_sample_user_data(handle, USER_DATA_RATE, AIL_sample_playback_rate(handle));
-	if (pitchbend != 4096)
-	{
-		AIL_set_sample_playback_rate(
-				handle,
-				Scale(AIL_sample_playback_rate(handle), pitchbend, 12));
-	}
-	AIL_set_sample_user_data(handle, USER_DATA_PITCHBEND, pitchbend);
+		// Pichpend
+		AIL_set_sample_user_data(handle, USER_DATA_RATE, AIL_sample_playback_rate(handle));
+		if (pitchbend != 4096)
+		{
+			AIL_set_sample_playback_rate(
+					handle,
+					Scale(AIL_sample_playback_rate(handle), pitchbend, 12));
+		}
+		AIL_set_sample_user_data(handle, USER_DATA_PITCHBEND, pitchbend);
 
-	// Loop sample ( 0 = indefinitely )
-	AIL_set_sample_loop_count(handle, nbrepeat);
+		// Loop sample ( 0 = indefinitely )
+		AIL_set_sample_loop_count(handle, nbrepeat);
 
-	// Volume
-	AIL_set_sample_user_data(handle, USER_DATA_VOLUME, volume);
-	AIL_set_sample_volume(handle,
-												SamplesFade ? 0 :
-#ifdef _WIN32
-												UseWaveMixer ? volume
-																		 :
-#endif //_WIN32
-																		 Scale(volume, LibWaveMasterVolume, 7));
+		// Volume
+		AIL_set_sample_user_data(handle, USER_DATA_VOLUME, volume);
+		AIL_set_sample_volume(handle,
+													SamplesFade ? 0 :
+	#ifdef _WIN32
+													UseWaveMixer ? volume
+																			 :
+	#endif //_WIN32
+																			 Scale(volume, LibWaveMasterVolume, 7));
 
-	// Pan
-	if (pan > 127)
-		pan = 127;
-	else if (pan < 0)
-		pan = 0;
-	AIL_set_sample_pan(handle, pan ^ InversePanMask);
+		// Pan
+		if (pan > 127)
+			pan = 127;
+		else if (pan < 0)
+			pan = 0;
+		AIL_set_sample_pan(handle, pan ^ InversePanMask);
 
-	// GO !!!
-	AIL_start_sample(handle);
+		// GO !!!
+		AIL_start_sample(handle);
 
-	// Compute handle
-	return GenerateSampleHandle(usernum, hnum);
+		// Compute handle
+		return GenerateSampleHandle(usernum, hnum);
+		*/
+	return 0;
 }
 
 // ████████████████████████████████████████████████████████████████████████████
-
+/*
 #ifdef _WIN32
 static void WINAPI
 #else
@@ -669,39 +692,45 @@ SampleCallBack(U32 user)
 		PlaySample(Timer_ptrsample, Timer_usernum, Timer_pitchbend, Timer_nbrepeat, Timer_volume, Timer_pan ^ InversePanMask);
 	}
 }
+*/
 
 // ████████████████████████████████████████████████████████████████████████████
 
 U32 TimerPlaySample(void *ptrsample, U32 usernum, S32 pitchbend, S32 nbrepeat, S32 volume, S32 pan, S32 period)
 {
-	if (!Sample_Driver_Enabled)
-		return FALSE;
-
-	if (!HandleTimer)
-	{
-#ifndef _WIN32
-		if (!AIL_vmm_lock_range(&SampleCallBack, &TimerPlaySample) OR !AIL_vmm_lock_range(&HandleTimer, &Sample_Handle[0]))
-		{
-			HandleTimer = (HTIMER)-1;
+	// TODO: Implement
+	/*
+		if (!Sample_Driver_Enabled)
 			return FALSE;
-		}
-#endif
-		HandleTimer = AIL_register_timer(SampleCallBack);
-		if (HandleTimer == -1)
+
+		if (!HandleTimer)
 		{
-			return FALSE;
+	#ifndef _WIN32
+			if (!AIL_vmm_lock_range(&SampleCallBack, &TimerPlaySample) OR !AIL_vmm_lock_range(&HandleTimer, &Sample_Handle[0]))
+			{
+				HandleTimer = (HTIMER)-1;
+				return FALSE;
+			}
+	#endif
+			HandleTimer = AIL_register_timer(SampleCallBack);
+			if (HandleTimer == -1)
+			{
+				return FALSE;
+			}
 		}
-	}
 
-	Timer_ptrsample = ptrsample;
-	Timer_usernum = usernum;
-	Timer_pitchbend = pitchbend;
-	Timer_nbrepeat = nbrepeat;
-	Timer_volume = volume;
-	Timer_pan = pan;
+		Timer_ptrsample = ptrsample;
+		Timer_usernum = usernum;
+		Timer_pitchbend = pitchbend;
+		Timer_nbrepeat = nbrepeat;
+		Timer_volume = volume;
+		Timer_pan = pan;
 
-	AIL_set_timer_period(HandleTimer, period * 1000);
-	AIL_start_timer(HandleTimer);
+		AIL_set_timer_period(HandleTimer, period * 1000);
+		AIL_start_timer(HandleTimer);
+		return TRUE;
+		*/
+
 	return TRUE;
 }
 
@@ -709,205 +738,232 @@ U32 TimerPlaySample(void *ptrsample, U32 usernum, S32 pitchbend, S32 nbrepeat, S
 
 void TimerStopSample()
 {
-	if (!Sample_Driver_Enabled)
-		return;
+	// TODO: Implement
+	/*
+		if (!Sample_Driver_Enabled)
+			return;
 
-	if (HandleTimer)
-	{
-		AIL_stop_timer(HandleTimer);
-	}
+		if (HandleTimer)
+		{
+			AIL_stop_timer(HandleTimer);
+		}
+		*/
 }
 
 // ████████████████████████████████████████████████████████████████████████████
 void ChangePitchbendSample(U32 sample, S32 pitchbend)
 {
-	HSAMPLE handle;
-	S32 hnum;
+	// TODO: Implement
+	/*
+		HSAMPLE handle;
+		S32 hnum;
 
-	if (!Sample_Driver_Enabled)
-		return;
+		if (!Sample_Driver_Enabled)
+			return;
 
-	// check if user or lib handle and do conversion
-	hnum = GetHandleIndice(sample);
+		// check if user or lib handle and do conversion
+		hnum = GetHandleIndice(sample);
 
-	// found the sample ?
-	if (hnum == -1)
-		return;
+		// found the sample ?
+		if (hnum == -1)
+			return;
 
-	// Get sample handle
-	handle = Sample_Handle[hnum].handle;
+		// Get sample handle
+		handle = Sample_Handle[hnum].handle;
 
-	// check sample status
-	if (AIL_sample_status(handle) == SMP_DONE)
-		return;
+		// check sample status
+		if (AIL_sample_status(handle) == SMP_DONE)
+			return;
 
-	// pitchend
-	if (pitchbend != AIL_sample_user_data(handle, USER_DATA_PITCHBEND))
-	{
-		AIL_set_sample_playback_rate(
-				handle,
-				Scale(AIL_sample_user_data(handle, USER_DATA_RATE), pitchbend, 12));
+		// pitchend
+		if (pitchbend != AIL_sample_user_data(handle, USER_DATA_PITCHBEND))
+		{
+			AIL_set_sample_playback_rate(
+					handle,
+					Scale(AIL_sample_user_data(handle, USER_DATA_RATE), pitchbend, 12));
 
-		AIL_set_sample_user_data(handle, USER_DATA_PITCHBEND, pitchbend);
-	}
+			AIL_set_sample_user_data(handle, USER_DATA_PITCHBEND, pitchbend);
+		}
+		*/
 }
 
 // ████████████████████████████████████████████████████████████████████████████
 
 void ChangeVolumePanSample(U32 sample, S32 volume, S32 pan)
 {
-	HSAMPLE handle;
-	S32 hnum;
+	// TODO: Implement
+	/*
+		HSAMPLE handle;
+		S32 hnum;
 
-	if (!Sample_Driver_Enabled)
-		return;
+		if (!Sample_Driver_Enabled)
+			return;
 
-	// check if user or lib handle and do conversion
-	hnum = GetHandleIndice(sample);
+		// check if user or lib handle and do conversion
+		hnum = GetHandleIndice(sample);
 
-	// found the sample ?
-	if (hnum == -1)
-		return;
+		// found the sample ?
+		if (hnum == -1)
+			return;
 
-	// Get sample handle
-	handle = Sample_Handle[hnum].handle;
+		// Get sample handle
+		handle = Sample_Handle[hnum].handle;
 
-	// check sample status
-	if (AIL_sample_status(handle) == SMP_DONE)
-		return;
+		// check sample status
+		if (AIL_sample_status(handle) == SMP_DONE)
+			return;
 
-	// Volume
-	AIL_set_sample_user_data(handle, USER_DATA_VOLUME, volume);
-	AIL_set_sample_volume(handle,
-												SamplesFade ? 0 :
-#ifdef _WIN32
-												UseWaveMixer ? volume
-																		 :
-#endif //_WIN32
-																		 Scale(volume, LibWaveMasterVolume, 7));
+		// Volume
+		AIL_set_sample_user_data(handle, USER_DATA_VOLUME, volume);
+		AIL_set_sample_volume(handle,
+													SamplesFade ? 0 :
+	#ifdef _WIN32
+													UseWaveMixer ? volume
+																			 :
+	#endif //_WIN32
+																			 Scale(volume, LibWaveMasterVolume, 7));
 
-	// Pan
-	if (pan > 127)
-		pan = 127;
-	else if (pan < 0)
-		pan = 0;
-	AIL_set_sample_pan(handle, pan ^ InversePanMask);
+		// Pan
+		if (pan > 127)
+			pan = 127;
+		else if (pan < 0)
+			pan = 0;
+		AIL_set_sample_pan(handle, pan ^ InversePanMask);
+		*/
 }
 
 // ████████████████████████████████████████████████████████████████████████████
 
 HSAMPLE GetSampleMSSHandle(U32 sample)
 {
-	S32 hnum;
+	// TODO: Implement
+	/*
+		S32 hnum;
 
-	if (!Sample_Driver_Enabled)
-		return NULL;
+		if (!Sample_Driver_Enabled)
+			return NULL;
 
-	// check if user or lib handle and do conversion
-	hnum = GetHandleIndice(sample);
+		// check if user or lib handle and do conversion
+		hnum = GetHandleIndice(sample);
 
-	// found the sample ?
-	if (hnum == -1)
-		return NULL;
+		// found the sample ?
+		if (hnum == -1)
+			return NULL;
 
-	// stop the sample
-	return Sample_Handle[hnum].handle;
+		// stop the sample
+		return Sample_Handle[hnum].handle;
+		*/
+	return 0;
 }
 
 // ████████████████████████████████████████████████████████████████████████████
 
 void StopOneSample(U32 sample)
 {
-	HSAMPLE handle;
-	S32 hnum;
+	// TODO: Implement
+	/*
+		HSAMPLE handle;
+		S32 hnum;
 
-	if (!Sample_Driver_Enabled)
-		return;
+		if (!Sample_Driver_Enabled)
+			return;
 
-	// check if user or lib handle and do conversion
-	hnum = GetHandleIndice(sample);
+		// check if user or lib handle and do conversion
+		hnum = GetHandleIndice(sample);
 
-	// found the sample ?
-	if (hnum == -1)
-		return;
+		// found the sample ?
+		if (hnum == -1)
+			return;
 
-	// stop the sample
-	handle = Sample_Handle[hnum].handle;
-	AIL_end_sample(handle);
-	Sample_Handle[hnum].sample = 0;
+		// stop the sample
+		handle = Sample_Handle[hnum].handle;
+		AIL_end_sample(handle);
+		Sample_Handle[hnum].sample = 0;
+		*/
 }
 
 // ████████████████████████████████████████████████████████████████████████████
 
 void StopSamples()
 {
-	U32 hnum;
+	// TODO: Implement
+	/*
+		U32 hnum;
 
-	if (!Sample_Driver_Enabled)
-		return;
+		if (!Sample_Driver_Enabled)
+			return;
 
-	// Stop sample on timer
-	TimerStopSample();
+		// Stop sample on timer
+		TimerStopSample();
 
-	// Stop everything!
-	for (hnum = 0; hnum < Nb_Voices; hnum++)
-	{
-		HSAMPLE handle;
+		// Stop everything!
+		for (hnum = 0; hnum < Nb_Voices; hnum++)
+		{
+			HSAMPLE handle;
 
-		handle = Sample_Handle[hnum].handle;
-		AIL_end_sample(handle);
-		Sample_Handle[hnum].sample = 0;
-	}
+			handle = Sample_Handle[hnum].handle;
+			AIL_end_sample(handle);
+			Sample_Handle[hnum].sample = 0;
+		}
 
-	// Reset seed to 0x100 to limit risks of overflow
-	SampleSeed = 0x1000000;
-	SamplesPaused = 0;
+		// Reset seed to 0x100 to limit risks of overflow
+		SampleSeed = 0x1000000;
+		SamplesPaused = 0;
+		*/
 }
 
 // ████████████████████████████████████████████████████████████████████████████
 
 void PauseOneSample(U32 sample)
 {
-	S32 hnum;
+	// TODO: Implement
+	/*
+		S32 hnum;
 
-	if (!Sample_Driver_Enabled)
-		return;
+		if (!Sample_Driver_Enabled)
+			return;
 
-	// check if user or lib handle and do conversion
-	hnum = GetHandleIndice(sample);
+		// check if user or lib handle and do conversion
+		hnum = GetHandleIndice(sample);
 
-	// found the sample ?
-	if (hnum == -1)
-		return;
+		// found the sample ?
+		if (hnum == -1)
+			return;
 
-	// stop the sample
-	AIL_stop_sample(Sample_Handle[hnum].handle);
+		// stop the sample
+		AIL_stop_sample(Sample_Handle[hnum].handle);
+		*/
 }
 
 // ████████████████████████████████████████████████████████████████████████████
 
 void ResumeOneSample(U32 sample)
 {
-	S32 hnum;
+	// TODO: Implement
+	/*
+		S32 hnum;
 
-	if (!Sample_Driver_Enabled)
-		return;
+		if (!Sample_Driver_Enabled)
+			return;
 
-	// check if user or lib handle and do conversion
-	hnum = GetHandleIndice(sample);
+		// check if user or lib handle and do conversion
+		hnum = GetHandleIndice(sample);
 
-	// found the sample ?
-	if (hnum == -1)
-		return;
+		// found the sample ?
+		if (hnum == -1)
+			return;
 
-	// stop the sample
-	AIL_resume_sample(Sample_Handle[hnum].handle);
+		// stop the sample
+		AIL_resume_sample(Sample_Handle[hnum].handle);
+		*/
 }
 
 // ████████████████████████████████████████████████████████████████████████████
 
 void PauseSamples()
 {
+	// TODO: Implement
+	/*
 	U32 hnum;
 
 	if (!Sample_Driver_Enabled)
@@ -925,12 +981,15 @@ void PauseSamples()
 	{
 		AIL_stop_sample(Sample_Handle[hnum].handle);
 	}
+	*/
 }
 
 // ████████████████████████████████████████████████████████████████████████████
 
 void ResumeSamples()
 {
+	// TODO: Implement
+	/*
 	U32 hnum;
 
 	if (!Sample_Driver_Enabled)
@@ -953,32 +1012,39 @@ void ResumeSamples()
 	{
 		AIL_resume_sample(Sample_Handle[hnum].handle);
 	}
+	*/
 }
 
 // ████████████████████████████████████████████████████████████████████████████
 
 U32 IsSamplePlaying(U32 sample)
 {
-	S32 hnum;
+	// TODO: Implement
+	/*
+		S32 hnum;
 
-	if (!Sample_Driver_Enabled)
-		return FALSE;
+		if (!Sample_Driver_Enabled)
+			return FALSE;
 
-	// check if user or lib handle and do conversion
-	hnum = GetHandleIndice(sample);
+		// check if user or lib handle and do conversion
+		hnum = GetHandleIndice(sample);
 
-	// found the sample ?
-	if (hnum == -1)
-		return FALSE;
+		// found the sample ?
+		if (hnum == -1)
+			return FALSE;
 
-	// get sample status
-	return AIL_sample_status(Sample_Handle[hnum].handle) == SMP_DONE ? FALSE : Sample_Handle[hnum].timer;
+		// get sample status
+		return AIL_sample_status(Sample_Handle[hnum].handle) == SMP_DONE ? FALSE : Sample_Handle[hnum].timer;
+		*/
+	return 0;
 }
 
 // ████████████████████████████████████████████████████████████████████████████
 
 S32 GetSamplePosition(U32 sample)
 {
+	// TODO: Implement
+	/*
 	S32 hnum;
 
 	if (!Sample_Driver_Enabled)
@@ -993,106 +1059,123 @@ S32 GetSamplePosition(U32 sample)
 
 	// get sample pos
 	return (AIL_sample_position(Sample_Handle[hnum].handle));
+	*/
+	return 0;
 }
 
 // ████████████████████████████████████████████████████████████████████████████
 
 S32 GetPlayingSamples(SAMPLE_PLAYING tab[], S32 max)
 {
-	S32 i, hnum;
+	// TODO: Implement
+	/*
+		S32 i, hnum;
 
-	hnum = 0;
+		hnum = 0;
 
-	for (i = 0; i < Nb_Voices; i++)
-	{
-		if (hnum == max)
+		for (i = 0; i < Nb_Voices; i++)
 		{
-			break; // list full
+			if (hnum == max)
+			{
+				break; // list full
+			}
+
+			if (!Sample_Handle[i].sample)
+			{
+				continue; // not playing
+			}
+			tab[hnum].Usernum = (Sample_Handle[i].sample >> 8) & 0xFFFF;
+			tab[hnum].Pitch = AIL_sample_user_data(Sample_Handle[i].handle, USER_DATA_PITCHBEND);
+			tab[hnum].Repeat = (U8)AIL_sample_loop_count(Sample_Handle[i].handle);
+			tab[hnum].Volume = (U8)AIL_sample_user_data(Sample_Handle[i].handle, USER_DATA_VOLUME);
+			tab[hnum].Pan = (U8)(AIL_sample_pan(Sample_Handle[i].handle) ^ InversePanMask);
+
+			if (AIL_sample_status(Sample_Handle[i].handle) == SMP_DONE)
+			{
+				Sample_Handle[i].sample = 0;
+				continue; // not playing
+			}
+			hnum++;
 		}
 
-		if (!Sample_Handle[i].sample)
-		{
-			continue; // not playing
-		}
-		tab[hnum].Usernum = (Sample_Handle[i].sample >> 8) & 0xFFFF;
-		tab[hnum].Pitch = AIL_sample_user_data(Sample_Handle[i].handle, USER_DATA_PITCHBEND);
-		tab[hnum].Repeat = (U8)AIL_sample_loop_count(Sample_Handle[i].handle);
-		tab[hnum].Volume = (U8)AIL_sample_user_data(Sample_Handle[i].handle, USER_DATA_VOLUME);
-		tab[hnum].Pan = (U8)(AIL_sample_pan(Sample_Handle[i].handle) ^ InversePanMask);
-
-		if (AIL_sample_status(Sample_Handle[i].handle) == SMP_DONE)
-		{
-			Sample_Handle[i].sample = 0;
-			continue; // not playing
-		}
-		hnum++;
-	}
-
-	return hnum;
+		return hnum;
+		*/
+	return 0;
 }
 
 // ████████████████████████████████████████████████████████████████████████████
 
 S32 GetSamplePoly()
 {
-	S32 hnum, count;
+	// TODO: Implement
+	/*
+		S32 hnum, count;
 
-	if (!Sample_Driver_Enabled)
-		return -1;
+		if (!Sample_Driver_Enabled)
+			return -1;
 
-	count = 0;
+		count = 0;
 
-	for (hnum = 0; hnum < Nb_Voices; hnum++)
-	{
-		if (Sample_Handle[hnum].sample == 0)
-			continue;
-		if (AIL_sample_status(Sample_Handle[hnum].handle) == SMP_DONE)
-			continue;
+		for (hnum = 0; hnum < Nb_Voices; hnum++)
+		{
+			if (Sample_Handle[hnum].sample == 0)
+				continue;
+			if (AIL_sample_status(Sample_Handle[hnum].handle) == SMP_DONE)
+				continue;
 
-		count++;
-	}
+			count++;
+		}
 
-	return count;
+		return count;
+		*/
+	return 0;
 }
 
 // ████████████████████████████████████████████████████████████████████████████
 
 void SetDataSample(U32 sample, S32 index, S32 value)
 {
-	S32 hnum;
+	// TODO: Implement
+	/*
+		S32 hnum;
 
-	if (!Sample_Driver_Enabled || (index > 8 - USER_DATA_USER))
-		return;
+		if (!Sample_Driver_Enabled || (index > 8 - USER_DATA_USER))
+			return;
 
-	// check if user or lib handle and do conversion
-	hnum = GetHandleIndice(sample);
+		// check if user or lib handle and do conversion
+		hnum = GetHandleIndice(sample);
 
-	// found the sample ?
-	if (hnum == -1)
-		return;
+		// found the sample ?
+		if (hnum == -1)
+			return;
 
-	// set data
-	AIL_set_sample_user_data(Sample_Handle[hnum].handle, USER_DATA_USER + index, value);
+		// set data
+		AIL_set_sample_user_data(Sample_Handle[hnum].handle, USER_DATA_USER + index, value);
+		*/
 }
 
 // ████████████████████████████████████████████████████████████████████████████
 
 S32 GetDataSample(U32 sample, S32 index)
 {
-	S32 hnum;
+	// TODO: Implement
+	/*
+		S32 hnum;
 
-	if (!Sample_Driver_Enabled || (index > 8 - USER_DATA_USER))
-		return 0;
+		if (!Sample_Driver_Enabled || (index > 8 - USER_DATA_USER))
+			return 0;
 
-	// check if user or lib handle and do conversion
-	hnum = GetHandleIndice(sample);
+		// check if user or lib handle and do conversion
+		hnum = GetHandleIndice(sample);
 
-	// found the sample ?
-	if (hnum == -1)
-		return 0;
+		// found the sample ?
+		if (hnum == -1)
+			return 0;
 
-	// get data
-	return (AIL_sample_user_data(Sample_Handle[hnum].handle, USER_DATA_USER + index));
+		// get data
+		return (AIL_sample_user_data(Sample_Handle[hnum].handle, USER_DATA_USER + index));
+		*/
+	return 0;
 }
 
 // ████████████████████████████████████████████████████████████████████████████
