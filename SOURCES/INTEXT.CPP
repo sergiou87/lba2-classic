@@ -25,22 +25,27 @@ S32 AddBetaCam = 0;
 
 // Pointeurs de fonctions communs au deux mondes
 Func_ReajustPos *PtrReajustPos = ReajustPos;
-Func_GetShadow *PtrGetShadow = GetShadow;
 Func_DoAnim *PtrDoAnim = DoAnim;
-Func_WorldColBrick *PtrWorldColBrick = WorldColBrick;
-Func_WorldColBrickVisible *PtrWorldColBrickVisible = WorldColBrickVisible;
+// TODO: these should not be NULL
+Func_GetShadow *PtrGetShadow = NULL;											 // GetShadow;
+Func_WorldColBrick *PtrWorldColBrick = NULL;							 // WorldColBrick;
+Func_WorldColBrickVisible *PtrWorldColBrickVisible = NULL; // WorldColBrickVisible;
 
-Func_Init3DView *PtrInit3DView = Init3DView;
+// TODO: these should not be NULL
+Func_Init3DView *PtrInit3DView = NULL; // Init3DView;
 
 #ifndef COMPILATOR
-Func_ProjectShadow *PtrProjectShadow = ProjectShadow;
-Func_ReajustPosExtra *PtrReajustPosExtra = ReajustPosExtra;
+// TODO: these should not be NULL
+Func_ProjectShadow *PtrProjectShadow = NULL;		 // ProjectShadow;
+Func_ReajustPosExtra *PtrReajustPosExtra = NULL; // ReajustPosExtra;
 #endif
 
-Func_InitGrille *PtrInitGrille = InitGrille;
+// TODO: these should not be NULL
+Func_InitGrille *PtrInitGrille = NULL; //  InitGrille;
 
 #ifndef LBA_EDITOR
-Func_FullWorldColBrick *PtrFullWorldColBrick = FullWorldColBrick;
+// TODO: these should not be NULL
+Func_FullWorldColBrick *PtrFullWorldColBrick = NULL; //  FullWorldColBrick;
 #endif
 
 /*══════════════════════════════════════════════════════════════════════════*

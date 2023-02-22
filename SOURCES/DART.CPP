@@ -167,10 +167,11 @@ void CheckDartCol(T_OBJET *ptrobj)
 												ptrd->PosX, ptrd->PosY, ptrd->PosZ);
 #endif
 
-				InitIncrustDisp(INCRUST_SPRITE | INCRUST_YCLIP,
-												SPRITE_DART,
-												15, 30,
-												0, 0, 2);
+				// TODO: uncomment this lol
+				// InitIncrustDisp(INCRUST_SPRITE | INCRUST_YCLIP,
+				// 								SPRITE_DART,
+				// 								15, 30,
+				// 								0, 0, 2);
 			}
 		}
 	}
