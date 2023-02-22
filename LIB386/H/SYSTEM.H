@@ -42,7 +42,7 @@
 #include <SYSTEM/S_MALLOC.H>
 // #include <SYSTEM/CPU.H>
 // #include <SYSTEM/DISPCPU.H>
-#include <SYSTEM/DISPOS.H>
+// #include <SYSTEM/DISPOS.H>
 // #include	<SYSTEM/DLLLOAD.H>
 #include <SYSTEM/EXIT.H>
 #include <SYSTEM/FILEBAK.H>

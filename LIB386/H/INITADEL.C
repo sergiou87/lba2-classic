@@ -160,6 +160,8 @@ atexit(SafeErrorMallocMsg);
 
 	// ··········································································
 	//  OS
+	// TODO: Delete??
+	/*
 	LogPuts("\nIdentifying Operating System. Please wait...\n");
 
 	if (!FindAndRemoveParam("/OSNodetect"))
@@ -175,7 +177,7 @@ atexit(SafeErrorMallocMsg);
 
 		DisplayOS();
 	}
-
+*/
 	// ··········································································
 	//  CPU
 	LogPuts("\nIdentifying CPU. Please wait...\n");

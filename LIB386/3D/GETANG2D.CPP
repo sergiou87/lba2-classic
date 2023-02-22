@@ -160,6 +160,10 @@ GetAngleVector2D endp
 // GetAngleVector2D proc
 S32 GetAngleVector2D(S32 x, S32 z)
 {
+	return 0;
+
+	// TODO: Implement
+	/*
 	// xor	esi, esi		; ESI = Bit field
 	S32 esi = 0; // Bit field
 	// test	eax, eax
@@ -349,4 +353,5 @@ no3:
 	// ret
 	return x; // return x
 						// GetAngleVector2D endp
+						*/
 }
