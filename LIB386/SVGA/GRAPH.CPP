@@ -1,3 +1,4 @@
+/*
 ;----------------------------------------------------------------------------
 			.386p
 			.model SMALL, SYSCALL
@@ -382,3 +383,24 @@ GetBoxGraph		endp
 ;----------------------------------------------------------------------------
 ;				The
 				End
+*/
+
+#include <SVGA/GRAPH.H>
+
+S32 AffGraph(S32 numgraph, S32 x, S32 y, void *bankgraph)
+{
+	// TODO: Implement
+	return 0;
+}
+
+S32 GetDxDyGraph(S32 numgraph, S32 *x, S32 *y, void *bankgraph)
+{
+	// TODO: Implement
+	return 0;
+}
+
+S32 GetBoxGraph(S32 numgraph, S32 *x0, S32 *y0, S32 *x1, S32 *y1, void *bankgraph)
+{
+	// TODO: Implement
+	return 0;
+}

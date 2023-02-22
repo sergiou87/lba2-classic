@@ -1,23 +1,24 @@
 //****************************************************************************
-#include <SYSTEM/adeline.h>
-#include <SYSTEM/cpu.h>
-#include <SYSTEM/a_malloc.h>
-#include <SVGA/screenxy.h>
-#include <SVGA/logphys.h>
-#include <SVGA/clrBOX.H>
-#include <SVGA/copyBOX.H>
-#include <SVGA/savblock.h>
-#include <SVGA/resblock.h>
+#include <SYSTEM/ADELINE.H>
+#include <SYSTEM/CPU.H>
+#include <SYSTEM/A_MALLOC.H>
+#include <SVGA/SCREENXY.H>
+#include <SVGA/LOGPHYS.H>
+#include <SVGA/CLRBOX.H>
+#include <SVGA/COPYBOX.H>
+#include <SVGA/SAVBLOCK.H>
+#include <SVGA/RESBLOCK.H>
 #include <SVGA/GRAPH.H>
-#include <SVGA/inimouse.h>
+#include <SVGA/INIMOUSE.H>
 #include <SVGA/DIRTYBOX.H>
 
 #include <stdlib.h>
 #include <string.h>
 #include <limits.h>
+#include <algorithm>
 
 //****************************************************************************
-#include <SYSTEM/winsys.h>
+#include <SYSTEM/WINSYS.H>
 #include <SVGA/DDRAW.H>
 
 //****************************************************************************
@@ -71,6 +72,8 @@ static void NewBox(T_BOX **boxlist, S32 x0, S32 y0, S32 x1, S32 y1);
 //****************************************************************************
 static void CollapseList(T_BOX **boxlist)
 {
+	// TODO: Implement
+	/*
 	T_BOX *pbox;
 
 	pbox = *boxlist;
@@ -85,10 +88,10 @@ static void CollapseList(T_BOX **boxlist)
 
 		do // compute bounding box
 		{
-			x0 = __min(x0, pbox->x0);
-			y0 = __min(y0, pbox->y0);
-			x1 = __max(x1, pbox->x1);
-			y1 = __max(y1, pbox->y1);
+			x0 = std::min(x0, pbox->x0);
+			y0 = std::min(y0, pbox->y0);
+			x1 = std::max(x1, pbox->x1);
+			y1 = std::max(y1, pbox->y1);
 
 			pbox2 = pbox;
 			pbox = pbox->pBoxNext;
@@ -106,6 +109,7 @@ static void CollapseList(T_BOX **boxlist)
 
 		pbox->pBoxNext = NULL;
 	}
+	*/
 }
 
 //****************************************************************************
@@ -148,6 +152,8 @@ inline static void AddSortBox(T_BOX **boxlist, T_BOX *pbox, S32 y0)
 //****************************************************************************
 static void NewBox(T_BOX **boxlist, S32 x0, S32 y0, S32 x1, S32 y1)
 {
+	// TODO: Implement
+	/*
 	S32 bx0, by0, bx1, by1;
 	S32 restart;
 	S32 testsurf, bestsurf;
@@ -181,10 +187,10 @@ again:
 				return; // box included in another one
 			}
 
-			cx0 = __min(cx0, x0);
-			cx1 = __max(cx1, x1);
-			cy0 = __min(cy0, y0);
-			cy1 = __max(cy1, y1);
+			cx0 = std::min(cx0, x0);
+			cx1 = std::max(cx1, x1);
+			cy0 = std::min(cy0, y0);
+			cy1 = std::max(cy1, y1);
 
 			comsurf = (cx1 - cx0) * (cy1 - cy0);
 			totalsurf = testsurf + (pbox->x1 - pbox->x0) * (pbox->y1 - pbox->y0);
@@ -251,6 +257,7 @@ again:
 	pbox->y1 = (S16)y1;
 
 	AddSortBox(boxlist, pbox, y0);
+	*/
 }
 
 //****************************************************************************
@@ -298,11 +305,7 @@ void DefaultBoxOneBlit(T_BOX *pbox)
 	if ((pbox->x1 <= pbox->x0) || (pbox->y1 <= pbox->y0))
 		return;
 
-#ifdef _WIN32
 	CopyBox(Phys, Log, TabOffPhysLine, pbox);
-#else
-	CopyBoxVESA(Phys, Log, TabOffPhysLine, pbox);
-#endif
 }
 
 //****************************************************************************
@@ -464,11 +467,7 @@ static void BoxPhysClear(S32 x0, S32 y0, S32 x1, S32 y1)
 	box.y1 = (S16)y1;
 	box.pBoxNext = NULL;
 
-#ifdef _WIN32
 	ClearBox(Phys, TabOffPhysLine, &box);
-#else
-	ClearBoxVESA(Phys, TabOffPhysLine, &box);
-#endif
 }
 
 //****************************************************************************
@@ -499,7 +498,8 @@ void BoxBlit()
 	S32 SaveClipXMin, SaveClipYMin, SaveClipXMax, SaveClipYMax;
 	S32 x0, y0, x1, y1;
 
-	ManageEvents();
+	// TODO: Implement
+	// ManageEvents();
 
 	MergeLists(&pBoxOptList, pBoxMovingList); // rebuild BoxOptList
 
