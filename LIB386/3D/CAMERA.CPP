@@ -1,3 +1,4 @@
+/*
 ;*══════════════════════════════════════════════════════════════════════════*
 
 		.386p
@@ -100,7 +101,7 @@ _DATA		ENDS
 
 ;*══════════════════════════════════════════════════════════════════════════*
 _TEXT		SEGMENT	USE32 PARA PUBLIC 'CODE'
-       		ASSUME	CS:FLAT, DS:FLAT, ES:FLAT, SS:FLAT
+					ASSUME	CS:FLAT, DS:FLAT, ES:FLAT, SS:FLAT
 
 ;*══════════════════════════════════════════════════════════════════════════*
 		extrn	SYSCALL	GetAngleVector3D:PROC
@@ -296,3 +297,78 @@ _TEXT		ENDS
 ;*══════════════════════════════════════════════════════════════════════════*
 ;		The
 		END
+*/
+
+#include <3D/CAMERA.H>
+
+S32 LFactorX = 0;
+S32 LFactorY = 0;
+
+S32 CameraAlpha = 0;
+S32 CameraBeta = 0;
+S32 CameraGamma = 0;
+
+S32 CameraX = 0;
+S32 CameraY = 0;
+S32 CameraZ = 0;
+
+S32 CameraXr = 0;
+S32 CameraYr = 0;
+S32 CameraZr = 0;
+
+S32 CameraZrClip = 0;
+
+S32 NearClip = 0;
+
+S32 XCentre = 0;
+S32 YCentre = 0;
+
+S32 Xp = 0;
+S32 Yp = 0;
+
+S32 X0 = 0;
+S32 Y0 = 0;
+S32 Z0 = 0;
+
+S32 TypeProj = 0;
+
+//****************************************************************************
+float FRatioX = 0;
+float FRatioY = 0;
+
+//****************************************************************************
+extern void InitCamera(S32 camx, S32 camy, S32 camz,
+											 S32 tgtx, S32 tgty, S32 tgtz,
+											 S32 gamma)
+{
+	// TODO: Implement
+}
+
+// WARNING this function uses PASCAL calling convention for 'gamma' on the stack.
+// DO NOT ADD 'CALLER' in the PRAGMA
+
+//****************************************************************************
+extern void SetTargetCamera(S32 x, S32 y, S32 z, S32 gamma)
+{
+	// TODO: Implement
+}
+
+//****************************************************************************
+extern void SetAngleCamera(S32 alpha, S32 beta, S32 gamma)
+{
+	// TODO: Implement
+}
+
+//****************************************************************************
+extern void SetPosCamera(S32 x, S32 y, S32 z)
+{
+	// TODO: Implement
+}
+
+//****************************************************************************
+extern void SetFollowCamera(S32 targetx, S32 targety, S32 targetz,
+														S32 alpha, S32 beta, S32 gamma,
+														S32 camzoom)
+{
+	// TODO: Implement
+}
