@@ -52,14 +52,6 @@ extern "C"
                                           S32 maxsize,
                                           S32 maxrsrc);
 
-// ──────────────────────────────────────────────────────────────────────────
-#ifdef _WIN32
-#define HQR_Lock_Ressource(header)
-
-#else //_WIN32
-extern void HQR_Lock_Ressource(T_HQR_HEADER *header);
-
-#endif //_WIN32
   // ──────────────────────────────────────────────────────────────────────────
   extern void HQR_Reset_Ressource(T_HQR_HEADER *header);
 

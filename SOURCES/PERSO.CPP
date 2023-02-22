@@ -2186,13 +2186,8 @@ int main(int argc, char *argv[])
 #define lname "lba2.cfg"
 #define inits INIT_DEFFILE | INIT_LOG | INIT_TIMER | INIT_SVGA | INIT_KEYB | INIT_SAMPLE | INIT_SMACKER
 #include <INITADEL.C>
-    return 0;
-    // TODO: Implement
-    /*
 
-#ifdef _WIN32
     atexit(TheEndInfo);
-#endif
 
     End_Error = "";
 
@@ -2220,13 +2215,13 @@ int main(int argc, char *argv[])
 
         if (!HQR_Samples)
             TheEndCheckFile(PATH_RESSOURCE "samples.hqr");
-
-        // pour Windows
-        HQR_Lock_Ressource(HQR_Samples);
     }
 
     //-------------------
 
+    return 0;
+    // TODO: Implement
+    /*
     InitLanguage(); // multilangue
 
     BufText = (U8 *)SmartMalloc(BIG_FILE_DIA);
