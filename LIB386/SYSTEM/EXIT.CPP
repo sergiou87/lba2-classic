@@ -1,10 +1,12 @@
 //----------------------------------------------------------------------------
-#include <SYSTEM/adeline.h>
-#include <SYSTEM/exit.h>
+#include <SYSTEM/ADELINE.H>
+#include <SYSTEM/EXIT.H>
 
 #include <string.h>
-#include <direct.h>
 #include <ctype.h>
+#include <unistd.h>
+#include <libgen.h>
+#include <stdio.h>
 
 //----------------------------------------------------------------------------
 PTR_VOID_FUNC Inits[32];
@@ -56,12 +58,8 @@ void InitAll()
 {
 	char path2[_MAX_PATH];
 	S32 i;
-	unsigned dummy;
 	char full_path[_MAX_PATH];
-	char drive[_MAX_DRIVE];
-	char dir[_MAX_DIR];
-	char fname[_MAX_FNAME];
-	char ext[_MAX_EXT];
+	char *path;
 
 	if (!CntClears)
 	{
@@ -75,14 +73,13 @@ void InitAll()
 		return;
 	}
 
-	_splitpath(PathConfigFile, drive, dir, fname, ext);
-	_makepath(full_path, drive, dir, "", "");
+	path = dirname(PathConfigFile);
+	snprintf(full_path, _MAX_PATH, "%s", path);
 	i = strlen(full_path) - 1;
 	if (full_path[i] == '\\' || full_path[i] == '/')
 	{
 		full_path[i] = 0;
 	}
-	_dos_setdrive((char)(toupper(drive[0]) - 'A' + 1), &dummy);
 	getcwd(path2, _MAX_PATH);
 	chdir(full_path);
 
@@ -97,7 +94,6 @@ void InitAll()
 	DontRegister = 0;
 
 	chdir(path2);
-	_dos_setdrive((char)(toupper(Path1[0]) - 'A' + 1), &dummy);
 	chdir(Path1);
 }
 

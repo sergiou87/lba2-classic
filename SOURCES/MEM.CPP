@@ -196,7 +196,7 @@ void InitMainBuffer(void)
   // Fixe Pointeurs partageant les même buffer
   BufCube = (U8 *)*ListMem[MEM_PTR_ZBUFFER].AdrPtr;
   BufferBrick = BufCube + (SIZE_CUBE_X * SIZE_CUBE_Y * SIZE_CUBE_Z * 2L);
-  */
+   */
 }
 
 // ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀

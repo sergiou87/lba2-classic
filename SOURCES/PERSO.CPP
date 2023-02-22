@@ -2173,12 +2173,12 @@ int main(int argc, char *argv[])
     HQRGetErrorFunc = ErrorHQRGet;
 
     InitMainBuffer(); // Alloue gros buffer pour tous les pointeurs
-    return 0;
-    // TODO: Implement
-    /*
 
     End_Error = PathConfigFile;
 
+    return 0;
+    // TODO: Implement
+    /*
 #ifdef DEMO
 #define APPNAME "LBA2 Twinsen's Odyssey Demo"
 #else // DEMO
