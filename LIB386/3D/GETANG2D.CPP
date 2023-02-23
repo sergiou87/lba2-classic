@@ -157,10 +157,37 @@ GetAngleVector2D endp
 		 End
 */
 
+#include <math.h>
+
 // GetAngleVector2D proc
 S32 GetAngleVector2D(S32 x, S32 z)
 {
-	return 0;
+	// calculate the tangent of the angle between the vector and the x axis
+	S32 hypothenuse = (S32)sqrt((double)(x * x + z * z));
+	S32 tangent = x / hypothenuse;
+
+	return (S32)(atan(tangent) * 1024.0 / 3.14159265358979323846);
+	/*
+	// Use binary search to find the angle in the table TanTab, which will be the
+	// index of the first value higher than the tangent
+	S32 angle = 0;
+	S32 step = 512;
+	S32 index = 0;
+	while (step > 0)
+	{
+		if (TanTab[index] < tangent)
+		{
+			index += step;
+		}
+		else
+		{
+			index -= step;
+		}
+		step >>= 1;
+	}
+
+	return angle;
+	*/
 
 	// TODO: Implement
 	/*
