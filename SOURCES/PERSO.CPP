@@ -1979,7 +1979,7 @@ void InitTheEnd(S32 num, char *error)
 }
 
 /*══════════════════════════════════════════════════════════════════════════*/
-void TheEnd(S32 num, char *error)
+void TheEnd(S32 num, const char *error)
 {
     End_Num = num;
     End_Error = error;
@@ -2220,9 +2220,6 @@ int main(int argc, char *argv[])
     //-------------------
 
     InitLanguage(); // multilangue
-    return 0;
-    // TODO: Implement
-    /*
 
     BufText = (U8 *)SmartMalloc(BIG_FILE_DIA);
     if (!BufText)
@@ -2234,6 +2231,9 @@ int main(int argc, char *argv[])
 
     InitDial(0);
     GetMultiText(49, PleaseWait);
+    return 0;
+    // TODO: Implement
+    /*
     GetMultiText(71, NewGameTxt);
 
     // chargement palettes ici car le InitDial(2) ou le AskForCD()
