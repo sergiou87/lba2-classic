@@ -2219,10 +2219,10 @@ int main(int argc, char *argv[])
 
     //-------------------
 
+    InitLanguage(); // multilangue
     return 0;
     // TODO: Implement
     /*
-    InitLanguage(); // multilangue
 
     BufText = (U8 *)SmartMalloc(BIG_FILE_DIA);
     if (!BufText)
