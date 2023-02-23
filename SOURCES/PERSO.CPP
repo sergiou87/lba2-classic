@@ -2231,10 +2231,10 @@ int main(int argc, char *argv[])
 
     InitDial(0);
     GetMultiText(49, PleaseWait);
+    GetMultiText(71, NewGameTxt);
     return 0;
     // TODO: Implement
     /*
-    GetMultiText(71, NewGameTxt);
 
     // chargement palettes ici car le InitDial(2) ou le AskForCD()
     // peuvent en avoir besoin...
