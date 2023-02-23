@@ -75,8 +75,8 @@ atexit(SafeErrorMallocMsg);
 #if ((inits)&INIT_QUIET)
 	QuietLog = TRUE;
 #endif
-	// TODO: I have no idea what this code below does
-	/*
+// TODO: do something about this define...
+#define _MAX_PATH 4096
 	// ··········································································
 	getcwd(old_path, _MAX_PATH);
 
@@ -85,29 +85,27 @@ atexit(SafeErrorMallocMsg);
 	defname = getenv(Adeline);
 	if (defname)
 	{
-		char drive[_MAX_DRIVE];
-		char dir[_MAX_DIR];
+		char *dir;
 		unsigned int n;
 
 		if (FileSize(defname))
 		{
-			_splitpath(defname, drive, dir, NULL, NULL);
+			dir = dirname(defname);
 		}
 		else
 		{
 			// env var contain only directory name with no file specified
 			strcpy(PathConfigFile, defname);
-			strcat(PathConfigFile, "\\dummy.tmp");
-			_splitpath(PathConfigFile, drive, dir, NULL, NULL);
+			strcat(PathConfigFile, "/dummy.tmp");
+			dir = dirname(PathConfigFile);
 		}
-		_makepath(PathConfigFile, drive, dir, "", "");
+		sprintf(PathConfigFile, "%s", dir);
 		if (name)
 		{
 			strcat(PathConfigFile, name);
 		}
-		_dos_setdrive(toupper(drive[0]) - 'A' + 1, &n);
 		n = strlen(dir) - 1;
-		while ((dir[n] == '\\') || (dir[n] == '/'))
+		while (dir[n] == '/')
 		{
 			dir[n] = 0;
 			n--;
@@ -118,7 +116,7 @@ atexit(SafeErrorMallocMsg);
 	else
 	{
 		strcpy(PathConfigFile, old_path);
-		strcat(PathConfigFile, "\\");
+		strcat(PathConfigFile, "/");
 		if (name)
 		{
 			strcat(PathConfigFile, name);
@@ -126,10 +124,9 @@ atexit(SafeErrorMallocMsg);
 
 		chdir("Drivers");
 	}
-	*/
 
-// ··········································································
-//  LOG
+	// ··········································································
+	//  LOG
 #if ((inits)&INIT_LOG)
 	CreateLog(PathConfigFile);
 #endif

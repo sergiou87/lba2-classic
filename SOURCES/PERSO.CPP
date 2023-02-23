@@ -2143,10 +2143,10 @@ void ChangeProgDir(char *path)
 {
     char name[PATH_MAX];
 
-    strncpy(name, path, PATH_MAX); // copy path to name
-    dirname(name);                 // get directory component of name
+    strncpy(name, path, PATH_MAX);   // copy path to name
+    const char *dir = dirname(name); // get directory component of name
 
-    if (chdir(name) != 0) // change current directory to name
+    if (chdir(dir) != 0) // change current directory to name
     {
         TheEnd(ERROR_NOT_FOUND_FILE, path);
     }
