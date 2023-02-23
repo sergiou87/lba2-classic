@@ -1,10 +1,10 @@
 /*──────────────────────────────────────────────────────────────────────────*/
-#include <SYSTEM/adeline.h>
-#include <SYSTEM/a_malloc.h>
-#include <SYSTEM/loadmall.h>
-#include <SYSTEM/lz.h>
-#include <SYSTEM/hqfile.h>
-#include <SYSTEM/hqrload.h>
+#include <SYSTEM/ADELINE.H>
+#include <SYSTEM/A_MALLOC.H>
+#include <SYSTEM/LOADMALL.H>
+#include <SYSTEM/LZ.H>
+#include <SYSTEM/HQFILE.H>
+#include <SYSTEM/HQRLOAD.H>
 
 // ──────────────────────────────────────────────────────────────────────────
 //  alloue la memoire necessaire
@@ -41,7 +41,7 @@ void *LoadMalloc_HQR(const char *name, S32 index)
 
 // ──────────────────────────────────────────────────────────────────────────
 //  charge une fiche(index) à l'adresse voulue (ptrdest) depuis une ressource
-U32 Load_HQR(char *name, void *ptr, S32 index)
+U32 Load_HQR(const char *name, void *ptr, S32 index)
 {
 	HQF_Init(name, index);
 	return HQF_LoadClose(ptr);

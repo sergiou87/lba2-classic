@@ -1,16 +1,16 @@
 /*──────────────────────────────────────────────────────────────────────────*/
-#include <SYSTEM/adeline.h>
-#include <SYSTEM/files.h>
-#include <SYSTEM/lz.h>
-#include <SYSTEM/hqr.h>
-#include <SYSTEM/hqfile.h>
+#include <SYSTEM/ADELINE.H>
+#include <SYSTEM/FILES.H>
+#include <SYSTEM/LZ.H>
+#include <SYSTEM/HQR.H>
+#include <SYSTEM/HQFILE.H>
 
 /*──────────────────────────────────────────────────────────────────────────*/
 S32 HQF_File;
 static COMPRESSED_HEADER HQF_header;
 
 /*──────────────────────────────────────────────────────────────────────────*/
-U32 HQF_Init(char *name, S32 index)
+U32 HQF_Init(const char *name, S32 index)
 {
 	S32 nbbloc;
 

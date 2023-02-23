@@ -1,45 +1,49 @@
-//──────────────────────────────────────────────────────────────────────────
-#include	<SYSTEM/adeline.h>
-#include	<SYSTEM/files.h>
-#include	<SYSTEM/a_malloc.h>
-#include	<SYSTEM/loadmall.h>
+// ──────────────────────────────────────────────────────────────────────────
+#include <SYSTEM/ADELINE.H>
+#include <SYSTEM/FILES.H>
+#include <SYSTEM/A_MALLOC.H>
+#include <SYSTEM/LOADMALL.H>
 
-//──────────────────────────────────────────────────────────────────────────
-U32	LoadMallocFileSize ;
+// ──────────────────────────────────────────────────────────────────────────
+U32 LoadMallocFileSize;
 
-//──────────────────────────────────────────────────────────────────────────
-void	*LoadMalloc(char *name)
+// ──────────────────────────────────────────────────────────────────────────
+void *LoadMalloc(char *name)
 {
-	S32	handle	;
-	U32	size	;
-	void	*ptr	;
+	S32 handle;
+	U32 size;
+	void *ptr;
 
-	LoadMallocFileSize = FileSize( name )		;
-	if ( !LoadMallocFileSize )	goto Error3	;
+	LoadMallocFileSize = FileSize(name);
+	if (!LoadMallocFileSize)
+		goto Error3;
 
-	ptr = NormMalloc( LoadMallocFileSize );
-	if ( !ptr )
+	ptr = NormMalloc(LoadMallocFileSize);
+	if (!ptr)
 	{
-		goto Error2		;
+		goto Error2;
 	}
 
-	handle = OpenRead( name )	;
-	if ( !handle)
+	handle = OpenRead(name);
+	if (!handle)
 	{
-		goto Error1		;
+		goto Error1;
 	}
 
-	size = Read( handle, ptr, LoadMallocFileSize );
-	Close( handle )			;
+	size = Read(handle, ptr, LoadMallocFileSize);
+	Close(handle);
 
-	if ( size != LoadMallocFileSize )
+	if (size != LoadMallocFileSize)
 	{
-Error1:		NormFree(ptr)		;
-Error2:		LoadMallocFileSize = 0	;
-Error3:		ptr = NULL		;
+	Error1:
+		NormFree(ptr);
+	Error2:
+		LoadMallocFileSize = 0;
+	Error3:
+		ptr = NULL;
 	}
 
-	return ptr 			;
+	return ptr;
 }
 
-//──────────────────────────────────────────────────────────────────────────
+// ──────────────────────────────────────────────────────────────────────────

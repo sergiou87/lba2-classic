@@ -422,22 +422,22 @@ S32 FlagDisplayText = 1; //     ON par default
 // #endif
 // }
 
-// /*-------------------------------------------------------------------------*/
+/*-------------------------------------------------------------------------*/
 
-// S32 FindText(S32 text)
-// {
-//   U16 *pt;
-//   S32 i;
+S32 FindText(S32 text)
+{
+  U16 *pt;
+  S32 i;
 
-//   pt = BufOrder;
+  pt = BufOrder;
 
-//   for (i = 0; i < MaxText; i++)
-//   {
-//     if (*pt++ == text)
-//       return (i);
-//   }
-//   return (-1);
-// }
+  for (i = 0; i < MaxText; i++)
+  {
+    if (*pt++ == text)
+      return (i);
+  }
+  return (-1);
+}
 // #ifdef TITRE
 // /*-------------------------------------------------------------------------*/
 // █▀▀▀▀ █▀▀▀▄ █▀▀▀█ █▀▀▀█ █▄ ▄█       █▀▀▀█ █▀▀▀█ █▀▀▀█ ▀▀█▀▀
@@ -1177,36 +1177,36 @@ S32 FlagDisplayText = 1; //     ON par default
 // // void  StopSpeak() { }
 // //----------------------------------------------------------------------------
 // #endif
-// /*-------------------------------------------------------------------------*/
-// void InitDial(S32 file)
-// {
-//   NormalWinDial(); //     By Security
+/*-------------------------------------------------------------------------*/
+void InitDial(S32 file)
+{
+  NormalWinDial(); //     By Security
 
-//   if (LastFileInit == file)
-//     return;
-//   LastFileInit = file;
+  if (LastFileInit == file)
+    return;
+  LastFileInit = file;
 
-// #ifdef LBA_EDITOR
-//   strcpy(FileText, PathRessource);
-// #else
-//   strcpy(FileText, PATH_RESSOURCE);
-// #endif
+#ifdef LBA_EDITOR
+  strcpy(FileText, PathRessource);
+#else
+  strcpy(FileText, PATH_RESSOURCE);
+#endif
 
-//   strcat(FileText, NAME_HQR_TEXT);
+  strcat(FileText, NAME_HQR_TEXT);
 
-//   MaxText = (U16)(Load_HQR(FileText, BufOrder,
-//                            (Language * MAX_TEXT_LANG * 2) + (file * 2) + 0) /
-//                   2);
+  MaxText = (U16)(Load_HQR(FileText, BufOrder,
+                           (Language * MAX_TEXT_LANG * 2) + (file * 2) + 0) /
+                  2);
 
-//   Load_HQR(FileText, BufText,
-//            (Language * MAX_TEXT_LANG * 2) + (file * 2) + 1);
+  Load_HQR(FileText, BufText,
+           (Language * MAX_TEXT_LANG * 2) + (file * 2) + 1);
 
-// #ifdef CDROM
-//   if (FlagSpeak)
-//     InitSpeak(file);
-// #endif
-// }
-// /*-------------------------------------------------------------------------*/
+#ifdef CDROM
+  if (FlagSpeak)
+    InitSpeak(file);
+#endif
+}
+/*-------------------------------------------------------------------------*/
 // /*-------------------------------------------------------------------------*/
 // void ClearDial()
 // {
@@ -1497,29 +1497,29 @@ S32 FlagDisplayText = 1; //     ON par default
 //   return ret;
 // }
 
-// /*-------------------------------------------------------------------------*/
-// S32 GetText(S32 text)
-// {
-//   U16 offset0;
-//   U16 offset1;
-//   S32 num;
+/*-------------------------------------------------------------------------*/
+S32 GetText(S32 text)
+{
+  U16 offset0;
+  U16 offset1;
+  S32 num;
 
-//   num = FindText(text); //     Must have good number
-//   if (num == -1)
-//     return (0L); //   RETURN
+  num = FindText(text); //     Must have good number
+  if (num == -1)
+    return (0L); //   RETURN
 
-//   offset0 = *(U16 *)(BufText + ((num + 0) * 2L));
-//   offset1 = *(U16 *)(BufText + ((num + 1) * 2L));
+  offset0 = *(U16 *)(BufText + ((num + 0) * 2L));
+  offset1 = *(U16 *)(BufText + ((num + 1) * 2L));
 
-//   PtText = BufText + offset0;
+  PtText = BufText + offset0;
 
-//   FlagDial = *PtText++; //  attribut pour GereFlagDial()
+  FlagDial = *PtText++; //  attribut pour GereFlagDial()
 
-//   SizeText = offset1 - offset0 - 1; // -1 pour virer octet d'attribut
+  SizeText = offset1 - offset0 - 1; // -1 pour virer octet d'attribut
 
-//   return (1L);
-// }
-// /*-------------------------------------------------------------------------*/
+  return (1L);
+}
+/*-------------------------------------------------------------------------*/
 
 // #define AffFleche() DrawAngles(Dial_X0, Dial_Y0, Dial_X1, Dial_Y1, ARROW_ID /*|A_FLIP*/);
 
@@ -2363,44 +2363,44 @@ S32 FlagDisplayText = 1; //     ON par default
 
 //   return esc;
 // }
-// /*──────────────────────────────────────────────────────────────────────────*/
-// // attention size max ou tronquée à 255 car + 0
-// char *GetMultiText(S32 text, char *dst)
-// {
-//   char *pts;
-//   char *ptd;
-//   S32 smax;
+/*──────────────────────────────────────────────────────────────────────────*/
+// attention size max ou tronquée à 255 car + 0
+char *GetMultiText(S32 text, char *dst)
+{
+  char *pts;
+  char *ptd;
+  S32 smax;
 
-//   if ((text == NumMultiText) AND(LastFileInit == FileMultiText))
-//   {
-//     strcpy(dst, BufferMultiText);
-//     return dst;
-//   }
+  if ((text == NumMultiText) AND(LastFileInit == FileMultiText))
+  {
+    strcpy(dst, BufferMultiText);
+    return dst;
+  }
 
-//   if (!GetText(text))
-//   {
-//     *dst = 0;
-//     return 0L;
-//   }
+  if (!GetText(text))
+  {
+    *dst = 0;
+    return 0L;
+  }
 
-//   pts = (char *)PtText;
-//   ptd = dst;
+  pts = (char *)PtText;
+  ptd = dst;
 
-//   smax = SizeText - 1;
+  smax = SizeText - 1;
 
-//   if (smax > 255)
-//     smax = 255;
+  if (smax > 255)
+    smax = 255;
 
-//   memmove(dst, PtText, smax);
-//   dst[smax] = 0;
+  memmove(dst, PtText, smax);
+  dst[smax] = 0;
 
-//   memmove(BufferMultiText, dst, smax + 1);
-//   NumMultiText = text;
-//   FileMultiText = LastFileInit;
+  memmove(BufferMultiText, dst, smax + 1);
+  NumMultiText = text;
+  FileMultiText = LastFileInit;
 
-//   return (dst);
-// }
-// /*-------------------------------------------------------------------------*/
+  return (dst);
+}
+/*-------------------------------------------------------------------------*/
 // #ifdef LBA_EDITOR
 // void CleanMessage(char *string, S32 flag)
 // {
@@ -2677,17 +2677,6 @@ void InitLanguage(void)
   // TODO: Implement
 }
 
-S32 FindText(S32 text)
-{
-  // TODO: Implement
-  return 0;
-}
-
-void InitDial(S32 file)
-{
-  // TODO: Implement
-}
-
 void ClearDial(void)
 {
   // TODO: Implement
@@ -2719,12 +2708,6 @@ void TestCoulDial(S32 coul)
 }
 
 S32 GereFlagDial(S32 text)
-{
-  // TODO: Implement
-  return 0;
-}
-
-S32 GetText(S32 text)
 {
   // TODO: Implement
   return 0;
@@ -2827,12 +2810,6 @@ void Dial(S32 text, S32 drawscene)
 }
 
 S32 MyDial(S32 nummess)
-{
-  // TODO: Implement
-  return 0;
-}
-
-char *GetMultiText(S32 text, char *dst)
 {
   // TODO: Implement
   return 0;
