@@ -264,7 +264,7 @@ S32 FlagDisplayText = 1; //     ON par default
 // static char Word[256];
 // static char *PtWord;
 // static S32 NbLineDial;
-// static S32 MaxLineDial = 3;
+static S32 MaxLineDial = 3;
 // static S32 FlagEndPage = FALSE;
 // static S32 FlagRunningDial = FALSE;
 // static S32 FlagEndDial = FALSE;
@@ -1356,18 +1356,18 @@ void InitDial(S32 file)
 //   MinDegrade = coul * 16;
 //   MaxDegrade = coul * 16 + 12;
 // }
-// /*-------------------------------------------------------------------------*/
-// void NormalWinDial()
-// {
-//   Dial_X0 = 8;
-//   Dial_Y0 = ClipWindowYMax - 137; // 334 lorsque ClipWindowYMax==479
-//   Dial_X1 = 639 - 8;
-//   Dial_Y1 = ClipWindowYMax - 8;
+/*-------------------------------------------------------------------------*/
+void NormalWinDial()
+{
+  Dial_X0 = 8;
+  Dial_Y0 = ClipWindowYMax - 137; // 334 lorsque ClipWindowYMax==479
+  Dial_X1 = 639 - 8;
+  Dial_Y1 = ClipWindowYMax - 8;
 
-//   MaxLineDial = 3;
-//   DialMaxSize = ((Dial_X1 - 8) - (Dial_X0 + 8));
-// }
-// /*-------------------------------------------------------------------------*/
+  MaxLineDial = 3;
+  DialMaxSize = ((Dial_X1 - 8) - (Dial_X0 + 8));
+}
+/*-------------------------------------------------------------------------*/
 // void DemoWinDial()
 // {
 //   Dial_X0 = -6;
@@ -2734,11 +2734,6 @@ void HoloInitDialWindow(void)
 }
 
 void AffHoloDialWindow(void)
-{
-  // TODO: Implement
-}
-
-void NormalWinDial(void)
 {
   // TODO: Implement
 }
